@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
-
+import React, { Component } from 'react'
 import SpringyUI from './springy-ui.component.jsx'
-
-const graph = new Springy.Graph();
 
 class GoalCanvas extends Component {
   componentDidMount() {
+    const graph = new Springy.Graph();
+    fetch('/api')
+    .then(function(response) {
+      response.json().then(function(response2){
+        console.log(response2);
+      });
+    })
     var data = {
       'nodes': [
         {label:'power-map',root:true},

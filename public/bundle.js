@@ -28464,8 +28464,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var graph = new Springy.Graph();
-	
 	var GoalCanvas = function (_Component) {
 	  _inherits(GoalCanvas, _Component);
 	
@@ -28478,6 +28476,12 @@
 	  _createClass(GoalCanvas, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var graph = new Springy.Graph();
+	      fetch('/api').then(function (response) {
+	        response.json().then(function (response2) {
+	          console.log(response2);
+	        });
+	      });
 	      var data = {
 	        'nodes': [{ label: 'power-map', root: true }, 'connections with other people', 'goals', 'actionable items', 'trend setters', 'entreprenuers', 'people in politics', 'global changes', 'students'],
 	        'edges': [{ 0: [1, 3, 8, 2] }, { 1: [4, 5, 6, 7, 8] }]
