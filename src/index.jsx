@@ -6,9 +6,17 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import Main from './common/main.component.jsx'
 import Home from './common/home.component.jsx'
 import About from './common/about.component.jsx'
+
 import Car from './car/car.component.jsx'
 import CarDetail from './car/car-detail.component.jsx'
 import GoalMap from './canvas/goal-map.component.jsx'
+
+import User from './user/user.component.jsx'
+
+var data2 = fetch('/api')
+    .then(response => {
+      return response.json();
+    });
 
 const data = [
     {
@@ -69,7 +77,13 @@ render(
             {/* Parameter route*/}
             <Route path="/cars/:id" component={CarDetail} data={data}/>
             <Route path="/about" component={About}/>
-            <Route path="/canvas" component={GoalMap}/>
+
+            <Route path="/user" component={User} data={data2} magic={Main.val}/>
+            <Route path="/user/map" component={GoalMap} data={data2}/>
+                {/* Parameter route*/}
+                <Route path="/user/map/:id" component={CarDetail} data={data2}/>
+            <Route/>
+            <Route path="/about" component={About}/>
         </Route>
     </Router>,
     document.getElementById('container')

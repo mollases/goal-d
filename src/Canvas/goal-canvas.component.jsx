@@ -29,6 +29,7 @@ class GoalCanvas extends Component {
     };
 
     graph.loadJSON2(data);
+    console.log(JSON.stringify(graph.condensed()));
 
     // var nodeFont = "16px Verdana, sans-serif";
     // var edgeFont = "8px Verdana, sans-serif";
@@ -44,14 +45,15 @@ class GoalCanvas extends Component {
       repulsion: 800,
       damping: .7,
       minEnergyThreshold: 0.0001,
-      nodeSelected: function(node) {
-        that.node = node;
-        that.props.onNodeSelected(node);
-      },
+      nodeSelected: that.onNodeSelected,
       nodeDeselected: function() {
         that.nodeSelected(null);
       }
     });
+  }
+
+  onNodeSelected(node){
+    console.log(node);
   }
 
   render() {

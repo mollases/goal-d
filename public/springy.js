@@ -251,6 +251,13 @@
 		return [];
 	};
 
+	Graph.prototype.condensed = function(){
+		var printedNodes = this.nodes.map(function(node,index,all){
+		  return node.data;
+		});
+		return {nodes:printedNodes};
+	}
+
 	// remove a node and it's associated edges from the graph
 	Graph.prototype.removeNode = function(node) {
 		if (node.id in this.nodeSet) {

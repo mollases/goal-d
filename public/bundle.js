@@ -81,7 +81,16 @@
 	
 	var _goalMapComponent2 = _interopRequireDefault(_goalMapComponent);
 	
+	var _userComponent = __webpack_require__(/*! ./user/user.component.jsx */ 250);
+	
+	var _userComponent2 = _interopRequireDefault(_userComponent);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// Import routing components
+	var data2 = fetch('/api').then(function (response) {
+	    return response.json();
+	});
 	
 	var data = [{
 	    id: 1,
@@ -126,8 +135,6 @@
 	    media: 'http://media.ed.edmunds-media.com/dodge/viper/2017/oem/2017_dodge_viper_coupe_acr_fq_oem_3_717.jpg',
 	    price: '$123,890'
 	}];
-	// Import routing components
-	
 	
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRouter.Router,
@@ -139,7 +146,11 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '/cars', component: _carComponent2.default, data: data }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/cars/:id', component: _carDetailComponent2.default, data: data }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/canvas', component: _goalMapComponent2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/user', component: _userComponent2.default, data: data2, magic: _mainComponent2.default.val }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/user/map', component: _goalMapComponent2.default, data: data2 }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/user/map/:id', component: _carDetailComponent2.default, data: data2 }),
+	        _react2.default.createElement(_reactRouter.Route, null),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default })
 	    )
 	), document.getElementById('container'));
 
@@ -27960,10 +27971,15 @@
 	var Main = function (_Component) {
 	    _inherits(Main, _Component);
 	
-	    function Main() {
+	    function Main(props) {
 	        _classCallCheck(this, Main);
 	
-	        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+	
+	        _this.state = {
+	            val: 'bdfas'
+	        };
+	        return _this;
 	    }
 	
 	    _createClass(Main, [{
@@ -27982,9 +27998,9 @@
 	                            'div',
 	                            { className: 'navbar-header' },
 	                            _react2.default.createElement(
-	                                'a',
-	                                { className: 'navbar-brand', href: '#' },
-	                                'Scotch Cars'
+	                                _reactRouter.Link,
+	                                { to: '/', className: 'navbar-brand', activeClassName: 'active' },
+	                                'Goal-d'
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -27998,8 +28014,8 @@
 	                                    null,
 	                                    _react2.default.createElement(
 	                                        _reactRouter.Link,
-	                                        { to: '/', activeClassName: 'active' },
-	                                        'Home'
+	                                        { to: '/user', activeClassName: 'active' },
+	                                        'user'
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
@@ -28007,8 +28023,8 @@
 	                                    null,
 	                                    _react2.default.createElement(
 	                                        _reactRouter.Link,
-	                                        { to: '/cars', activeClassName: 'active' },
-	                                        'Cars'
+	                                        { to: '/user/map', activeClassName: 'active' },
+	                                        'map'
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
@@ -28017,7 +28033,7 @@
 	                                    _react2.default.createElement(
 	                                        _reactRouter.Link,
 	                                        { to: '/about', activeClassName: 'active' },
-	                                        'About'
+	                                        'about'
 	                                    )
 	                                ),
 	                                _react2.default.createElement(
@@ -28025,8 +28041,8 @@
 	                                    null,
 	                                    _react2.default.createElement(
 	                                        _reactRouter.Link,
-	                                        { to: '/canvas', activeClassName: 'active' },
-	                                        'canvas'
+	                                        { to: '/cars', activeClassName: 'active' },
+	                                        'cars'
 	                                    )
 	                                )
 	                            )
@@ -28089,7 +28105,7 @@
 	            return _react2.default.createElement(
 	                'h1',
 	                null,
-	                'Home Page'
+	                'Log in Page'
 	            );
 	        }
 	    }]);
@@ -28488,6 +28504,7 @@
 	      };
 	
 	      graph.loadJSON2(data);
+	      console.log(JSON.stringify(graph.condensed()));
 	
 	      // var nodeFont = "16px Verdana, sans-serif";
 	      // var edgeFont = "8px Verdana, sans-serif";
@@ -28503,14 +28520,16 @@
 	        repulsion: 800,
 	        damping: .7,
 	        minEnergyThreshold: 0.0001,
-	        nodeSelected: function nodeSelected(node) {
-	          that.node = node;
-	          that.props.onNodeSelected(node);
-	        },
+	        nodeSelected: that.onNodeSelected,
 	        nodeDeselected: function nodeDeselected() {
 	          that.nodeSelected(null);
 	        }
 	      });
+	    }
+	  }, {
+	    key: 'onNodeSelected',
+	    value: function onNodeSelected(node) {
+	      console.log(node);
 	    }
 	  }, {
 	    key: 'render',
@@ -39266,6 +39285,84 @@
 	return jQuery;
 	} );
 
+
+/***/ },
+/* 250 */
+/*!*************************************!*\
+  !*** ./src/user/user.component.jsx ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var User = function (_Component) {
+	  _inherits(User, _Component);
+	
+	  function User(props) {
+	    _classCallCheck(this, User);
+	
+	    var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, props));
+	
+	    _this.state = {
+	      userData: ''
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(User, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      this.props.route.data.then(function (response) {
+	        self.setState({
+	          userData: JSON.stringify(response)
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'hi: ',
+	          this.state.userData
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'hi: ',
+	          this.props.route.magic
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return User;
+	}(_react.Component);
+	
+	exports.default = User;
 
 /***/ }
 /******/ ]);
