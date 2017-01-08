@@ -61,36 +61,35 @@
 	
 	var _mainComponent2 = _interopRequireDefault(_mainComponent);
 	
-	var _homeComponent = __webpack_require__(/*! ./common/home.component.jsx */ 242);
+	var _component = __webpack_require__(/*! ./common/404.component.jsx */ 242);
+	
+	var _component2 = _interopRequireDefault(_component);
+	
+	var _homeComponent = __webpack_require__(/*! ./common/home.component.jsx */ 243);
 	
 	var _homeComponent2 = _interopRequireDefault(_homeComponent);
 	
-	var _aboutComponent = __webpack_require__(/*! ./common/about.component.jsx */ 243);
+	var _aboutComponent = __webpack_require__(/*! ./common/about.component.jsx */ 244);
 	
 	var _aboutComponent2 = _interopRequireDefault(_aboutComponent);
 	
-	var _carComponent = __webpack_require__(/*! ./car/car.component.jsx */ 244);
+	var _carComponent = __webpack_require__(/*! ./car/car.component.jsx */ 245);
 	
 	var _carComponent2 = _interopRequireDefault(_carComponent);
 	
-	var _carDetailComponent = __webpack_require__(/*! ./car/car-detail.component.jsx */ 245);
+	var _carDetailComponent = __webpack_require__(/*! ./car/car-detail.component.jsx */ 246);
 	
 	var _carDetailComponent2 = _interopRequireDefault(_carDetailComponent);
 	
-	var _goalMapComponent = __webpack_require__(/*! ./canvas/goal-map.component.jsx */ 246);
+	var _goalMapComponent = __webpack_require__(/*! ./canvas/goal-map.component.jsx */ 247);
 	
 	var _goalMapComponent2 = _interopRequireDefault(_goalMapComponent);
 	
-	var _userComponent = __webpack_require__(/*! ./user/user.component.jsx */ 250);
+	var _userComponent = __webpack_require__(/*! ./user/user.component.jsx */ 248);
 	
 	var _userComponent2 = _interopRequireDefault(_userComponent);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	// Import routing components
-	var data2 = fetch('/api').then(function (response) {
-	    return response.json();
-	});
 	
 	var data = [{
 	    id: 1,
@@ -135,6 +134,8 @@
 	    media: 'http://media.ed.edmunds-media.com/dodge/viper/2017/oem/2017_dodge_viper_coupe_acr_fq_oem_3_717.jpg',
 	    price: '$123,890'
 	}];
+	// Import routing components
+	
 	
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRouter.Router,
@@ -143,14 +144,10 @@
 	        _reactRouter.Route,
 	        { component: _mainComponent2.default },
 	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _homeComponent2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/cars', component: _carComponent2.default, data: data }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/cars/:id', component: _carDetailComponent2.default, data: data }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/user', component: _userComponent2.default, data: data2, magic: _mainComponent2.default.val }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/map', component: _goalMapComponent2.default, data: data2 }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/user/map/:id', component: _carDetailComponent2.default, data: data2 }),
-	        _react2.default.createElement(_reactRouter.Route, null),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/user/:id', component: _userComponent2.default, magic: _mainComponent2.default.val }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/user/:id/map', component: _goalMapComponent2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/*', component: _component2.default })
 	    )
 	), document.getElementById('container'));
 
@@ -28009,7 +28006,7 @@
 	                                    null,
 	                                    _react2.default.createElement(
 	                                        _reactRouter.Link,
-	                                        { to: '/user', activeClassName: 'active' },
+	                                        { to: '/user/' + this.props.params.id, activeClassName: 'active' },
 	                                        'user'
 	                                    )
 	                                ),
@@ -28018,7 +28015,7 @@
 	                                    null,
 	                                    _react2.default.createElement(
 	                                        _reactRouter.Link,
-	                                        { to: '/map', activeClassName: 'active' },
+	                                        { to: '/user/' + this.props.params.id + '/map', activeClassName: 'active' },
 	                                        'map'
 	                                    )
 	                                ),
@@ -28060,6 +28057,66 @@
 
 /***/ },
 /* 242 */
+/*!**************************************!*\
+  !*** ./src/common/404.component.jsx ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 178);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var PageNotFound = function (_Component) {
+	    _inherits(PageNotFound, _Component);
+	
+	    function PageNotFound(props) {
+	        _classCallCheck(this, PageNotFound);
+	
+	        return _possibleConstructorReturn(this, (PageNotFound.__proto__ || Object.getPrototypeOf(PageNotFound)).call(this, props));
+	    }
+	
+	    _createClass(PageNotFound, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                ' Oh no! 404, go ',
+	                _react2.default.createElement(
+	                    _reactRouter.Link,
+	                    { to: '/', activeClassName: 'active' },
+	                    'home'
+	                ),
+	                ' '
+	            );
+	        }
+	    }]);
+	
+	    return PageNotFound;
+	}(_react.Component);
+	
+	exports.default = PageNotFound;
+
+/***/ },
+/* 243 */
 /*!***************************************!*\
   !*** ./src/common/home.component.jsx ***!
   \***************************************/
@@ -28111,7 +28168,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 243 */
+/* 244 */
 /*!****************************************!*\
   !*** ./src/common/about.component.jsx ***!
   \****************************************/
@@ -28163,7 +28220,7 @@
 	exports.default = About;
 
 /***/ },
-/* 244 */
+/* 245 */
 /*!***********************************!*\
   !*** ./src/car/car.component.jsx ***!
   \***********************************/
@@ -28239,7 +28296,7 @@
 	exports.default = Car;
 
 /***/ },
-/* 245 */
+/* 246 */
 /*!******************************************!*\
   !*** ./src/car/car-detail.component.jsx ***!
   \******************************************/
@@ -28384,7 +28441,7 @@
 	exports.default = CarDetail;
 
 /***/ },
-/* 246 */
+/* 247 */
 /*!*******************************************!*\
   !*** ./src/canvas/goal-map.component.jsx ***!
   \*******************************************/
@@ -28393,7 +28450,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -28402,9 +28459,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _goalCanvasComponent = __webpack_require__(/*! ./goal-canvas.component.jsx */ 247);
+	var _goalCanvasComponent = __webpack_require__(/*! ./goal-canvas.component.jsx */ 249);
 	
 	var _goalCanvasComponent2 = _interopRequireDefault(_goalCanvasComponent);
+	
+	var _timelineComponent = __webpack_require__(/*! ./Timeline/timeline.component.jsx */ 252);
+	
+	var _timelineComponent2 = _interopRequireDefault(_timelineComponent);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -28415,37 +28476,128 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var GoalMap = function (_Component) {
-	    _inherits(GoalMap, _Component);
+	  _inherits(GoalMap, _Component);
 	
-	    function GoalMap() {
-	        _classCallCheck(this, GoalMap);
+	  function GoalMap(props) {
+	    _classCallCheck(this, GoalMap);
 	
-	        return _possibleConstructorReturn(this, (GoalMap.__proto__ || Object.getPrototypeOf(GoalMap)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (GoalMap.__proto__ || Object.getPrototypeOf(GoalMap)).call(this, props));
+	
+	    _this.state = {
+	      selectedNode: ''
+	    };
+	    _this.onNodeSelected = _this.onNodeSelected.bind(_this);
+	    _this.renderTimeline = _this.renderTimeline.bind(_this);
+	
+	    return _this;
+	  }
+	
+	  _createClass(GoalMap, [{
+	    key: 'onNodeSelected',
+	    value: function onNodeSelected(node) {
+	      this.setState({ selectedNode: node });
 	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var contents = this.state.selectedNode;
+	      if (this.state.selectedNode && this.state.selectedNode.data) {
+	        contents = this.state.selectedNode.data.label;
+	      }
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Goal-D "',
+	          contents,
+	          '"'
+	        ),
+	        _react2.default.createElement(_goalCanvasComponent2.default, { height: 600, width: 800, id: this.props.params.id, onNodeSelected: this.onNodeSelected }),
+	        this.renderTimeline()
+	      );
+	    }
+	  }, {
+	    key: 'renderTimeline',
+	    value: function renderTimeline() {
+	      if (this.state.selectedNode && this.state.selectedNode.data) return _react2.default.createElement(_timelineComponent2.default, { node: this.state.selectedNode });
+	    }
+	  }]);
 	
-	    _createClass(GoalMap, [{
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'h1',
-	                    null,
-	                    'Goal-D'
-	                ),
-	                _react2.default.createElement(_goalCanvasComponent2.default, { height: 600, width: 800 })
-	            );
-	        }
-	    }]);
-	
-	    return GoalMap;
+	  return GoalMap;
 	}(_react.Component);
 	
 	exports.default = GoalMap;
 
 /***/ },
-/* 247 */
+/* 248 */
+/*!*************************************!*\
+  !*** ./src/user/user.component.jsx ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var User = function (_Component) {
+	  _inherits(User, _Component);
+	
+	  function User(props) {
+	    _classCallCheck(this, User);
+	
+	    var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, props));
+	
+	    _this.state = {
+	      userData: ''
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(User, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'hi'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return User;
+	}(_react.Component);
+	
+	exports.default = User;
+
+/***/ },
+/* 249 */
 /*!**********************************************!*\
   !*** ./src/canvas/goal-canvas.component.jsx ***!
   \**********************************************/
@@ -28463,7 +28615,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _springyUiComponent = __webpack_require__(/*! ./springy-ui.component.jsx */ 248);
+	var _springyUiComponent = __webpack_require__(/*! ./springy-ui.component.jsx */ 250);
 	
 	var _springyUiComponent2 = _interopRequireDefault(_springyUiComponent);
 	
@@ -28486,6 +28638,7 @@
 	    _this.state = {
 	      graph: new Springy.Graph()
 	    };
+	    _this.onNodeSelected = _this.onNodeSelected.bind(_this);
 	    return _this;
 	  }
 	
@@ -28493,39 +28646,12 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var graph = this.state.graph;
-	      fetch('/user').then(function (response) {
+	      fetch('/user-details/' + this.props.id).then(function (response) {
 	        response.json().then(function (response2) {
 	          graph.loadJSON2(response2);
-	          console.log(response2);
 	        });
 	      });
-	      // var data = {
-	      //   'nodes': [
-	      //     {label:'power-map',root:true},
-	      //     {label:'connections with other people'},
-	      //     {label:'goals'},
-	      //     {label:'actionable items'},
-	      //     {label:'trend setters'},
-	      //     {label:'entreprenuers'},
-	      //     {label:'people in politics'},
-	      //     {label:'global changes'},
-	      //     {label:'students'}
-	      //   ],
-	      //   'edges': [
-	      //     {0:[1, 3, 8, 2]},
-	      //     {1:[4, 5, 6, 7, 8]}
-	      //   ]
-	      // };
 	
-	
-	      // console.log(JSON.stringify(this.state.graph.condensed()));
-	
-	      // var nodeFont = "16px Verdana, sans-serif";
-	      // var edgeFont = "8px Verdana, sans-serif";
-	      // var stiffness = params.stiffness || 400.0;
-	      // var repulsion = params.repulsion || 400.0;
-	      // var damping = params.damping || 0.5;
-	      // var minEnergyThreshold = params.minEnergyThreshold || 0.00001;
 	      var that = this;
 	      (0, _springyUiComponent2.default)({
 	        id: '#goal-d',
@@ -28544,7 +28670,7 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	
-	      fetch("/user", {
+	      fetch('/user-details/' + this.props.id, {
 	        headers: {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
@@ -28558,6 +28684,7 @@
 	  }, {
 	    key: 'onNodeSelected',
 	    value: function onNodeSelected(node) {
+	      this.props.onNodeSelected(node);
 	      console.log(node);
 	    }
 	  }, {
@@ -28573,7 +28700,7 @@
 	exports.default = GoalCanvas;
 
 /***/ },
-/* 248 */
+/* 250 */
 /*!*********************************************!*\
   !*** ./src/canvas/springy-ui.component.jsx ***!
   \*********************************************/
@@ -28585,7 +28712,7 @@
 		value: true
 	});
 	
-	var _jQuery = __webpack_require__(/*! jQuery */ 249);
+	var _jQuery = __webpack_require__(/*! jQuery */ 251);
 	
 	var _jQuery2 = _interopRequireDefault(_jQuery);
 	
@@ -29087,7 +29214,7 @@
 	exports.default = SpringyUI;
 
 /***/ },
-/* 249 */
+/* 251 */
 /*!*********************************!*\
   !*** ./~/jQuery/dist/jquery.js ***!
   \*********************************/
@@ -39316,10 +39443,86 @@
 
 
 /***/ },
-/* 250 */
-/*!*************************************!*\
-  !*** ./src/user/user.component.jsx ***!
-  \*************************************/
+/* 252 */
+/*!****************************************************!*\
+  !*** ./src/canvas/Timeline/timeline.component.jsx ***!
+  \****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 178);
+	
+	var _addElementComponent = __webpack_require__(/*! ./add-element.component.jsx */ 253);
+	
+	var _addElementComponent2 = _interopRequireDefault(_addElementComponent);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Timeline = function (_Component) {
+	  _inherits(Timeline, _Component);
+	
+	  function Timeline(props) {
+	    _classCallCheck(this, Timeline);
+	
+	    var _this = _possibleConstructorReturn(this, (Timeline.__proto__ || Object.getPrototypeOf(Timeline)).call(this, props));
+	
+	    _this.state = {
+	      count: 0
+	    };
+	    _this.callRefresh = _this.callRefresh.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Timeline, [{
+	    key: 'callRefresh',
+	    value: function callRefresh() {
+	      var counter = this.state.count + 1;
+	      this.setState({ count: counter });
+	      console.log(this.state.count);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.state.count
+	        ),
+	        _react2.default.createElement(_addElementComponent2.default, { onSubmitPressed: this.callRefresh })
+	      );
+	    }
+	  }]);
+	
+	  return Timeline;
+	}(_react.Component);
+	
+	exports.default = Timeline;
+
+/***/ },
+/* 253 */
+/*!*******************************************************!*\
+  !*** ./src/canvas/Timeline/add-element.component.jsx ***!
+  \*******************************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39342,29 +39545,32 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var User = function (_Component) {
-	  _inherits(User, _Component);
+	var AddElement = function (_Component) {
+	  _inherits(AddElement, _Component);
 	
-	  function User(props) {
-	    _classCallCheck(this, User);
+	  function AddElement(props) {
+	    _classCallCheck(this, AddElement);
 	
-	    var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (AddElement.__proto__ || Object.getPrototypeOf(AddElement)).call(this, props));
 	
 	    _this.state = {
-	      userData: ''
+	      value: ''
 	    };
+	    _this.onClickHandler = _this.onClickHandler.bind(_this);
+	    _this.handleChange = _this.handleChange.bind(_this);
 	    return _this;
 	  }
 	
-	  _createClass(User, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var self = this;
-	      this.props.route.data.then(function (response) {
-	        self.setState({
-	          userData: JSON.stringify(response)
-	        });
-	      });
+	  _createClass(AddElement, [{
+	    key: 'onClickHandler',
+	    value: function onClickHandler(evt) {
+	      console.log(evt);
+	      this.props.onSubmitPressed();
+	    }
+	  }, {
+	    key: 'handleChange',
+	    value: function handleChange(event) {
+	      this.setState({ value: event.target.value });
 	    }
 	  }, {
 	    key: 'render',
@@ -39372,26 +39578,20 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        _react2.default.createElement('textarea', { value: this.state.value, onChange: this.handleChange }),
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'hi: ',
-	          this.state.userData
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          null,
-	          'hi: ',
-	          this.props.route.magic
+	          'button',
+	          { onClick: this.onClickHandler },
+	          'add note'
 	        )
 	      );
 	    }
 	  }]);
 	
-	  return User;
+	  return AddElement;
 	}(_react.Component);
 	
-	exports.default = User;
+	exports.default = AddElement;
 
 /***/ }
 /******/ ]);

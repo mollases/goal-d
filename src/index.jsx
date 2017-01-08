@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
 import Main from './common/main.component.jsx'
+import PageNotFound from './common/404.component.jsx'
 import Home from './common/home.component.jsx'
 import About from './common/about.component.jsx'
 
@@ -12,11 +13,6 @@ import CarDetail from './car/car-detail.component.jsx'
 import GoalMap from './canvas/goal-map.component.jsx'
 
 import User from './user/user.component.jsx'
-
-var data2 = fetch('/api')
-    .then(response => {
-      return response.json();
-    });
 
 const data = [
     {
@@ -73,17 +69,10 @@ render(
     <Router history={browserHistory}>
         <Route component={Main}>
             <Route path="/" component={Home}/>
-            <Route path="/cars" component={Car} data={data}/>
-            {/* Parameter route*/}
-            <Route path="/cars/:id" component={CarDetail} data={data}/>
             <Route path="/about" component={About}/>
-
-            <Route path="/user" component={User} data={data2} magic={Main.val}/>
-            <Route path="/map" component={GoalMap} data={data2}/>
-                {/* Parameter route*/}
-                <Route path="/user/map/:id" component={CarDetail} data={data2}/>
-            <Route/>
-            <Route path="/about" component={About}/>
+            <Route path="/user/:id" component={User} magic={Main.val}/>
+            <Route path="/user/:id/map" component={GoalMap}/>
+            <Route path="/*" component={PageNotFound} />
         </Route>
     </Router>,
     document.getElementById('container')

@@ -15,18 +15,15 @@ client.on("error", function (err) {
     console.log("Error " + err);
 });
 
-app.get('/api/',function (request, response) {
-});
-
-app.get('/user',function (request,response){
-  client.hget('user-details','1',function (err,user){
+app.get('/user-details/:id',function (request,response){
+  client.hget('user-details',request.params.id,function (err,user){
     response.json(err || user);
   });
 });
 
-app.post('/user',function (request,response) {
+app.post('/user-details/:id',function (request,response) {
   console.log(request.body);
-  client.hset('user-details','1',JSON.stringify(request.body),function(err,saved){
+  client.hset('user-details',request.params.id,JSON.stringify(request.body),function(err,saved){
     response.json(err || saved);
   });
   // client.hset('user',)

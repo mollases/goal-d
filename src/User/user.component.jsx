@@ -10,18 +10,12 @@ class User extends Component {
 
   componentDidMount(){
     var self = this;
-    this.props.route.data.then(response => {
-      self.setState({
-        userData:JSON.stringify(response)
-      });
-    });
   }
 
   render(){
     return (
       <div>
-        <h1>hi: {this.state.userData}</h1>
-        <p>hi: {this.props.route.magic}</p>
+        <h1>hi</h1>
         </div>
       );
   }
