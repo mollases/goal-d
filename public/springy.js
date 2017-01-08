@@ -98,7 +98,7 @@
 				data = newNode;
 			}
 
-			var node = new Node(id,data);
+			var node = new Node(data);
 			this.addNode(node);
 		}
 	};
@@ -227,13 +227,15 @@
 		}
 
 		if ('nodes' in json) {
-			this.addNodes.apply(this, json['nodes']);
+			for(var i = 0 ; i < json.nodes.length; i++){
+				this.newNode(json['nodes'][i]);
+			}
 		}
 		if ('edges' in json){
 			for (var property in json.edges) {
 				if (json.edges.hasOwnProperty(property)) {
-					for(var i = 0 ; i < json.edges[property][property].length; i++){
-						this.newEdge(this.nodes[property],this.nodes[json.edges[property][property][i]]);
+					for(var i = 0 ; i < json.edges[property].length; i++){
+						this.newEdge(this.nodes[property],this.nodes[json.edges[property][i]]);
 					}
 				}
 			}
@@ -255,7 +257,20 @@
 		var printedNodes = this.nodes.map(function(node,index,all){
 		  return node.data;
 		});
-		return {nodes:printedNodes};
+		var a = this.adjacency;
+		var list = {};
+		for (var key in a) {
+		  if (a.hasOwnProperty(key)) {
+		  	var vals = [];
+		  	for(var v in a[key]) {
+		  		if (a[key].hasOwnProperty(v)) {
+		  			vals.push(v);
+		  		}
+		  	}
+		  	list[key] = vals;
+		  }
+		}
+		return {nodes:printedNodes,edges:list};
 	}
 
 	// remove a node and it's associated edges from the graph

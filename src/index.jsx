@@ -79,7 +79,7 @@ render(
             <Route path="/about" component={About}/>
 
             <Route path="/user" component={User} data={data2} magic={Main.val}/>
-            <Route path="/user/map" component={GoalMap} data={data2}/>
+            <Route path="/map" component={GoalMap} data={data2}/>
                 {/* Parameter route*/}
                 <Route path="/user/map/:id" component={CarDetail} data={data2}/>
             <Route/>

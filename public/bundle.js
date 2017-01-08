@@ -147,7 +147,7 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '/cars/:id', component: _carDetailComponent2.default, data: data }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/user', component: _userComponent2.default, data: data2, magic: _mainComponent2.default.val }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/user/map', component: _goalMapComponent2.default, data: data2 }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/map', component: _goalMapComponent2.default, data: data2 }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/user/map/:id', component: _carDetailComponent2.default, data: data2 }),
 	        _react2.default.createElement(_reactRouter.Route, null),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default })
@@ -27974,12 +27974,7 @@
 	    function Main(props) {
 	        _classCallCheck(this, Main);
 	
-	        var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
-	
-	        _this.state = {
-	            val: 'bdfas'
-	        };
-	        return _this;
+	        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 	    }
 	
 	    _createClass(Main, [{
@@ -28023,7 +28018,7 @@
 	                                    null,
 	                                    _react2.default.createElement(
 	                                        _reactRouter.Link,
-	                                        { to: '/user/map', activeClassName: 'active' },
+	                                        { to: '/map', activeClassName: 'active' },
 	                                        'map'
 	                                    )
 	                                ),
@@ -28483,28 +28478,47 @@
 	var GoalCanvas = function (_Component) {
 	  _inherits(GoalCanvas, _Component);
 	
-	  function GoalCanvas() {
+	  function GoalCanvas(props) {
 	    _classCallCheck(this, GoalCanvas);
 	
-	    return _possibleConstructorReturn(this, (GoalCanvas.__proto__ || Object.getPrototypeOf(GoalCanvas)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (GoalCanvas.__proto__ || Object.getPrototypeOf(GoalCanvas)).call(this, props));
+	
+	    _this.state = {
+	      graph: new Springy.Graph()
+	    };
+	    return _this;
 	  }
 	
 	  _createClass(GoalCanvas, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var graph = new Springy.Graph();
-	      fetch('/api').then(function (response) {
+	      var graph = this.state.graph;
+	      fetch('/user').then(function (response) {
 	        response.json().then(function (response2) {
+	          graph.loadJSON2(response2);
 	          console.log(response2);
 	        });
 	      });
-	      var data = {
-	        'nodes': [{ label: 'power-map', root: true }, 'connections with other people', 'goals', 'actionable items', 'trend setters', 'entreprenuers', 'people in politics', 'global changes', 'students'],
-	        'edges': [{ 0: [1, 3, 8, 2] }, { 1: [4, 5, 6, 7, 8] }]
-	      };
+	      // var data = {
+	      //   'nodes': [
+	      //     {label:'power-map',root:true},
+	      //     {label:'connections with other people'},
+	      //     {label:'goals'},
+	      //     {label:'actionable items'},
+	      //     {label:'trend setters'},
+	      //     {label:'entreprenuers'},
+	      //     {label:'people in politics'},
+	      //     {label:'global changes'},
+	      //     {label:'students'}
+	      //   ],
+	      //   'edges': [
+	      //     {0:[1, 3, 8, 2]},
+	      //     {1:[4, 5, 6, 7, 8]}
+	      //   ]
+	      // };
 	
-	      graph.loadJSON2(data);
-	      console.log(JSON.stringify(graph.condensed()));
+	
+	      // console.log(JSON.stringify(this.state.graph.condensed()));
 	
 	      // var nodeFont = "16px Verdana, sans-serif";
 	      // var edgeFont = "8px Verdana, sans-serif";
@@ -28515,7 +28529,7 @@
 	      var that = this;
 	      (0, _springyUiComponent2.default)({
 	        id: '#goal-d',
-	        graph: graph,
+	        graph: this.state.graph,
 	        stiffness: 25,
 	        repulsion: 800,
 	        damping: .7,
@@ -28524,6 +28538,21 @@
 	        nodeDeselected: function nodeDeselected() {
 	          that.nodeSelected(null);
 	        }
+	      });
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	
+	      fetch("/user", {
+	        headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+	        },
+	        method: "POST",
+	        body: JSON.stringify(this.state.graph.condensed())
+	      }).then(function (res) {
+	        console.log(res);
 	      });
 	    }
 	  }, {
