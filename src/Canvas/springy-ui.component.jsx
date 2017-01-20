@@ -173,11 +173,11 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 		renderer.start();
 	});
 
-	jQuery(window).bind('mouseup', function(e) {
+	jQuery(canvas).bind('mouseup', function(e) {
 		dragged = null;
 	});
 
-	jQuery(document).keydown(function(e) {
+	jQuery(canvas).keydown(function(e) {
 		if (e.keyCode == 27) { // escape key maps to keycode `27`
 			selected = null;
 			if (nodeSelected) {
@@ -399,13 +399,13 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 
 			// fill background
 			if (selected !== null && selected.node !== null && selected.node.id === node.id) {
-				ctx.fillStyle = "#a6f4b8";
+				ctx.fillStyle = "#FFFFE0";
 			} else if (nearest !== null && nearest.node !== null && nearest.node.id === node.id) {
 				ctx.fillStyle = "#EEEEEE";
 			} else {
 				ctx.fillStyle = "#FFFFFF";
 			}
-			ctx.fillStyle = "rgba(241, 241, 190, 0.4)";
+			// ctx.fillStyle = "rgba(241, 241, 190, 0.4)";
 			ctx.fillRect(s.x - boxWidth / 2, s.y - boxHeight / 2, boxWidth, boxHeight);
 
 			if (node.data.image == undefined) {

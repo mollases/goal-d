@@ -26,8 +26,25 @@ app.post('/user-details/:id',function (request,response) {
   client.hset('user-details',request.params.id,JSON.stringify(request.body),function(err,saved){
     response.json(err || saved);
   });
-  // client.hset('user',)
 });
+
+app.get('/user-details/:id/post/:post',function (request,response){
+  client.lrange('user-details-post ' + request.params.id + '-' + request.params.post,0,-1,function (err,post){
+    response.json(err || post);
+  });
+});
+
+app.post('/user-details/:id/post/:post',function (request,response) {
+  var content = request.body;
+  console.log(content);
+  content.timestamp = + new Date();
+
+  var body = JSON.stringify(content);
+  client.lpush(['user-details-post ' + request.params.id + '-' + request.params.post,body],function(err,saved){
+    response.json(err || saved);
+  });
+});
+
 // Handles all routes so you do not get a not found error
 app.get('*', function (request, response){
   response.sendFile(path.resolve(__dirname, 'public', 'index.html'))

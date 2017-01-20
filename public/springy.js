@@ -49,7 +49,6 @@
 		this.edges = [];
 		this.adjacency = {};
 
-		this.nextNodeId = 0;
 		this.nextEdgeId = 0;
 		this.eventListeners = [];
 	};
@@ -152,8 +151,20 @@
 		}
 	};
 
+	Graph.prototype.findNextId = function(nodes){
+			var i = -1;
+			var node;
+			do{
+				i++;
+				node = this.findNodeWithId(i);
+			} while(node != null)
+			return i;
+		}
+
 	Graph.prototype.newNode = function(data) {
-		var node = new Node(this.nextNodeId++, data);
+		var contents = data;
+		var id = data.id || this.findNextId();
+		var node = new Node(id, contents);
 		this.addNode(node);
 		return node;
 	};
@@ -199,6 +210,14 @@
 			this.addEdges.apply(this, json['edges']);
 		}
 	}
+
+	Graph.prototype.findNodeWithId = function(id){
+		var id = parseInt(id);
+		return this.nodes.find(function(node){
+			return node.id === id;
+		});
+	}
+
 	// add nodes and edges from JSON object
 	Graph.prototype.loadJSON2 = function(json) {
 	/**
@@ -235,7 +254,9 @@
 			for (var property in json.edges) {
 				if (json.edges.hasOwnProperty(property)) {
 					for(var i = 0 ; i < json.edges[property].length; i++){
-						this.newEdge(this.nodes[property],this.nodes[json.edges[property][i]]);
+						var node = this.findNodeWithId(property)
+						var connects = this.findNodeWithId(json.edges[property][i])
+						this.newEdge(node,connects);
 					}
 				}
 			}
@@ -255,7 +276,9 @@
 
 	Graph.prototype.condensed = function(){
 		var printedNodes = this.nodes.map(function(node,index,all){
-		  return node.data;
+		  var ret = node.data;
+		  ret.id = node.id;
+		  return ret;
 		});
 		var a = this.adjacency;
 		var list = {};

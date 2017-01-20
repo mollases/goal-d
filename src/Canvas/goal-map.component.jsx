@@ -34,7 +34,7 @@ class GoalMap extends Component {
 
     renderTimeline(){
       if(this.state.selectedNode && this.state.selectedNode.data)
-      return <Timeline node={this.state.selectedNode} />
+      return <Timeline node={this.state.selectedNode} id={this.props.params.id}/>
     }
 }
 

@@ -19,7 +19,6 @@ class Main extends Component {
                                 <li><Link to={'/user/' + this.props.params.id} activeClassName="active">user</Link></li>
                                 <li><Link to={'/user/' + this.props.params.id + '/map'} activeClassName="active">map</Link></li>
                                 <li><Link to="/about" activeClassName="active">about</Link></li>
-                                <li><Link to="/cars" activeClassName="active">cars</Link></li>
                             </ul>
                         </div>
                     </div>

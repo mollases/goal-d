@@ -11,8 +11,20 @@ class AddElement extends Component {
   }
 
   onClickHandler(evt){
-    console.log(evt)
-    this.props.onSubmitPressed()
+    var endpoint = '/user-details/'+this.props.id + '/post/' + this.props.node.id;
+    var data = {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify({'body':this.state.value,'id':this.props.id})
+    }
+    let that = this;
+    fetch(endpoint,data)
+    .then(() => {this.props.onSubmitPressed()})
+    .then(() => {that.setState({value: ''});
+    })
   }
 
   handleChange(event) {
