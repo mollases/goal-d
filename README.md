@@ -29,7 +29,7 @@ hget user-details {user-details,network,goal-network}
     - marking tasks as {open (white), in progress (yellow), completed (green), no go (gray)}
 
 * deep link to specific goal (see better views of graphs)
-* calendar
+* calendar http://react-component.github.io/calendar/
 * sign in page
     - remove user id from url
 

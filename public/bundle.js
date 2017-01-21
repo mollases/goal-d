@@ -73,11 +73,11 @@
 	
 	var _aboutComponent2 = _interopRequireDefault(_aboutComponent);
 	
-	var _goalMapComponent = __webpack_require__(/*! ./canvas/goal-map.component.jsx */ 247);
+	var _goalMapComponent = __webpack_require__(/*! ./canvas/goal-map.component.jsx */ 245);
 	
 	var _goalMapComponent2 = _interopRequireDefault(_goalMapComponent);
 	
-	var _userComponent = __webpack_require__(/*! ./user/user.component.jsx */ 254);
+	var _userComponent = __webpack_require__(/*! ./user/user.component.jsx */ 252);
 	
 	var _userComponent2 = _interopRequireDefault(_userComponent);
 	
@@ -91,8 +91,9 @@
 	        { component: _mainComponent2.default },
 	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _homeComponent2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/user/:id', component: _userComponent2.default, magic: _mainComponent2.default.val }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/user/:id', component: _userComponent2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/user/:id/map', component: _goalMapComponent2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/user/:id/map/:node', component: _goalMapComponent2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/*', component: _component2.default })
 	    )
 	), document.getElementById('container'));
@@ -28158,9 +28159,7 @@
 	exports.default = About;
 
 /***/ },
-/* 245 */,
-/* 246 */,
-/* 247 */
+/* 245 */
 /*!*******************************************!*\
   !*** ./src/canvas/goal-map.component.jsx ***!
   \*******************************************/
@@ -28178,11 +28177,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _goalCanvasComponent = __webpack_require__(/*! ./goal-canvas.component.jsx */ 248);
+	var _goalCanvasComponent = __webpack_require__(/*! ./goal-canvas.component.jsx */ 246);
 	
 	var _goalCanvasComponent2 = _interopRequireDefault(_goalCanvasComponent);
 	
-	var _timelineComponent = __webpack_require__(/*! ./Timeline/timeline.component.jsx */ 251);
+	var _timelineComponent = __webpack_require__(/*! ./Timeline/timeline.component.jsx */ 249);
 	
 	var _timelineComponent2 = _interopRequireDefault(_timelineComponent);
 	
@@ -28250,7 +28249,7 @@
 	exports.default = GoalMap;
 
 /***/ },
-/* 248 */
+/* 246 */
 /*!**********************************************!*\
   !*** ./src/canvas/goal-canvas.component.jsx ***!
   \**********************************************/
@@ -28268,7 +28267,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _springyUiComponent = __webpack_require__(/*! ./springy-ui.component.jsx */ 249);
+	var _springyUiComponent = __webpack_require__(/*! ./springy-ui.component.jsx */ 247);
 	
 	var _springyUiComponent2 = _interopRequireDefault(_springyUiComponent);
 	
@@ -28353,7 +28352,7 @@
 	exports.default = GoalCanvas;
 
 /***/ },
-/* 249 */
+/* 247 */
 /*!*********************************************!*\
   !*** ./src/canvas/springy-ui.component.jsx ***!
   \*********************************************/
@@ -28365,7 +28364,7 @@
 		value: true
 	});
 	
-	var _jQuery = __webpack_require__(/*! jQuery */ 250);
+	var _jQuery = __webpack_require__(/*! jQuery */ 248);
 	
 	var _jQuery2 = _interopRequireDefault(_jQuery);
 	
@@ -28867,7 +28866,7 @@
 	exports.default = SpringyUI;
 
 /***/ },
-/* 250 */
+/* 248 */
 /*!*********************************!*\
   !*** ./~/jQuery/dist/jquery.js ***!
   \*********************************/
@@ -39096,7 +39095,7 @@
 
 
 /***/ },
-/* 251 */
+/* 249 */
 /*!****************************************************!*\
   !*** ./src/canvas/Timeline/timeline.component.jsx ***!
   \****************************************************/
@@ -39116,11 +39115,11 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 178);
 	
-	var _addElementComponent = __webpack_require__(/*! ./add-element.component.jsx */ 252);
+	var _addElementComponent = __webpack_require__(/*! ./add-element.component.jsx */ 250);
 	
 	var _addElementComponent2 = _interopRequireDefault(_addElementComponent);
 	
-	var _elementComponent = __webpack_require__(/*! ./element.component.jsx */ 253);
+	var _elementComponent = __webpack_require__(/*! ./element.component.jsx */ 251);
 	
 	var _elementComponent2 = _interopRequireDefault(_elementComponent);
 	
@@ -39199,7 +39198,7 @@
 	exports.default = Timeline;
 
 /***/ },
-/* 252 */
+/* 250 */
 /*!*******************************************************!*\
   !*** ./src/canvas/Timeline/add-element.component.jsx ***!
   \*******************************************************/
@@ -39289,7 +39288,7 @@
 	exports.default = AddElement;
 
 /***/ },
-/* 253 */
+/* 251 */
 /*!***************************************************!*\
   !*** ./src/canvas/Timeline/element.component.jsx ***!
   \***************************************************/
@@ -39350,7 +39349,7 @@
 	exports.default = Element;
 
 /***/ },
-/* 254 */
+/* 252 */
 /*!*************************************!*\
   !*** ./src/user/user.component.jsx ***!
   \*************************************/
