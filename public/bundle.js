@@ -28214,7 +28214,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_goalCanvasComponent2.default, { height: 400, width: 1000, id: this.props.params.id, onNodeSelected: this.onNodeSelected }),
+	        _react2.default.createElement(_goalCanvasComponent2.default, { height: 400, width: 1000, id: this.props.params.id, onNodeSelected: this.onNodeSelected, topicId: this.props.params.topic }),
 	        this.renderTimeline()
 	      );
 	    }
@@ -28743,16 +28743,61 @@
 	    var _this = _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, props));
 	
 	    _this.state = {
-	      userData: ''
+	      searchData: '',
+	      newTopic: '',
+	      newMap: false,
+	      topics: []
 	    };
 	    _this.renderMaps = _this.renderMaps.bind(_this);
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.handleTopicChange = _this.handleTopicChange.bind(_this);
+	    _this.toggleMap = _this.toggleMap.bind(_this);
+	    _this.saveNewMap = _this.saveNewMap.bind(_this);
 	    return _this;
 	  }
 	
 	  _createClass(User, [{
+	    key: 'handleChange',
+	    value: function handleChange(event) {
+	      this.setState({ searchData: event.target.value });
+	    }
+	  }, {
+	    key: 'handleTopicChange',
+	    value: function handleTopicChange(event) {
+	      this.setState({ newTopic: event.target.value });
+	    }
+	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      fetch('/user-details/' + this.props.params.id).then(function (res) {
+	      var that = this;
+	      fetch('/user-details/' + this.props.params.id).then(function (response) {
+	        response.json().then(function (jsn) {
+	          that.setState({ topics: JSON.parse(jsn) });
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'toggleMap',
+	    value: function toggleMap() {
+	      this.setState({ newMap: !this.state.newMap });
+	    }
+	  }, {
+	    key: 'saveNewMap',
+	    value: function saveNewMap() {
+	      console.log(this.state.newTopic);
+	      var topics = this.state.topics;
+	      topics.push({
+	        id: topics.length,
+	        label: this.state.newTopic
+	      });
+	      fetch('/user-details/' + this.props.params.id, {
+	        headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+	        },
+	        method: "POST",
+	        body: JSON.stringify(this.state.topics)
+	      }).then(function (res) {
 	        console.log(res);
 	      });
 	    }
@@ -28766,73 +28811,95 @@
 	          'div',
 	          { className: 'col-sm-6 col-md-4' },
 	          _react2.default.createElement(
-	            'button',
-	            { type: 'button', className: 'btn btn-default btn-danger' },
-	            'Save'
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'thumbnail' },
+	              _react2.default.createElement('img', { src: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU5ZTJiMTUxZmUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTllMmIxNTFmZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OS44NTkzNzUiIHk9IjEwNS4xIj4yNDJ4MjAwPC90ZXh0PjwvZz48L2c+PC9zdmc+', alt: '...' }),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'caption' },
+	                _react2.default.createElement(
+	                  'h3',
+	                  null,
+	                  'Admas'
+	                ),
+	                _react2.default.createElement(
+	                  'p',
+	                  null,
+	                  'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.'
+	                ),
+	                _react2.default.createElement(
+	                  'p',
+	                  null,
+	                  _react2.default.createElement(
+	                    'a',
+	                    { href: '#', className: 'btn btn-primary', role: 'button' },
+	                    'Button'
+	                  ),
+	                  _react2.default.createElement(
+	                    'a',
+	                    { href: '#', className: 'btn btn-default', role: 'button' },
+	                    'Button'
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'button',
+	              { type: 'button', className: 'btn btn-default btn-danger' },
+	              'Save'
+	            )
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'col-sm-6 col-md-8' },
-	          _react2.default.createElement(
+	          this.state.newMap ? _react2.default.createElement(
 	            'div',
-	            { className: 'input-group' },
-	            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search for...' }),
+	            { className: 'row input-group' },
+	            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Map name', value: this.state.newTopic, onChange: this.handleTopicChange }),
 	            _react2.default.createElement(
 	              'span',
 	              { className: 'input-group-btn' },
 	              _react2.default.createElement(
 	                'button',
-	                { className: 'btn btn-secondary', type: 'button' },
-	                'Go!'
+	                { className: 'btn btn-success', type: 'button', onClick: this.saveNewMap },
+	                'Save'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn btn-danger', type: 'button', onClick: this.toggleMap },
+	                'Cancel'
 	              )
 	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-6 col-md-4' },
+	          ) : _react2.default.createElement(
+	            'div',
+	            { className: 'row input-group' },
+	            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search for...', value: this.state.searchData, onChange: this.handleChange }),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'input-group-btn' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn btn-success', type: 'button', onClick: this.toggleMap },
+	                'New'
+	              )
+	            )
+	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'thumbnail' },
-	            _react2.default.createElement('img', { src: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU5ZTJiMTUxZmUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTllMmIxNTFmZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OS44NTkzNzUiIHk9IjEwNS4xIj4yNDJ4MjAwPC90ZXh0PjwvZz48L2c+PC9zdmc+', alt: '...' }),
+	            { className: 'row' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'caption' },
-	              _react2.default.createElement(
-	                'h3',
-	                null,
-	                'Admas'
-	              ),
-	              _react2.default.createElement(
-	                'p',
-	                null,
-	                'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.'
-	              ),
-	              _react2.default.createElement(
-	                'p',
-	                null,
-	                _react2.default.createElement(
-	                  'a',
-	                  { href: '#', className: 'btn btn-primary', role: 'button' },
-	                  'Button'
-	                ),
-	                _react2.default.createElement(
-	                  'a',
-	                  { href: '#', className: 'btn btn-default', role: 'button' },
-	                  'Button'
-	                )
-	              )
+	              { className: 'list-group' },
+	              this.renderMaps()
 	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-6 col-md-8' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'list-group' },
-	            this.renderMaps()
 	          )
 	        )
 	      );
@@ -28840,19 +28907,15 @@
 	  }, {
 	    key: 'renderMaps',
 	    value: function renderMaps() {
-	      var maps = [1, 2, 3, 4, 5];
 	      var that = this;
-	
-	      return maps.map(function (el, index, all) {
-	        var e = JSON.parse(el);
+	      return this.state.topics.map(function (el, index, all) {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'list-group-item', 'aria-label': 'Left Align', key: el },
+	          { className: 'list-group-item', 'aria-label': 'Left Align', key: el.id },
 	          _react2.default.createElement(
 	            _reactRouter.Link,
-	            { to: '/user/' + (that.props.params.id || 1) + '/map/' + el },
-	            'Cras justo odio ',
-	            el
+	            { to: '/user/' + (that.props.params.id || 1) + '/map/' + el.id },
+	            el.label
 	          ),
 	          _react2.default.createElement(
 	            'span',

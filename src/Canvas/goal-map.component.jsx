@@ -20,7 +20,7 @@ class GoalMap extends Component {
     render(){
         return (
           <div>
-            <GoalCanvas height={400} width={1000} id={this.props.params.id} onNodeSelected={this.onNodeSelected} />
+            <GoalCanvas height={400} width={1000} id={this.props.params.id} onNodeSelected={this.onNodeSelected} topicId={this.props.params.topic} />
             {this.renderTimeline()}
           </div>
         );
