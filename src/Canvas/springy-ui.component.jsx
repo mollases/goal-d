@@ -144,16 +144,12 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 
 	// Basic double click handler
 	jQuery(canvas).dblclick(function(e) {
-		if(!graph.nodes.length){
-			graph.newNode({label:'...',root:true});
-		} else if (selected && selected.node) {
-			var n = graph.newNode({
-				label: '...'
-			});
-			graph.newEdge(selected.node, n);
-			selected = {
-				node: n
-			};
+		var original = selected.node;
+		selected = {
+			node: graph.newNode({label:'...',root:true})
+		}
+		if (original) {
+			graph.newEdge(original, selected.node);
 		}
 	});
 
@@ -177,31 +173,37 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 		dragged = null;
 	});
 
-	jQuery(canvas).keydown(function(e) {
-		if (e.keyCode == 27) { // escape key maps to keycode `27`
+	jQuery(document).keydown(function(e) {
+		if(!jQuery(canvas).is(':focus')){
+			return;
+		}
+		var esc = e.keyCode === 27,
+		 shift = e.shiftKey,
+		 backspace = e.keyCode === 8
+		// deselect on esc
+		if (esc) {
 			selected = null;
-			if (nodeSelected) {
-				nodeSelected(null);
-			}
-		} else if( selected && selected.node){
-			var label = selected.node.data.label;
-			console.log(e.key);
-			if(e.keyCode === 8 && label.length === 0){
+			// nuke on shift + backspace
+		} else if (shift && backspace) {
 				graph.removeNode(selected.node);
 				selected = null;
-			} else if(e.keyCode === 8){
+			// if node
+		} else if(selected && selected.node){
+			var label = selected.node.data.label;
+			console.log(e.key);
+			if(backspace){
 				label = label.substring(0,label.length - 1);
 			} else if(e.key.length === 1) {
-				if(label === '...'){
-					label = e.key;
-				} else {
-					label += e.key;
-				}
+				label += e.key;
 			}
 			if(selected){
 				selected.node.data.label = label;
 			}
 		}
+		if(nodeSelected){
+			nodeSelected(selected)
+		}
+		renderer.start();
 	});
 
 	var getTextWidth = function(node) {

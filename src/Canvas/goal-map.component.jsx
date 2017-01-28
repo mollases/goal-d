@@ -7,11 +7,10 @@ class GoalMap extends Component {
   constructor(props){
     super(props);
     this.state = {
-      selectedNode : ''
+      selectedNode : null
     }
     this.onNodeSelected = this.onNodeSelected.bind(this)
     this.renderTimeline = this.renderTimeline.bind(this)
-
   }
 
   onNodeSelected(node){
@@ -19,22 +18,22 @@ class GoalMap extends Component {
   }
 
     render(){
-      var contents = this.state.selectedNode;
-      if(this.state.selectedNode && this.state.selectedNode.data){
-        contents = this.state.selectedNode.data.label;
-      }
         return (
-            <div>
-              <h1>Goal-D "{contents}"</h1>
-              <GoalCanvas height={600} width={800} id={this.props.params.id} onNodeSelected={this.onNodeSelected} />
-              {this.renderTimeline()}
-            </div>
+          <div>
+            <GoalCanvas height={400} width={1000} id={this.props.params.id} onNodeSelected={this.onNodeSelected} />
+            {this.renderTimeline()}
+          </div>
         );
     }
 
     renderTimeline(){
       if(this.state.selectedNode && this.state.selectedNode.data)
-      return <Timeline node={this.state.selectedNode} id={this.props.params.id}/>
+      return (
+        <div key="0">
+          <h1 className="text-center">{this.state.selectedNode.data.label}</h1>
+          <Timeline nodeId={this.state.selectedNode.id} id={this.props.params.id} topicId={this.props.params.topic}/>
+        </div>
+      )
     }
 }
 

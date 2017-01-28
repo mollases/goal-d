@@ -11,7 +11,7 @@ class AddElement extends Component {
   }
 
   onClickHandler(evt){
-    var endpoint = '/user-details/'+this.props.id + '/post/' + this.props.node.id;
+    var endpoint = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + this.props.nodeId;
     var data = {
         headers: {
           'Accept': 'application/json',
@@ -34,9 +34,9 @@ class AddElement extends Component {
   render(){
     return(
         <div>
-          <textarea value={this.state.value} onChange={this.handleChange} />
-          <button onClick={this.onClickHandler}>
-            add note
+          <textarea className="form-control" rows="3" value={this.state.value} onChange={this.handleChange} />
+          <button type="button" className="btn btn-default btn-sm" onClick={this.onClickHandler}>
+            <span className="glyphicon glyphicon-pushpin" aria-hidden="true"></span> Pin Note
           </button>
         </div>
     );

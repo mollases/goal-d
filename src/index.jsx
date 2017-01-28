@@ -18,7 +18,7 @@ render(
             <Route path="/" component={Home}/>
             <Route path="/about" component={About}/>
             <Route path="/user/:id" component={User} magic={Main.val}/>
-            <Route path="/user/:id/map" component={GoalMap}/>
+            <Route path="/user/:id/map/:topic" component={GoalMap}/>
             <Route path="/*" component={PageNotFound} />
         </Route>
     </Router>,

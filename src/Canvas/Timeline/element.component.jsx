@@ -8,7 +8,7 @@ class Element extends Component {
   render(){
     return(
         <div>
-          <p>{this.props.content.timestamp}</p>
+          <p className="text-right">{this.props.content.timestamp}</p>
           <p>{this.props.content.body}</p>
         </div>
     );

@@ -17,7 +17,7 @@ class Timeline extends Component {
 
   callRefresh(nodeId){
     let that = this;
-    fetch('/user-details/'+this.props.id + '/post/' + (nodeId || this.props.node.data.id))
+    fetch('/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + (nodeId || this.props.nodeId))
     .then(function(response) {
       response.json().then(function(response2){
         that.setState({contents:response2})
@@ -30,17 +30,28 @@ class Timeline extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    let now = JSON.stringify(this.props.node);
-    let future = JSON.stringify(nextProps.node) // Check if it's a new user, you can also use some unique, like the ID
+    let now = this.props.nodeId;
+    let future = nextProps.nodeId;
     if(now !== future){
-      this.callRefresh(nextProps.node.data.id);
+      this.callRefresh(future);
     }
   }
 
   render(){
     return(
-      <div>
-        <AddElement onSubmitPressed={this.callRefresh} node={this.props.node} id={this.props.id}/>
+      <div className="row">
+        <div className="col-md-7">
+          <AddElement onSubmitPressed={this.callRefresh} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
+        </div>
+        <div className="col-md-5">
+          <div className="btn-group" role="group" aria-label="...">
+            <button type="button" className="btn btn-default btn-success">Completed</button>
+            <button type="button" className="btn btn-default btn-warning">Active</button>
+            <button type="button" className="btn btn-default btn-hold">On Hold</button>
+            <button type="button" className="btn btn-default btn-danger">Discontinued</button>
+          </div>
+        </div>
+
         {this.renderElements()}
       </div>
     );
@@ -49,7 +60,10 @@ class Timeline extends Component {
   renderElements(){
     return this.state.contents.map(function(el,index,all){
       let e = JSON.parse(el);
-      return (<Element content={e} key={index}/>)
+      return (
+        <div className="row col-md-8">
+          <Element content={e} key={index}/>
+        </div>)
     });
   }
 }

@@ -1,4 +1,27 @@
-a.active{
-    color: #000000;
-    text-decoration: underline;
+
+.btn-hold {
+  color: #fff;
+  background-color: #b9a8a8;
+  border-color: #ae9a9a;
+}
+.btn-hold:focus,
+.btn-hold.focus {
+  color: #fff;
+  background-color: #b9a88c;
+  border-color: #985f0d;
+}
+.btn-hold:hover {
+  color: #fff;
+  background-color: #b9a88c;
+  border-color: #af9c7c;
+}
+.btn-hold:active,
+.btn-hold.active,
+.open > .dropdown-toggle.btn-hold {
+  color: #fff;
+  background-color: #b9a88c;
+  border-color: #af9c7c;
+}
+.goald {
+  background: #bdbdbd;
 }
