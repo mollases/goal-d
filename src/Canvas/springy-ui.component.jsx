@@ -146,10 +146,12 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 	jQuery(canvas).dblclick(function(e) {
 		var original = selected.node;
 		selected = {
-			node: graph.newNode({label:'...',root:true})
+			node: graph.newNode({label:''})
 		}
 		if (original) {
 			graph.newEdge(original, selected.node);
+		} else {
+			selected.node.data.root = true
 		}
 	});
 

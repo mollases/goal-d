@@ -28289,13 +28289,13 @@
 	    _this.renderTips = _this.renderTips.bind(_this);
 	    _this.instructions = [{
 	      header: "Adding",
-	      details: ["double click above to make a node", "double click a node to make a new node connected to the old one", "click a node, shift click another node connect the two"]
+	      details: ["double click above to make an entry", "double click an entry to make a new entry connected to the first entry", "click a entry, shift click another entry to connect the two with a line"]
 	    }, {
 	      header: "Removing",
-	      details: ["right click a node to delete it", "right click an edge to delete it", "click a node, shift + backspace to delete it"]
+	      details: ["right click a line to delete it", "right click an entry to delete it", "click an entry, shift + backspace to delete it"]
 	    }, {
 	      header: "Editing",
-	      details: ["click a node and start typing"]
+	      details: ["click a entry and start typing"]
 	    }];
 	    return _this;
 	  }
@@ -28310,13 +28310,35 @@
 	    value: function componentDidMount() {
 	      var graph = this.state.graph;
 	      // {"nodes":[{"label":"power-map","root":true,"id":0},{"label":"connections with other people","id":1},{"label":"goals","id":2},{"label":"actionable items","id":3},{"label":"trend setters","id":4},{"label":"entreprenuers","id":5},{"label":"people in politics","id":6},{"label":"global changes","id":7},{"label":"students","id":8}],"edges":{"0":["0","1","2","3","7"],"1":["4","5","6","8"]}}
+	      var that = this;
 	      fetch('/user-details/' + this.props.id + '/topic/' + this.props.topicId).then(function (response) {
-	        response.json().then(function (response2) {
-	          if (response2) graph.loadJSON2(response2);
+	        response.json().then(function (jsn) {
+	          var pjsn = JSON.parse(jsn);
+	          that.setState({
+	            map: pjsn.map,
+	            label: pjsn.label
+	          });
+	          if (jsn) {
+	            graph.loadJSON2(that.state.map);
+	          }
+	          return that.label;
+	        }).then(function (label) {
+	          if (label && label !== '') {
+	            return;
+	          }
+	          fetch('/user-details/' + that.props.id).then(function (r) {
+	            r.json().then(function (js) {
+	              var pjs = JSON.parse(js);
+	              var label = pjs.filter(function (el) {
+	                return el.id === that.props.topicId;
+	              });
+	
+	              that.setState({ label: label });
+	            });
+	          });
 	        });
 	      });
 	
-	      var that = this;
 	      (0, _springyUiComponent2.default)({
 	        id: '#goal-d',
 	        graph: this.state.graph,
@@ -28333,13 +28355,17 @@
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
+	      var body = {
+	        label: this.state.label,
+	        map: this.state.graph.condensed()
+	      };
 	      fetch('/user-details/' + this.props.id + '/topic/' + this.props.topicId, {
 	        headers: {
 	          'Accept': 'application/json',
 	          'Content-Type': 'application/json'
 	        },
 	        method: "POST",
-	        body: JSON.stringify(this.state.graph.condensed())
+	        body: JSON.stringify(body)
 	      }).then(function (res) {
 	        console.log(res);
 	      });
@@ -28744,15 +28770,13 @@
 	
 	    _this.state = {
 	      searchData: '',
-	      newTopic: '',
 	      newMap: false,
 	      topics: []
 	    };
 	    _this.renderMaps = _this.renderMaps.bind(_this);
 	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.handleTopicChange = _this.handleTopicChange.bind(_this);
-	    _this.toggleMap = _this.toggleMap.bind(_this);
 	    _this.saveNewMap = _this.saveNewMap.bind(_this);
+	    _this.refreshMaps = _this.refreshMaps.bind(_this);
 	    return _this;
 	  }
 	
@@ -28762,33 +28786,35 @@
 	      this.setState({ searchData: event.target.value });
 	    }
 	  }, {
-	    key: 'handleTopicChange',
-	    value: function handleTopicChange(event) {
-	      this.setState({ newTopic: event.target.value });
-	    }
-	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
+	    key: 'refreshMaps',
+	    value: function refreshMaps() {
 	      var that = this;
 	      fetch('/user-details/' + this.props.params.id).then(function (response) {
 	        response.json().then(function (jsn) {
-	          that.setState({ topics: JSON.parse(jsn) });
+	          var rsp = JSON.parse(jsn);
+	          that.setState({ topics: rsp || [] });
 	        });
 	      });
 	    }
 	  }, {
-	    key: 'toggleMap',
-	    value: function toggleMap() {
-	      this.setState({ newMap: !this.state.newMap });
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.refreshMaps();
 	    }
 	  }, {
 	    key: 'saveNewMap',
 	    value: function saveNewMap() {
-	      console.log(this.state.newTopic);
+	      var topic = this.state.searchData.trim();
+	      var that = this;
+	      var refreshMaps = this.refreshMaps;
+	
+	      if (!topic) {
+	        return;
+	      }
 	      var topics = this.state.topics;
 	      topics.push({
 	        id: topics.length,
-	        label: this.state.newTopic
+	        label: topic
 	      });
 	      fetch('/user-details/' + this.props.params.id, {
 	        headers: {
@@ -28797,8 +28823,11 @@
 	        },
 	        method: "POST",
 	        body: JSON.stringify(this.state.topics)
-	      }).then(function (res) {
-	        console.log(res);
+	      }).then(refreshMaps).then(function () {
+	        that.setState({
+	          searchData: '',
+	          newTopic: ''
+	        });
 	      });
 	    }
 	  }, {
@@ -28859,35 +28888,17 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'col-sm-6 col-md-8' },
-	          this.state.newMap ? _react2.default.createElement(
+	          { className: 'col-sm-6 col-md-7 col-md-offset-1' },
+	          _react2.default.createElement(
 	            'div',
 	            { className: 'row input-group' },
-	            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Map name', value: this.state.newTopic, onChange: this.handleTopicChange }),
+	            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search or add...', value: this.state.searchData, onChange: this.handleChange }),
 	            _react2.default.createElement(
 	              'span',
 	              { className: 'input-group-btn' },
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn btn-success', type: 'button', onClick: this.saveNewMap },
-	                'Save'
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn btn-danger', type: 'button', onClick: this.toggleMap },
-	                'Cancel'
-	              )
-	            )
-	          ) : _react2.default.createElement(
-	            'div',
-	            { className: 'row input-group' },
-	            _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Search for...', value: this.state.searchData, onChange: this.handleChange }),
-	            _react2.default.createElement(
-	              'span',
-	              { className: 'input-group-btn' },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'btn btn-success', type: 'button', onClick: this.toggleMap },
 	                'New'
 	              )
 	            )
@@ -28907,22 +28918,32 @@
 	  }, {
 	    key: 'renderMaps',
 	    value: function renderMaps() {
-	      var that = this;
-	      return this.state.topics.map(function (el, index, all) {
-	        return _react2.default.createElement(
-	          'div',
-	          { className: 'list-group-item', 'aria-label': 'Left Align', key: el.id },
-	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: '/user/' + (that.props.params.id || 1) + '/map/' + el.id },
-	            el.label
-	          ),
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'badge' },
-	            '14'
-	          )
-	        );
+	      if (!this.state.topics) {
+	        return;
+	      }
+	
+	      var userId = this.props.params.id;
+	      var topics = this.state.topics;
+	      var search = this.state.searchData;
+	
+	      return topics.map(function (el, index, all) {
+	        var show = search === '' || el.label.indexOf(search) !== -1;
+	        if (show) {
+	          return _react2.default.createElement(
+	            'div',
+	            { className: 'list-group-item', 'aria-label': 'Left Align', key: el.id },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/user/' + (userId || 1) + '/map/' + el.id },
+	              el.label
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'badge' },
+	              '14'
+	            )
+	          );
+	        }
 	      });
 	    }
 	  }]);
@@ -29095,10 +29116,12 @@
 		(0, _jQuery2.default)(canvas).dblclick(function (e) {
 			var original = selected.node;
 			selected = {
-				node: graph.newNode({ label: '...', root: true })
+				node: graph.newNode({ label: '' })
 			};
 			if (original) {
 				graph.newEdge(original, selected.node);
+			} else {
+				selected.node.data.root = true;
 			}
 		});
 	

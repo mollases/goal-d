@@ -16,21 +16,21 @@ class GoalCanvas extends Component {
     this.instructions = [{
       header: "Adding",
       details: [
-        "double click above to make a node",
-        "double click a node to make a new node connected to the old one",
-        "click a node, shift click another node connect the two"
+        "double click above to make an entry",
+        "double click an entry to make a new entry connected to the first entry",
+        "click a entry, shift click another entry to connect the two with a line"
       ]
     },{
       header: "Removing",
       details: [
-        "right click a node to delete it",
-        "right click an edge to delete it",
-        "click a node, shift + backspace to delete it"
+        "right click a line to delete it",
+        "right click an entry to delete it",
+        "click an entry, shift + backspace to delete it"
       ]
     },{
       header: "Editing",
       details: [
-        "click a node and start typing"
+        "click a entry and start typing"
       ]
     },]
   }
@@ -42,15 +42,36 @@ class GoalCanvas extends Component {
   componentDidMount() {
     var graph = this.state.graph;
     // {"nodes":[{"label":"power-map","root":true,"id":0},{"label":"connections with other people","id":1},{"label":"goals","id":2},{"label":"actionable items","id":3},{"label":"trend setters","id":4},{"label":"entreprenuers","id":5},{"label":"people in politics","id":6},{"label":"global changes","id":7},{"label":"students","id":8}],"edges":{"0":["0","1","2","3","7"],"1":["4","5","6","8"]}}
+    let that = this;
     fetch('/user-details/'+this.props.id+'/topic/'+this.props.topicId)
     .then(function(response) {
-      response.json().then(function(response2){
-        if(response2)
-          graph.loadJSON2(response2);
+      response.json().then(function(jsn){
+        let pjsn = JSON.parse(jsn)
+        that.setState({
+          map:pjsn.map,
+          label:pjsn.label
+        })
+        if(jsn){
+          graph.loadJSON2(that.state.map);
+        }
+        return that.label;
+      }).then(function(label){
+        if(label && label !== '') {
+          return;
+        }
+        fetch('/user-details/'+that.props.id).then(function(r){
+          r.json().then(function(js){
+            let pjs = JSON.parse(js)
+            let label = pjs.filter(function(el){
+              return el.id === that.props.topicId
+            })
+
+            that.setState({label:label});
+          })
+        })
       });
     });
 
-    var that = this;
     SpringyUI({
       id: '#goal-d',
       graph: this.state.graph,
@@ -66,6 +87,10 @@ class GoalCanvas extends Component {
   }
 
   componentWillUnmount(){
+    let body = {
+      label: this.state.label,
+      map :this.state.graph.condensed()
+    };
     fetch('/user-details/'+this.props.id+'/topic/'+this.props.topicId,
     {
         headers: {
@@ -73,7 +98,7 @@ class GoalCanvas extends Component {
           'Content-Type': 'application/json'
         },
         method: "POST",
-        body: JSON.stringify(this.state.graph.condensed())
+        body: JSON.stringify(body)
     })
     .then(function(res){ console.log(res) })
   }

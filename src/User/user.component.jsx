@@ -6,44 +6,45 @@ class User extends Component {
     super(props)
     this.state = {
       searchData: '',
-      newTopic: '',
       newMap:false,
       topics: []
     };
     this.renderMaps = this.renderMaps.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleTopicChange = this.handleTopicChange.bind(this)
-    this.toggleMap = this.toggleMap.bind(this)
     this.saveNewMap = this.saveNewMap.bind(this)
+    this.refreshMaps = this.refreshMaps.bind(this)
   }
 
   handleChange(event) {
     this.setState({searchData: event.target.value});
   }
 
-  handleTopicChange(event) {
-    this.setState({newTopic: event.target.value});
-  }
-
-  componentWillMount(){
+  refreshMaps(){
     let that = this;
     fetch('/user-details/'+this.props.params.id).then(function(response){
       response.json().then(function(jsn){
-        that.setState({topics: JSON.parse(jsn)});
+        let rsp = JSON.parse(jsn);
+        that.setState({topics: rsp || []});
       })
     })
   }
 
-  toggleMap(){
-    this.setState({newMap: ! this.state.newMap})
+  componentWillMount(){
+    this.refreshMaps();
   }
 
   saveNewMap(){
-    console.log(this.state.newTopic);
+    let topic = this.state.searchData.trim();
+    let that = this;
+    let refreshMaps = this.refreshMaps;
+
+    if(!topic){
+      return;
+    }
     let topics = this.state.topics;
     topics.push({
       id : topics.length,
-      label: this.state.newTopic
+      label: topic
     });
     fetch('/user-details/'+this.props.params.id,
     {
@@ -54,8 +55,12 @@ class User extends Component {
         method: "POST",
         body: JSON.stringify(this.state.topics)
     })
-    .then(function(res){ console.log(res) })
-
+    .then(refreshMaps).then(function(){
+      that.setState({
+        searchData: '',
+        newTopic:''
+      });
+    })
   }
 
   render(){
@@ -79,28 +84,13 @@ class User extends Component {
               <button type="button" className="btn btn-default btn-danger">Save</button>
             </div>
           </div>
-          <div className="col-sm-6 col-md-8">
-            {
-              this.state.newMap ?
-                (
-                  <div className="row input-group">
-                    <input type="text" className="form-control" placeholder="Map name" value={this.state.newTopic} onChange={this.handleTopicChange}/>
-                    <span className="input-group-btn">
-                      <button className="btn btn-success" type="button" onClick={this.saveNewMap}>Save</button>
-                      <button className="btn btn-danger" type="button" onClick={this.toggleMap}>Cancel</button>
-                    </span>
-                  </div>
-                )
-                :(
-                    <div className="row input-group">
-                      <input type="text" className="form-control" placeholder="Search for..." value={this.state.searchData} onChange={this.handleChange}/>
-                      <span className="input-group-btn">
-                        <button className="btn btn-success" type="button" onClick={this.toggleMap}>New</button>
-
-                      </span>
-                    </div>
-                  )
-            }
+          <div className="col-sm-6 col-md-7 col-md-offset-1">
+            <div className="row input-group">
+              <input type="text" className="form-control" placeholder="Search or add..." value={this.state.searchData} onChange={this.handleChange}/>
+              <span className="input-group-btn">
+                <button className="btn btn-success" type="button" onClick={this.saveNewMap}>New</button>
+              </span>
+            </div>
             <div className="row">
               <div className="list-group">
                 {this.renderMaps()}
@@ -112,16 +102,26 @@ class User extends Component {
   }
 
   renderMaps(){
-    let that = this;
-    return this.state.topics.map(function(el,index,all){
-      return (
-        <div className="list-group-item" aria-label="Left Align" key={el.id}>
-            <Link to={'/user/' + (that.props.params.id || 1) + '/map/' + el.id}>
-              {el.label}
-            </Link>
-          <span className="badge">14</span>
-        </div>
-        )
+    if (!this.state.topics){
+      return
+    }
+
+    let userId = this.props.params.id;
+    let topics = this.state.topics;
+    let search = this.state.searchData;
+
+    return topics.map(function(el,index,all){
+      let show = search === '' || el.label.indexOf(search) !== -1;
+      if (show){
+        return (
+          <div className="list-group-item" aria-label="Left Align" key={el.id}>
+              <Link to={'/user/' + (userId || 1) + '/map/' + el.id}>
+                {el.label}
+              </Link>
+            <span className="badge">14</span>
+          </div>
+          )
+      }
     });
   }
 }
