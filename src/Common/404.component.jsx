@@ -8,7 +8,7 @@ class PageNotFound extends Component {
 
     render(){
         return(
-            <div> Oh no! 404, go <Link to="/" activeClassName="active">home</Link> </div>
+            <div> Oh no! 404, go <Link to="/login" activeClassName="active">home</Link> </div>
         );
     }
 }

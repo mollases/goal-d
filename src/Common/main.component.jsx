@@ -7,16 +7,23 @@ class Main extends Component {
   }
 
     render(){
+        let children = null;
+        if (this.props.children) {
+          children = React.cloneElement(this.props.children, {
+            auth: this.props.route.auth //sends auth instance from route to children
+          })
+        }
+
         return(
             <div>
                 <nav className="navbar navbar-default">
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <Link to="/"  className="navbar-brand" activeClassName="active">Goal-d</Link>
+                            <Link to="/login"  className="navbar-brand" activeClassName="active">Goal-d</Link>
                         </div>
                         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul className="nav navbar-nav">
-                                <li><Link to={'/user/' + this.props.params.id || 1} activeClassName="active">user</Link></li>
+                                <li><Link to={'/user/' + this.props.route.auth.getActiveUser()} activeClassName="active">user</Link></li>
                                 <li><Link to="/about" activeClassName="active">about</Link></li>
                             </ul>
                         </div>
@@ -24,7 +31,7 @@ class Main extends Component {
                 </nav>
                 <div className="row">
                     <div className="container col-md-offset-2 col-md-8">
-                        {this.props.children}
+                        {children}
                     </div>
                 </div>
             </div>

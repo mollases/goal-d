@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
 
 import AddElement from './add-element.component.jsx'
 import Element from './element.component.jsx'
@@ -17,7 +16,10 @@ class Timeline extends Component {
 
   callRefresh(nodeId){
     let that = this;
-    fetch('/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + (nodeId || this.props.nodeId))
+    let nodeSearch = nodeId === undefined ? this.props.nodeId : nodeId;
+    let get = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + nodeSearch;
+    console.log(get)
+    fetch(get)
     .then(function(response) {
       response.json().then(function(response2){
         that.setState({contents:response2})
@@ -33,6 +35,8 @@ class Timeline extends Component {
     let now = this.props.nodeId;
     let future = nextProps.nodeId;
     if(now !== future){
+    console.log(now + "=>"+ future)
+      this.setState({contents:[]})
       this.callRefresh(future);
     }
   }
@@ -61,8 +65,8 @@ class Timeline extends Component {
     return this.state.contents.map(function(el,index,all){
       let e = JSON.parse(el);
       return (
-        <div className="row col-md-8">
-          <Element content={e} key={index}/>
+        <div className="row col-md-8" key={index}>
+          <Element content={e}/>
         </div>)
     });
   }

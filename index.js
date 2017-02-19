@@ -5,6 +5,7 @@ const app = express()
 const redis = require('redis')
 const client = redis.createClient();
 const bodyParser = require('body-parser');
+const db = require('./server/db');
 
 // serve static assets normally
 app.use(express.static(__dirname + '/public'))
@@ -18,7 +19,7 @@ client.on("error", function(err) {
 });
 
 app.get('/user-details/:id', function(request, response) {
-  client.hget('user-details', request.params.id, function(err, user) {
+  db.read('user-details',request.params.id, function(err, user) {
     response.json(err || user);
   });
 });
