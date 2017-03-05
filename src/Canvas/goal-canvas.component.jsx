@@ -6,13 +6,13 @@ class GoalCanvas extends Component {
     super(props)
     this.state ={
       graph : new Springy.Graph(),
-      focused : true
+      showTips : true,
+      map:{}
     }
     this.onNodeSelected =this.onNodeSelected.bind(this)
-    this.onKeyPressAction = this.onKeyPressAction.bind(this)
-    this.onFocus = this.onFocus.bind(this)
-    this.onBlur = this.onBlur.bind(this)
     this.renderTips = this.renderTips.bind(this)
+    this.postMap = this.postMap.bind(this)
+    this.toggleTips = this.toggleTips.bind(this)
     this.instructions = [{
       header: "Adding",
       details: [
@@ -30,13 +30,10 @@ class GoalCanvas extends Component {
     },{
       header: "Editing",
       details: [
-        "click a entry and start typing"
+        "click an entry and start typing",
+        "click an entry and scroll down"
       ]
     },]
-  }
-
-  onKeyPressAction(e) {
-    console.log(e);
   }
 
   componentDidMount() {
@@ -47,10 +44,12 @@ class GoalCanvas extends Component {
     .then(function(response) {
       response.json().then(function(jsn){
         let pjsn = JSON.parse(jsn)
-        that.setState({
-          map:pjsn.map,
-          label:pjsn.label
-        })
+        if(pjsn){
+          that.setState({
+            label:pjsn.label,
+            map:pjsn.map
+          })
+        }
         if(jsn){
           graph.loadJSON2(that.state.map);
         }
@@ -62,9 +61,11 @@ class GoalCanvas extends Component {
         fetch('/user-details/'+that.props.id).then(function(r){
           r.json().then(function(js){
             let pjs = JSON.parse(js)
-            let label = pjs.filter(function(el){
-              return el.id === that.props.topicId
-            })
+            let label = pjs.topics.filter(function(el){
+              if(el.id === parseInt(that.props.topicId)){
+                return el
+              }
+            })[0].label
 
             that.setState({label:label});
           })
@@ -86,11 +87,12 @@ class GoalCanvas extends Component {
     });
   }
 
-  componentWillUnmount(){
+  postMap(){
     let body = {
       label: this.state.label,
       map :this.state.graph.condensed()
     };
+    let that = this;
     fetch('/user-details/'+this.props.id+'/topic/'+this.props.topicId,
     {
         headers: {
@@ -101,32 +103,57 @@ class GoalCanvas extends Component {
         body: JSON.stringify(body)
     })
     .then(function(res){ console.log(res) })
+    .then(function(){
+      that.setState({map:body.map})
+    })
+  }
+
+  componentWillUnmount(){
+    this.postMap();
   }
 
   onNodeSelected(node){
-    this.props.onNodeSelected(node);
-    console.log(node);
+    let findChildNodes = function(map,starting) {
+      let stack = map.edges[starting] || [];
+      let childNodes = [];
+      while(stack.length){
+        let curr = parseInt(stack.pop())
+        let contained = childNodes.lastIndexOf(curr)
+        if(contained === -1){
+          childNodes.push(curr)
+          stack = stack.concat(map.edges[curr] || [])
+        }
+      }
+      return childNodes;
+    }
+
+    let mapContents = this.state.graph.condensed();
+    let children = [];
+    if(node){
+      children = findChildNodes(mapContents,node.id)
+    }
+    console.log(children)
+    this.props.onNodeSelected(node,children);
   }
 
-  onBlur() {
-    this.setState({ focused: false })
-  }
-
-  onFocus() {
-      this.setState({ focused: true })
+  toggleTips() {
+    let toggle = !this.state.showTips
+    this.setState({showTips:toggle})
   }
 
   render() {
     return (
-      <div >
+      <div>
+      <h3>{this.state.label}</h3>
         <canvas className="goald" tabIndex="0" id = "goal-d"
           data-node={this.node}
           width={this.props.width}
           height={this.props.height}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
         />
-        {this.state.focused ?
+        <div>
+          <span onClick={this.postMap}>save</span>|<span onClick={this.toggleTips}>tips</span>
+        </div>
+        {this.state.showTips ?
           <div className="row">
             {this.renderTips()}
           </div>

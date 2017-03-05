@@ -18,7 +18,7 @@ class AddElement extends Component {
           'Content-Type': 'application/json'
         },
         method: "POST",
-        body: JSON.stringify({'body':this.state.value,'id':this.props.id})
+        body: JSON.stringify({body:this.state.value,userId:this.props.id,nodeId:this.props.nodeId,topicId:this.props.topicId})
     }
     let that = this;
     fetch(endpoint,data)

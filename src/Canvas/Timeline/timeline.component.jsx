@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import _ from 'lodash';
 
-import AddElement from './add-element.component.jsx'
-import Element from './element.component.jsx'
+import AddElement from './add-element.component.jsx';
+import Element from './element.component.jsx';
+
 
 class Timeline extends Component {
   constructor(props) {
@@ -17,18 +19,23 @@ class Timeline extends Component {
   callRefresh(nodeId){
     let that = this;
     let nodeSearch = nodeId === undefined ? this.props.nodeId : nodeId;
-    let get = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + nodeSearch;
+    let extra = ''
+    if(this.props.childNodes.length){
+      extra = '/extra/' + this.props.childNodes.join(',')
+    }
+    let get = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + nodeSearch + extra;
     console.log(get)
     fetch(get)
     .then(function(response) {
       response.json().then(function(response2){
-        that.setState({contents:response2})
+        let sorted = _.sortBy(_.flatten(response2).map(JSON.parse),'timestamp').reverse()
+        that.setState({contents:sorted})
       });
     });
   }
 
   componentDidMount() {
-    this.callRefresh();
+    this.callRefresh(this.props.nodeId,);
   }
 
   componentWillReceiveProps(nextProps){
@@ -63,10 +70,9 @@ class Timeline extends Component {
 
   renderElements(){
     return this.state.contents.map(function(el,index,all){
-      let e = JSON.parse(el);
       return (
         <div className="row col-md-8" key={index}>
-          <Element content={e}/>
+          <Element content={el}/>
         </div>)
     });
   }

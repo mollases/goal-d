@@ -19,7 +19,7 @@ client.on("error", function(err) {
 });
 
 app.get('/user-details/:id', function(request, response) {
-  db.read('user-details',request.params.id, function(err, user) {
+  client.hget('user-details',request.params.id, function(err, user) {
     response.json(err || user);
   });
 });
@@ -48,6 +48,23 @@ app.get('/user-details/:id/topic/:topic/post/:post', function(request, response)
   client.lrange('user-details-post ' + request.params.id + '-' + request.params.topic + '-' + request.params.post, 0, -1, function(err, post) {
     response.json(err || post);
   });
+});
+
+app.get('/user-details/:id/topic/:topic/post/:post/extra/:extras', function(request, response) {
+  var extras = request.params.extras.split(',');
+  extras.push(request.params.post);
+  var callCount = 0;
+  var responses = [];
+  for(var i = 0; i < extras.length; i++){
+    client.lrange('user-details-post ' + request.params.id + '-' + request.params.topic + '-' + extras[i], 0, -1, function(err, post){
+      callCount++;
+      responses.push(err || post);
+      if(callCount === extras.length){
+        console.log(callCount)
+        response.json(responses);
+      }
+    });
+  }
 });
 
 app.post('/user-details/:id/topic/:topic/post/:post', function(request, response) {

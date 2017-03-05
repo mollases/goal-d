@@ -38,3 +38,10 @@ hget user-details {user-details,network,goal-network}
 * save as png
 * tagging and filtering in the map
 * connecting separate maps to each other (deep referencing?)
+
+
+## future
+* people search page
+  - given an email address
+* find a way to convert the express server over to serverless
+* use the ddb exclusively

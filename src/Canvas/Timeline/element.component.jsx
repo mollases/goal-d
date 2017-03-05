@@ -6,9 +6,10 @@ class Element extends Component {
   }
 
   render(){
+    let d = new Date(this.props.content.timestamp).toString();
     return(
         <div>
-          <p className="text-right">{this.props.content.timestamp}</p>
+          <p className="text-right">{d}</p>
           <p>{this.props.content.body}</p>
         </div>
     );
