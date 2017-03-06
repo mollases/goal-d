@@ -87990,7 +87990,7 @@
 	            { className: 'list-group-item', 'aria-label': 'Left Align', key: el.id },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
-	              { to: '/user/' + (userId || 1) + '/map/' + el.id },
+	              { to: '/user/' + userId + '/map/' + el.id },
 	              el.label
 	            )
 	          );

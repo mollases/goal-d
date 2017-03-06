@@ -5,7 +5,6 @@ const app = express()
 const redis = require('redis')
 const client = redis.createClient();
 const bodyParser = require('body-parser');
-const db = require('./server/db');
 
 // serve static assets normally
 app.use(express.static(__dirname + '/public'))

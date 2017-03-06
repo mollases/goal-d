@@ -130,7 +130,7 @@ class User extends Component {
       if (show){
         return (
           <div className="list-group-item" aria-label="Left Align" key={el.id}>
-              <Link to={'/user/' + (userId || 1) + '/map/' + el.id}>
+              <Link to={'/user/' + userId + '/map/' + el.id}>
                 {el.label}
               </Link>
           </div>
