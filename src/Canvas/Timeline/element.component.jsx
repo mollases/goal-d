@@ -9,7 +9,10 @@ class Element extends Component {
     let d = new Date(this.props.content.timestamp).toString();
     return(
         <div>
-          <p className="text-right">{d}</p>
+          <div className="row">
+            <div className="col-md-9">{this.props.content.label}</div>
+            <div className="col-md-3">{d}</div>
+          </div>
           <p>{this.props.content.body}</p>
         </div>
     );

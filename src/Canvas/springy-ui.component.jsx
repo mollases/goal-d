@@ -85,25 +85,6 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 	var dragged = null;
 	var clickSelected = null;
 
-	jQuery(canvas).mousedown(function(e) {
-		var pos = jQuery(this).offset();
-		var p = fromScreen({
-			x: e.pageX - pos.left,
-			y: e.pageY - pos.top
-		});
-		selected = dragged = layout.nearest(p, 1);
-
-		if (selected.node !== null) {
-			dragged.point.m = 10000.0;
-
-			if (nodeSelected) {
-				nodeSelected(selected.node);
-			}
-		}
-
-		renderer.start();
-	});
-
 	jQuery(canvas).click(function(e) {
 		var pos = jQuery(this).offset();
 		var p = fromScreen({

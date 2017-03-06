@@ -1,8 +1,6 @@
 import React, {Component, PropTypes as T } from 'react'
 import AuthService from './auth-service.component.jsx'
 
-console.log(AuthService.login)
-
 const propTypes = {
       location: T.object,
       auth: T.instanceOf(AuthService)

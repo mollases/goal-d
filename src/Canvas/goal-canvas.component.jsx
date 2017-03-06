@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import _ from 'lodash'
 import SpringyUI from './springy-ui.component.jsx'
 
 class GoalCanvas extends Component {
@@ -92,6 +93,7 @@ class GoalCanvas extends Component {
       label: this.state.label,
       map :this.state.graph.condensed()
     };
+    this.setState({map:body.map})
     let that = this;
     fetch('/user-details/'+this.props.id+'/topic/'+this.props.topicId,
     {
@@ -103,9 +105,6 @@ class GoalCanvas extends Component {
         body: JSON.stringify(body)
     })
     .then(function(res){ console.log(res) })
-    .then(function(){
-      that.setState({map:body.map})
-    })
   }
 
   componentWillUnmount(){
@@ -118,9 +117,9 @@ class GoalCanvas extends Component {
       let childNodes = [];
       while(stack.length){
         let curr = parseInt(stack.pop())
-        let contained = childNodes.lastIndexOf(curr)
-        if(contained === -1){
-          childNodes.push(curr)
+        let contained = _.filter(childNodes,{id:curr})
+        if(contained.length === 0){
+          childNodes.push(_.filter(map.nodes,{id:curr})[0])
           stack = stack.concat(map.edges[curr] || [])
         }
       }
@@ -132,7 +131,6 @@ class GoalCanvas extends Component {
     if(node){
       children = findChildNodes(mapContents,node.id)
     }
-    console.log(children)
     this.props.onNodeSelected(node,children);
   }
 

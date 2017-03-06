@@ -59196,8 +59196,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	console.log(_authServiceComponent2.default.login);
-	
 	var propTypes = {
 	  location: _react.PropTypes.object,
 	  auth: _react.PropTypes.instanceOf(_authServiceComponent2.default)
@@ -59398,6 +59396,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _lodash = __webpack_require__(/*! lodash */ 432);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
 	var _springyUiComponent = __webpack_require__(/*! ./springy-ui.component.jsx */ 429);
 	
 	var _springyUiComponent2 = _interopRequireDefault(_springyUiComponent);
@@ -59498,6 +59500,7 @@
 	        label: this.state.label,
 	        map: this.state.graph.condensed()
 	      };
+	      this.setState({ map: body.map });
 	      var that = this;
 	      fetch('/user-details/' + this.props.id + '/topic/' + this.props.topicId, {
 	        headers: {
@@ -59508,8 +59511,6 @@
 	        body: JSON.stringify(body)
 	      }).then(function (res) {
 	        console.log(res);
-	      }).then(function () {
-	        that.setState({ map: body.map });
 	      });
 	    }
 	  }, {
@@ -59525,9 +59526,9 @@
 	        var childNodes = [];
 	        while (stack.length) {
 	          var curr = parseInt(stack.pop());
-	          var contained = childNodes.lastIndexOf(curr);
-	          if (contained === -1) {
-	            childNodes.push(curr);
+	          var contained = _lodash2.default.filter(childNodes, { id: curr });
+	          if (contained.length === 0) {
+	            childNodes.push(_lodash2.default.filter(map.nodes, { id: curr })[0]);
 	            stack = stack.concat(map.edges[curr] || []);
 	          }
 	        }
@@ -59539,7 +59540,6 @@
 	      if (node) {
 	        children = findChildNodes(mapContents, node.id);
 	      }
-	      console.log(children);
 	      this.props.onNodeSelected(node, children);
 	    }
 	  }, {
@@ -59721,25 +59721,6 @@
 		var nearest = null;
 		var dragged = null;
 		var clickSelected = null;
-	
-		(0, _jQuery2.default)(canvas).mousedown(function (e) {
-			var pos = (0, _jQuery2.default)(this).offset();
-			var p = fromScreen({
-				x: e.pageX - pos.left,
-				y: e.pageY - pos.top
-			});
-			selected = dragged = layout.nearest(p, 1);
-	
-			if (selected.node !== null) {
-				dragged.point.m = 10000.0;
-	
-				if (nodeSelected) {
-					nodeSelected(selected.node);
-				}
-			}
-	
-			renderer.start();
-		});
 	
 		(0, _jQuery2.default)(canvas).click(function (e) {
 			var pos = (0, _jQuery2.default)(this).offset();
@@ -70424,18 +70405,28 @@
 	
 	  _createClass(Timeline, [{
 	    key: 'callRefresh',
-	    value: function callRefresh(nodeId) {
+	    value: function callRefresh(nodeId, childNodes) {
 	      var that = this;
 	      var nodeSearch = nodeId === undefined ? this.props.nodeId : nodeId;
+	      var children = childNodes === undefined ? this.props.childNodes : childNodes;
 	      var extra = '';
-	      if (this.props.childNodes.length) {
-	        extra = '/extra/' + this.props.childNodes.join(',');
+	      if (children.length) {
+	        extra = '/extra/' + children.map(function (i) {
+	          return i.id;
+	        }).join(',');
 	      }
 	      var get = '/user-details/' + this.props.id + '/topic/' + this.props.topicId + '/post/' + nodeSearch + extra;
 	      console.log(get);
 	      fetch(get).then(function (response) {
 	        response.json().then(function (response2) {
 	          var sorted = _lodash2.default.sortBy(_lodash2.default.flatten(response2).map(JSON.parse), 'timestamp').reverse();
+	          var labeled = _lodash2.default.forEach(sorted, function (i) {
+	            i.label = _lodash2.default.filter(children, { id: i.nodeId })[0] || '';
+	            if (i.label !== '') {
+	              i.label = i.label.label;
+	            }
+	          });
+	          console.log(children);
 	          that.setState({ contents: sorted });
 	        });
 	      });
@@ -70452,8 +70443,7 @@
 	      var future = nextProps.nodeId;
 	      if (now !== future) {
 	        console.log(now + "=>" + future);
-	        this.setState({ contents: [] });
-	        this.callRefresh(future);
+	        this.callRefresh(future, nextProps.childNodes);
 	      }
 	    }
 	  }, {
@@ -87764,9 +87754,18 @@
 	        "div",
 	        null,
 	        _react2.default.createElement(
-	          "p",
-	          { className: "text-right" },
-	          d
+	          "div",
+	          { className: "row" },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "col-md-9" },
+	            this.props.content.label
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "col-md-3" },
+	            d
+	          )
 	        ),
 	        _react2.default.createElement(
 	          "p",

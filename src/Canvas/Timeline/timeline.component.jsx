@@ -16,12 +16,13 @@ class Timeline extends Component {
     this.renderElements = this.renderElements.bind(this)
   }
 
-  callRefresh(nodeId){
+  callRefresh(nodeId,childNodes){
     let that = this;
     let nodeSearch = nodeId === undefined ? this.props.nodeId : nodeId;
+    var children = childNodes === undefined ? this.props.childNodes : childNodes;
     let extra = ''
-    if(this.props.childNodes.length){
-      extra = '/extra/' + this.props.childNodes.join(',')
+    if(children.length){
+      extra = '/extra/' + children.map(function(i){return i.id}).join(',')
     }
     let get = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + nodeSearch + extra;
     console.log(get)
@@ -29,6 +30,13 @@ class Timeline extends Component {
     .then(function(response) {
       response.json().then(function(response2){
         let sorted = _.sortBy(_.flatten(response2).map(JSON.parse),'timestamp').reverse()
+        let labeled = _.forEach(sorted,function(i){
+          i.label = _.filter(children,{id:i.nodeId})[0] || '';
+          if(i.label !== ''){
+            i.label=i.label.label;
+          }
+        })
+        console.log(children)
         that.setState({contents:sorted})
       });
     });
@@ -43,8 +51,7 @@ class Timeline extends Component {
     let future = nextProps.nodeId;
     if(now !== future){
     console.log(now + "=>"+ future)
-      this.setState({contents:[]})
-      this.callRefresh(future);
+      this.callRefresh(future,nextProps.childNodes);
     }
   }
 
