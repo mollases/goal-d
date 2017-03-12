@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+
+import Config from '../Services/config.Service.js'
 import SpringyUI from './springy-ui.component.jsx'
+
+const config = new Config();
 
 class GoalCanvas extends Component {
   constructor(props) {
@@ -41,7 +45,7 @@ class GoalCanvas extends Component {
     var graph = this.state.graph;
     // {"nodes":[{"label":"power-map","root":true,"id":0},{"label":"connections with other people","id":1},{"label":"goals","id":2},{"label":"actionable items","id":3},{"label":"trend setters","id":4},{"label":"entreprenuers","id":5},{"label":"people in politics","id":6},{"label":"global changes","id":7},{"label":"students","id":8}],"edges":{"0":["0","1","2","3","7"],"1":["4","5","6","8"]}}
     let that = this;
-    fetch('/user-details/'+this.props.id+'/topic/'+this.props.topicId)
+    fetch(config.getUrl('getTopic',[this.props.id,this.props.topicId]))
     .then(function(response) {
       response.json().then(function(jsn){
         let pjsn = JSON.parse(jsn)
