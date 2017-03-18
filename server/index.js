@@ -1,9 +1,9 @@
-
+'use strict'
 const express = require('express')
 const path = require('path')
 const port = process.env.PORT || 3000
 const app = express()
-const client = require('./redis.js')
+const client = require('./ddb.js')
 const bodyParser = require('body-parser');
 
 // serve static assets normally
@@ -67,7 +67,7 @@ app.get('*', function(request, response) {
   response.sendFile(path.resolve(__dirname, '../public', 'index.html'))
 })
 
-app.listen(port)
-console.log("server started on port " + port)
+// app.listen(port)
+// console.log("server started on port " + port)
 
 module.exports = app
