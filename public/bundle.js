@@ -59400,7 +59400,7 @@
 	
 	var _lodash2 = _interopRequireDefault(_lodash);
 	
-	var _configService = __webpack_require__(/*! ../Services/config.Service.js */ 431);
+	var _configService = __webpack_require__(/*! ../Services/config.Service.js */ 438);
 	
 	var _configService2 = _interopRequireDefault(_configService);
 	
@@ -76740,53 +76740,7 @@
 
 
 /***/ },
-/* 431 */
-/*!****************************************!*\
-  !*** ./src/Services/config.Service.js ***!
-  \****************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _auth0Lock = __webpack_require__(/*! auth0-lock */ 242);
-	
-	var _auth0Lock2 = _interopRequireDefault(_auth0Lock);
-	
-	var _reactRouter = __webpack_require__(/*! react-router */ 178);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Config = function () {
-	  function Config() {
-	    _classCallCheck(this, Config);
-	  }
-	
-	  _createClass(Config, [{
-	    key: 'getUrl',
-	    value: function getUrl(c, args) {
-	      switch (c) {
-	        case 'getTopic':
-	          {
-	            return '/user-details/' + args[0] + '/topic/' + args[1];
-	          }
-	      }
-	    }
-	  }]);
-	
-	  return Config;
-	}();
-	
-	exports.default = Config;
-
-/***/ },
+/* 431 */,
 /* 432 */
 /*!*********************************************!*\
   !*** ./src/canvas/springy-ui.component.jsx ***!
@@ -88056,6 +88010,53 @@
 	}(_react.Component);
 	
 	exports.default = User;
+
+/***/ },
+/* 438 */
+/*!****************************************!*\
+  !*** ./src/Services/config.Service.js ***!
+  \****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _auth0Lock = __webpack_require__(/*! auth0-lock */ 242);
+	
+	var _auth0Lock2 = _interopRequireDefault(_auth0Lock);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 178);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Config = function () {
+	  function Config() {
+	    _classCallCheck(this, Config);
+	  }
+	
+	  _createClass(Config, [{
+	    key: 'getUrl',
+	    value: function getUrl(c, args) {
+	      switch (c) {
+	        case 'getTopic':
+	          {
+	            return '/user-details/' + args[0] + '/topic/' + args[1];
+	          }
+	      }
+	    }
+	  }]);
+	
+	  return Config;
+	}();
+	
+	exports.default = Config;
 
 /***/ }
 /******/ ]);

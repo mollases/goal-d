@@ -1,3 +1,4 @@
+'use strict'
 const redis = require('redis')
 const redisClient = redis.createClient();
 const userDetails = 'user-details'

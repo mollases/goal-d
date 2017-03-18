@@ -1,12 +1,8 @@
+'use strict'
 const doc = require('dynamodb-doc');
 const dynamo = new doc.DynamoDB();
 const userDetails = 'user-details'
 const userDetailsPost = 'user-details-post'
-
-AWS.config.update({
-  region: "us-west-2",
-  endpoint: "http://localhost:3000"
-});
 
 function getUserDetails(user, callback) {
   let payload = {
@@ -50,11 +46,13 @@ function setUserTopic(user, topic, body, callback) {
   dynamo.getItem(payload, callback);
 }
 
+function setUserTopicOnPost(user, topic, post, body, callback) {console.log(arguments)}
+
 function getUserTopicPosts(user, topic, postList, callback) {
   dynamo.scan(payload, callback);
 }
 
-const client = {
+return module.exports = {
   getUserDetails: getUserDetails,
   setUserDetails: setUserDetails,
   getUserTopic: getUserTopic,
@@ -62,6 +60,3 @@ const client = {
   getUserTopicPosts: getUserTopicPosts,
   setUserTopicOnPost: setUserTopicOnPost
 }
-
-var exports = module.exports = client
-return module.exports

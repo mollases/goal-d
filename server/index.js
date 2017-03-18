@@ -1,3 +1,4 @@
+
 const express = require('express')
 const path = require('path')
 const port = process.env.PORT || 3000
@@ -68,3 +69,5 @@ app.get('*', function(request, response) {
 
 app.listen(port)
 console.log("server started on port " + port)
+
+module.exports = app
