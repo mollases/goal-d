@@ -1,4 +1,3 @@
-import Auth0Lock from 'auth0-lock'
 import { browserHistory } from 'react-router'
 export default class Config{
   constructor(){

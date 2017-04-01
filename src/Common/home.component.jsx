@@ -1,5 +1,5 @@
 import React, {Component, PropTypes as T } from 'react'
-import AuthService from './auth-service.component.jsx'
+import AuthService from '../Services/auth-service.component.jsx'
 
 const propTypes = {
       location: T.object,

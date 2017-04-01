@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 
-import Config from '../Services/config.Service.js'
+import Config from '../Services/config.service.jsx'
 import SpringyUI from './springy-ui.component.jsx'
 
 const config = new Config();

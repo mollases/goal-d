@@ -3,11 +3,16 @@ const express = require('express')
 const path = require('path')
 const port = process.env.PORT || 3000
 const app = express()
-const client = require('./ddb.js')
+const fs = require('fs')
+const client = require('./server/redis.js')
 const bodyParser = require('body-parser');
 
+var log = function(entry) {
+    fs.appendFileSync('/tmp/sample-app.log', new Date().toISOString() + ' - ' + entry + '\n');
+};
+
 // serve static assets normally
-app.use(express.static(__dirname + './../public'))
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -20,7 +25,7 @@ app.get('/user-details/:id', function(request, response) {
 });
 
 app.post('/user-details/:id', function(request, response) {
-  console.log(request.body);
+  log(request.body);
   client.setUserDetails(request.params.id, request.body, function(err, saved) {
     response.json(err || saved);
   });
@@ -33,7 +38,7 @@ app.get('/user-details/:id/topic/:topic', function(request, response) {
 });
 
 app.post('/user-details/:id/topic/:topic/', function(request, response) {
-  console.log(request.body);
+  log(request.body);
   client.setUserTopic(request.params.id,request.params.topic, request.body, function(err, saved) {
     response.json(err || saved);
   });
@@ -55,7 +60,7 @@ app.get('/user-details/:id/topic/:topic/post/:post/extra/:extras', function(requ
 
 app.post('/user-details/:id/topic/:topic/post/:post', function(request, response) {
   var content = request.body;
-  console.log(content);
+  log(content);
   content.timestamp = +new Date();
   client.setUserTopicOnPost(request.params.id,request.params.topic,request.params.post,content, function(err, saved) {
     response.json(err || saved);
@@ -63,11 +68,9 @@ app.post('/user-details/:id/topic/:topic/post/:post', function(request, response
 });
 
 // Handles all routes so you do not get a not found error
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../public', 'index.html'))
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 })
 
-// app.listen(port)
-// console.log("server started on port " + port)
-
-module.exports = app
+app.listen(port)
+console.log("server started on port " + port)
