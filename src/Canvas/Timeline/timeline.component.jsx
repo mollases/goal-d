@@ -17,13 +17,12 @@ class Timeline extends Component {
   }
 
   callRefresh(nodeId,childNodes){
-    let that = this;
-    let nodeSearch = nodeId === undefined ? this.props.nodeId : nodeId;
-    var children = childNodes === undefined ? this.props.childNodes : childNodes;
-    let extra = ''
-    if(children.length){
-      extra = '/extra/' + children.map(function(i){return i.id}).join(',')
-    }
+      let that = this;
+      let nodeSearch = nodeId;
+      var children = _.keys(childNodes).join(',');
+      let extra = '/extra/' + children;
+
+
     let get = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + nodeSearch + extra;
     console.log(get)
     fetch(get)
@@ -43,7 +42,7 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    this.callRefresh(this.props.nodeId,);
+    this.callRefresh(this.props.nodeId,this.props.childNodes);
   }
 
   componentWillReceiveProps(nextProps){
@@ -59,7 +58,7 @@ class Timeline extends Component {
     return(
       <div className="row">
         <div className="col-md-7">
-          <AddElement onSubmitPressed={this.callRefresh} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
+          <AddElement onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
         </div>
         <div className="col-md-5">
           <div className="btn-group" role="group" aria-label="...">

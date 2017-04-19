@@ -28,7 +28,7 @@ function getUserTopicPosts(user, topic, postList, callback) {
   var callCount = 0;
   var responses = [];
   for (var i = 0; i < postList.length; i++) {
-    redisClient.lrange('user-details-post ' + user + '-' + topic + '-' + postList[i], 0, -1, function(err, post) {
+    redisClient.lrange('user-details-post-' + user + '-' + topic + '-' + postList[i], 0, -1, function(err, post) {
       callCount++;
       responses.push(err || post);
       if (callCount === postList.length) {

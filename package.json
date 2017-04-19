@@ -7,8 +7,9 @@
     "watch": "webpack -d --watch",
     "build": "webpack",
     "serve": "serve ./public",
-    "start": "nodemon",
-    "dist": "zip -r goald.zip index.js package.json server public"
+    "startd":"nodemon",
+    "start": "node index.js",
+    "dist": "zip -r goald.zip index.js package.json server public .ebextensions .elasticbeanstalk"
   },
   "author": "Admas Molla",
   "devDependencies": {
@@ -25,14 +26,14 @@
     "react-router": "^2.6.1",
     "serve": "^1.4.0",
     "webpack": "^1.13.1",
-    "whatwg-fetch": "^2.0.1"
+    "whatwg-fetch": "^2.0.1",
+    "nodemon": "^1.11.0",
+    "redis": "^2.7.1"
   },
   "dependencies": {
     "aws-sdk": "^2.12.0",
     "body-parser": "^1.17.1",
     "dynamodb-doc": "^1.0.0",
-    "express": "^4.15.2",
-    "nodemon": "^1.11.0",
-    "redis": "^2.7.1"
+    "express": "^4.15.2"
   }
 }

@@ -117,13 +117,13 @@ class GoalCanvas extends Component {
 
   onNodeSelected(node){
     let findChildNodes = function(map,starting) {
-      let stack = map.edges[starting] || [];
-      let childNodes = [];
+      let stack = [starting];
+      let childNodes = {};
       while(stack.length){
         let curr = parseInt(stack.pop())
         let contained = _.filter(childNodes,{id:curr})
         if(contained.length === 0){
-          childNodes.push(_.filter(map.nodes,{id:curr})[0])
+          childNodes[curr] = map.edges[curr] || [];
           stack = stack.concat(map.edges[curr] || [])
         }
       }

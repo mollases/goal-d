@@ -53,6 +53,7 @@ app.get('/user-details/:id/topic/:topic/post/:post', function(request, response)
 app.get('/user-details/:id/topic/:topic/post/:post/extra/:extras', function(request, response) {
   var extras = request.params.extras.split(',');
   extras.push(request.params.post);
+  console.log(extras);
   client.getUserTopicPosts(request.params.id, request.params.topic, extras, function(responses) {
     response.json(responses)
   })
