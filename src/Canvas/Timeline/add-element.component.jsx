@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import Config from './../../Services/config.service.jsx';
+
+var config = new Config();
 
 class AddElement extends Component {
   constructor(props) {
@@ -11,17 +14,9 @@ class AddElement extends Component {
   }
 
   onClickHandler(evt){
-    var endpoint = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + this.props.nodeId;
-    var data = {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify({body:this.state.value,userId:this.props.id,nodeId:this.props.nodeId,topicId:this.props.topicId})
-    }
+    let body = {body:this.state.value,userId:this.props.id,nodeId:this.props.nodeId,topicId:this.props.topicId}
     let that = this;
-    fetch(endpoint,data)
+    config.postUserTopicOnPost(this.props.id,this.props.topicId,this.props.nodeId,body)
     .then(() => {this.props.onSubmitPressed()})
     .then(() => {that.setState({value: ''});
     })

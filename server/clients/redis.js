@@ -27,6 +27,7 @@ function setUserTopic(user, topic, body, callback) {
 function getUserTopicPosts(user, topic, postList, callback) {
   var callCount = 0;
   var responses = [];
+  console.log(postList);
   for (var i = 0; i < postList.length; i++) {
     redisClient.lrange('user-details-post-' + user + '-' + topic + '-' + postList[i], 0, -1, function(err, post) {
       callCount++;

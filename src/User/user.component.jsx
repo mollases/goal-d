@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Config from '../Services/config.service.jsx'
+
+const config = new Config();
+
 
 class User extends Component {
   constructor(props) {
@@ -30,7 +34,8 @@ class User extends Component {
 
   refreshMaps(){
     let that = this;
-    fetch('/user-details/'+this.props.params.id).then(function(response){
+    config.getUserDetails(this.props.params.id)
+    .then(function(response){
       response.json().then(function(jsn){
         let rsp = JSON.parse(jsn);
         that.setState({topics: rsp.topics || []});
@@ -50,21 +55,9 @@ class User extends Component {
     if(!topic){
       return;
     }
+
     let topics = this.state.topics;
-    topics.push({
-      id : topics.length,
-      label: topic,
-      time:Date.now()
-    });
-    fetch('/user-details/'+this.props.params.id,
-    {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify({topics:this.state.topics})
-    })
+    config.postUserDetails(this.props.params.id,{topics:this.state.topics})
     .then(refreshMaps).then(function(){
       that.setState({
         searchData: '',

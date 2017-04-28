@@ -3,13 +3,8 @@ const express = require('express')
 const path = require('path')
 const port = process.env.PORT || 3000
 const app = express()
-const fs = require('fs')
-const client = require('./server/redis.js')
+const endpoints = require('./server/endpoints.js')
 const bodyParser = require('body-parser');
-
-var log = function(entry) {
-    fs.appendFileSync('/tmp/sample-app.log', new Date().toISOString() + ' - ' + entry + '\n');
-};
 
 // serve static assets normally
 app.use(express.static('public'))
@@ -18,55 +13,19 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.get('/user-details/:id', function(request, response) {
-  client.getUserDetails(request.params.id, function(err, user) {
-    response.json(err || user);
-  });
-});
+app.get('/user-details/:id', endpoints.getUserDetails);
 
-app.post('/user-details/:id', function(request, response) {
-  log(request.body);
-  client.setUserDetails(request.params.id, request.body, function(err, saved) {
-    response.json(err || saved);
-  });
-});
+app.post('/user-details/:id', endpoints.postUserDetails);
 
-app.get('/user-details/:id/topic/:topic', function(request, response) {
-  client.getUserTopic(request.params.id,request.params.topic, function(err, user) {
-    response.json(err || user);
-  });
-});
+app.get('/user-details/:id/topic/:topic', endpoints.getUserTopic);
 
-app.post('/user-details/:id/topic/:topic/', function(request, response) {
-  log(request.body);
-  client.setUserTopic(request.params.id,request.params.topic, request.body, function(err, saved) {
-    response.json(err || saved);
-  });
-});
+app.post('/user-details/:id/topic/:topic/', endpoints.postUserTopic);
 
-app.get('/user-details/:id/topic/:topic/post/:post', function(request, response) {
-  client.getUserTopicPosts(request.params.id, request.params.topic, [request.params.post], function(err, post) {
-    response.json(err || post);
-  });
-});
+app.get('/user-details/:id/topic/:topic/post/:post', endpoints.getUserTopicPost);
 
-app.get('/user-details/:id/topic/:topic/post/:post/extra/:extras', function(request, response) {
-  var extras = request.params.extras.split(',');
-  extras.push(request.params.post);
-  console.log(extras);
-  client.getUserTopicPosts(request.params.id, request.params.topic, extras, function(responses) {
-    response.json(responses)
-  })
-});
+app.get('/user-details/:id/topic/:topic/post/:post/extra/:extra', endpoints.getUserTopicPost);
 
-app.post('/user-details/:id/topic/:topic/post/:post', function(request, response) {
-  var content = request.body;
-  log(content);
-  content.timestamp = +new Date();
-  client.setUserTopicOnPost(request.params.id,request.params.topic,request.params.post,content, function(err, saved) {
-    response.json(err || saved);
-  });
-});
+app.post('/user-details/:id/topic/:topic/post/:post', endpoints.postUserTopicPost);
 
 // Handles all routes so you do not get a not found error
 app.get('*', function (request, response){

@@ -3,7 +3,9 @@ import _ from 'lodash';
 
 import AddElement from './add-element.component.jsx';
 import Element from './element.component.jsx';
+import Config from './../../Services/config.service.jsx';
 
+var config = new Config();
 
 class Timeline extends Component {
   constructor(props) {
@@ -17,15 +19,13 @@ class Timeline extends Component {
   }
 
   callRefresh(nodeId,childNodes){
-      let that = this;
-      let nodeSearch = nodeId;
-      var children = _.keys(childNodes).join(',');
-      let extra = '/extra/' + children;
+    let that = this;
+    let _childNodes = _.keys(childNodes || []);
+    _childNodes.push(nodeId);
+    let nodeSearch = nodeId;
+    var children = _childNodes.join(',');
 
-
-    let get = '/user-details/'+this.props.id + '/topic/' + this.props.topicId + '/post/' + nodeSearch + extra;
-    console.log(get)
-    fetch(get)
+    config.getUserTopicPostList(this.props.id,this.props.topicId,nodeId,_childNodes)
     .then(function(response) {
       response.json().then(function(response2){
         let sorted = _.sortBy(_.flatten(response2).map(JSON.parse),'timestamp').reverse()
