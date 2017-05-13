@@ -9,6 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "dynamodb-doc": "^1.0.0",
-    "redis": "^2.7.1"
+    "redis": "^2.7.1",
+    "request": "^2.81.0"
   }
 }

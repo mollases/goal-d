@@ -50,5 +50,6 @@ return module.exports = {
   getUserTopic: getUserTopic,
   setUserTopic: setUserTopic,
   getUserTopicPosts: getUserTopicPosts,
-  setUserTopicOnPost: setUserTopicOnPost
+  setUserTopicOnPost: setUserTopicOnPost,
+  type:'local-redis'
 }

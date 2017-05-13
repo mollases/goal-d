@@ -15,14 +15,12 @@ import GoalMap from './canvas/goal-map.component.jsx'
 
 import User from './User/user.component.jsx'
 
-
-const auth = new AuthService(process.env.AUTH0_KEY, 'molla.auth0.com');
+const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com');
 const requireAuth = (nextState, replace) => {
   if (!auth.loggedIn()) {
     replace({ pathname: '/login' })
   }
 }
-
 
 render(
     <Router history={browserHistory}>

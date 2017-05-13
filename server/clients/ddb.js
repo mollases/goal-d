@@ -4,30 +4,33 @@ var AWS = require('aws-sdk');
 AWS.config.update({region: 'us-west-2'});
 var dynamo = new AWS.DynamoDB();
 
-const userDetails = 'user-details'
-const userDetailsPost = 'user-details-post'
+const userDetails = 'goald-user-details'
+const userDetailsTopic = 'goald-user-details-topics'
 
 function getUserDetails(user, callback) {
   let payload = {
     TableName: userDetails,
     Key: {
-      S: user
-    },
-    AttributesToGet:['item']
+      'user-id' :{
+        S: user
+      }
+    }
   }
-  console.log(payload)
-  dynamo.getItem(payload, callback);
+  dynamo.getItem(payload, function(err,data){
+    var B = data.Item.item.B;
+    callback(err,JSON.parse(B.toString()))
+  });
 }
 
 function setUserDetails(user, body, callback) {
   let payload = {
     TableName: userDetails,
     Item: {
-      user: {
+      'user-id': {
         S:user
       },
       item: {
-
+        B:new Buffer(body)
       }
     }
   }
@@ -37,20 +40,35 @@ function setUserDetails(user, body, callback) {
 
 function getUserTopic(user, topic, callback) {
   let payload = {
-    TableName: userDetails,
-    Item: {
-      user: user + '-' + topic
+    TableName: userDetailsTopic,
+    Key: {
+      'user-id': {
+        S: user
+      },
+      'topic' : {
+        S: topic
+      }
     }
   }
-  dynamo.getItem(payload, callback);
+  dynamo.getItem(payload, function(err,data){
+    var B = data.Item.item.B;
+    callback(err,JSON.parse(B.toString()))
+  });
 }
 
 function setUserTopic(user, topic, body, callback) {
   let payload = {
-    TableName: userDetails,
+    TableName: userDetailsTopic,
     Item: {
-      user: user + '-' + topic,
-      item:body
+      'user-id':{
+        S: user
+      },
+      topic: {
+        S: topic
+      },
+      item:{
+        B: new Buffer(body)
+      }
     }
   }
   dynamo.putItem(payload, callback);
@@ -68,5 +86,6 @@ return module.exports = {
   getUserTopic: getUserTopic,
   setUserTopic: setUserTopic,
   getUserTopicPosts: getUserTopicPosts,
-  setUserTopicOnPost: setUserTopicOnPost
+  setUserTopicOnPost: setUserTopicOnPost,
+  type:'local-ddb'
 }

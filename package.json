@@ -8,8 +8,7 @@
     "build": "webpack",
     "serve": "serve ./public",
     "startd": "nodemon",
-    "start": "node index.js",
-    "dist": "zip -r goald.zip index.js package.json server public"
+    "start": "node index.js"
   },
   "author": "Admas Molla",
   "devDependencies": {

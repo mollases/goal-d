@@ -57,7 +57,12 @@ class User extends Component {
     }
 
     let topics = this.state.topics;
-    config.postUserDetails(this.props.params.id,{topics:this.state.topics})
+    topics.push({
+      id : topics.length,
+      label: topic,
+      time:Date.now()
+    });
+    config.postUserDetails(this.props.params.id,{topics:topics})
     .then(refreshMaps).then(function(){
       that.setState({
         searchData: '',
