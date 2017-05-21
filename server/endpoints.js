@@ -1,5 +1,13 @@
 'use strict'
-const client = require('./clients/ddb.js');
+let proc = require('process')
+let clib = 'ddb';
+for(var i = 0; i < proc.argv.length; i++){
+  if(proc.argv[i].startsWith('--db=')){
+    clib =  proc.argv[i].split('=')[1];
+  }
+}
+
+const client = require('./clients/'+clib+'.js');
 
 console.log('client.type',client.type);
 

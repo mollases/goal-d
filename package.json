@@ -8,11 +8,11 @@
     "build": "webpack",
     "serve": "serve ./public",
     "startd": "nodemon",
-    "start": "node index.js"
+    "start": "node index.js --db=redis"
   },
   "author": "Admas Molla",
   "devDependencies": {
-    "auth0-lock": "^10.14.0",
+    "auth0-lock": "^10.16.0",
     "aws-sdk": "^2.45.0",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.4",
@@ -22,6 +22,7 @@
     "jquery": "^3.1.1",
     "lodash": "^4.17.4",
     "nodemon": "^1.11.0",
+    "prop-types": "^15.5.10",
     "react": "^15.4.2",
     "react-dom": "^15.3.0",
     "react-router": "^2.6.1",
@@ -34,7 +35,6 @@
   "dependencies": {
     "aws-sdk": "^2.12.0",
     "body-parser": "^1.17.1",
-    "dynamodb-doc": "^1.0.0",
     "express": "^4.15.2",
     "redis": "^2.7.1"
   },

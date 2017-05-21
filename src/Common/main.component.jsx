@@ -21,7 +21,7 @@ class Main extends Component {
                         <div className="navbar-header">
                             <Link to="/login"  className="navbar-brand" activeClassName="active">Goal-d</Link>
                         </div>
-                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <div className="collapse navbar-collapse">
                             <ul className="nav navbar-nav">
                                 <li><Link to={'/user/' + this.props.route.auth.getActiveUser()} activeClassName="active">user</Link></li>
                                 <li><Link to="/about" activeClassName="active">about</Link></li>

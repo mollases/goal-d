@@ -14,6 +14,7 @@ class GoalCanvas extends Component {
       showTips : true,
       map:{}
     }
+    this.ratio = this.props.ratio
     this.onNodeSelected =this.onNodeSelected.bind(this)
     this.renderTips = this.renderTips.bind(this)
     this.postMap = this.postMap.bind(this)
@@ -48,11 +49,10 @@ class GoalCanvas extends Component {
     config.getUserTopic(this.props.id,this.props.topicId)
     .then(function(response) {
       response.json().then(function(jsn){
-        let pjsn = JSON.parse(jsn)
-        if(pjsn){
+        if(jsn){
           that.setState({
-            label:pjsn.label,
-            map:pjsn.map
+            label:jsn.label,
+            map:jsn.map
           })
         }
         if(jsn){
@@ -63,7 +63,7 @@ class GoalCanvas extends Component {
         if(label && label !== '') {
           return;
         }
-        config.getUser(that.props.id)
+        config.getUserDetails(that.props.id)
         .then(function(r){
           r.json().then(function(js){
             let pjs = JSON.parse(js)
@@ -143,7 +143,7 @@ class GoalCanvas extends Component {
         <canvas className="goald" tabIndex="0" id = "goal-d"
           data-node={this.node}
           width={this.props.width}
-          height={this.props.height}
+          height={this.props.width*(9/16)}
         />
         <div>
           <span onClick={this.postMap}>save</span>|<span onClick={this.toggleTips}>tips</span>

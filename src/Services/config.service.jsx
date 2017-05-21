@@ -2,9 +2,10 @@ import { browserHistory } from 'react-router'
 
 export default class Config {
   constructor(){
-    this.url = window.location.origin
-    if(this.url.indexOf('execute') !== -1){
-      this.url = this.url.substring(0,this.url.length-1)
+    this.url = window.location.origin;
+    this.api = this.url;
+    if(this.url.indexOf('localhost') === -1){
+      this.api = 'https://zpdg9c0o8j.execute-api.us-west-2.amazonaws.com/dev';
     }
   }
 
@@ -13,19 +14,19 @@ export default class Config {
   }
 
   getUserDetails(user) {
-    return fetch(this.url+'/user-details/'+user);
+    return fetch(this.api+'/user-details/'+user);
   }
 
   postUserDetails(user, body, callback) {
-    return fetch('/user-details/'+user,this.getHeadersWithBody(body))
+    return fetch(this.api+'/user-details/'+user,this.getHeadersWithBody(body))
   }
 
   getUserTopic(user, topic) {
-    return fetch(this.url+'/user-details/'+user+'/topic/'+topic);
+    return fetch(this.api+'/user-details/'+user+'/topic/'+topic);
   }
 
   postUserTopic(user, topic, body) {
-    return fetch('/user-details/'+user+'/topic/'+topic,this.getHeadersWithBody(body))
+    return fetch(this.api+'/user-details/'+user+'/topic/'+topic,this.getHeadersWithBody(body))
   }
 
   getUserTopicPostList(user, topic, post, postList) {
@@ -33,7 +34,7 @@ export default class Config {
   }
 
   postUserTopicOnPost(user, topic, post, body) {
-    return fetch('/user-details/'+user+'/topic/'+topic+'/post/'+post,this.getHeadersWithBody(body))
+    return fetch(this.api+'/user-details/'+user+'/topic/'+topic+'/post/'+post,this.getHeadersWithBody(body))
   }
 
   getHeadersWithBody(body){

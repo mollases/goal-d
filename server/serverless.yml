@@ -62,6 +62,7 @@ functions:
       - http:
           path: '/user-details/{id}'
           method: get
+          cors: true
 
   postUserDetails:
     handler: serve.postUserDetails
@@ -69,6 +70,7 @@ functions:
       - http:
           path: '/user-details/{id}'
           method: post
+          cors: true
 
   getUserTopic:
     handler: serve.getUserTopic
@@ -76,6 +78,7 @@ functions:
       - http:
           path: '/user-details/{id}/topic/{topic}'
           method: get
+          cors: true
 
   postUserTopic:
     handler: serve.postUserTopic
@@ -83,6 +86,7 @@ functions:
       - http:
           path: '/user-details/{id}/topic/{topic}'
           method: post
+          cors: true
 
   getUserTopicPost:
     handler: serve.getUserTopicPost
@@ -90,6 +94,7 @@ functions:
       - http:
           path: '/user-details/{id}/topic/{topic}/post/{post}/extra/{extra}'
           method: get
+          cors: true
 
   postUserTopicPost:
     handler: serve.postUserTopicPost
@@ -97,6 +102,7 @@ functions:
       - http:
           path: '/user-details/{id}/topic/{topic}/post/{post}'
           method: post
+          cors: true
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
 #      - sns: greeter-topic

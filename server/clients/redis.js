@@ -9,7 +9,9 @@ redisClient.on("error", function(err) {
 })
 
 function getUserDetails(user, callback) {
-  redisClient.hget(userDetails, user, callback);
+  redisClient.hget(userDetails, user,  function(err,resp){
+    callback(JSON.parse(resp) || err)
+  });
 }
 
 function setUserDetails(user, body, callback) {
@@ -17,7 +19,9 @@ function setUserDetails(user, body, callback) {
 }
 
 function getUserTopic(user, topic, callback) {
-  redisClient.hget(userDetails, user + '-' + topic, callback)
+  redisClient.hget(userDetails, user + '-' + topic, function(err,resp){
+    callback(JSON.parse(resp) || err)
+  })
 }
 
 function setUserTopic(user, topic, body, callback) {
