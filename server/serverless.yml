@@ -88,11 +88,11 @@ functions:
           method: post
           cors: true
 
-  getUserTopicPost:
-    handler: serve.getUserTopicPost
+  getUserTopicPosts:
+    handler: serve.getUserTopicPosts
     events:
       - http:
-          path: '/user-details/{id}/topic/{topic}/post/{post}/extra/{extra}'
+          path: '/user-details/{id}/topic/{topic}/posts/{posts}'
           method: get
           cors: true
 

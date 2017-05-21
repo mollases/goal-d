@@ -44,11 +44,11 @@ module.exports.postUserTopic = (request, response) => {
   });
 };
 
-module.exports.getUserTopicPost = (request, response) => {
-  console.log('getUserTopicPost',request.body);
-  var all = request.params.extra.split(',');
+module.exports.getUserTopicPosts = (request, response) => {
+  console.log('getUserTopicPosts',request.body);
+  var all = request.params.posts.split(',');
   client.getUserTopicPosts(request.params.id, request.params.topic, all, function(err, post) {
-    console.log('response getUserTopicPost',post);
+    console.log('response getUserTopicPosts',post);
     response.json(err || post);
   });
 };

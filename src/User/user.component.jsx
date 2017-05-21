@@ -1,9 +1,28 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Config from '../Services/config.service.jsx'
+import TextField from 'material-ui/TextField';
+import {orange500, blue500} from 'material-ui/styles/colors';
+import UserCard from './user-card.component.jsx'
+import FlatButton from 'material-ui/FlatButton';
+import {List, ListItem} from 'material-ui/List';
+
+const styles = {
+  errorStyle: {
+    color: orange500,
+  },
+  underlineStyle: {
+    borderColor: orange500,
+  },
+  floatingLabelStyle: {
+    color: orange500,
+  },
+  floatingLabelFocusStyle: {
+    color: blue500,
+  },
+};
 
 const config = new Config();
-
 
 class User extends Component {
   constructor(props) {
@@ -11,21 +30,15 @@ class User extends Component {
     this.state = {
       searchData: '',
       newMap:false,
-      topics: [],
-      name:'Admas'
+      topics: []
     };
     if(this.props.params.id === 'undefined') {
       this.props.params.id = this.props.auth.getActiveUser()
     }
     this.renderMaps = this.renderMaps.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleNameChange = this.handleNameChange.bind(this)
     this.saveNewMap = this.saveNewMap.bind(this)
     this.refreshMaps = this.refreshMaps.bind(this)
-  }
-
-  handleNameChange(event) {
-    this.setState({name: event.target.value});
   }
 
   handleChange(event) {
@@ -37,8 +50,7 @@ class User extends Component {
     config.getUserDetails(this.props.params.id)
     .then(function(response){
       response.json().then(function(jsn){
-        let rsp = JSON.parse(jsn);
-        that.setState({topics: rsp.topics || []});
+        that.setState({topics: jsn.topics || []});
       })
     })
   }
@@ -75,34 +87,27 @@ class User extends Component {
     return (
       <div className="row">
         <div className="col-sm-6 col-md-4">
+          <UserCard />
+        </div>
+        <div className="col-sm-6 col-md-7 col-md-offset-1">
           <div className="row">
-              <div className="thumbnail">
-                <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTU5ZTJiMTUxZmUgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTllMmIxNTFmZSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OS44NTkzNzUiIHk9IjEwNS4xIj4yNDJ4MjAwPC90ZXh0PjwvZz48L2c+PC9zdmc+"/>
-                <div className="caption">
-                  <input type="text" className="form-control" placeholder="Update your name" value={this.state.name} onChange={this.handleNameChange}/>
-                  <h3>{this.state.name}</h3>
-                  <p>Just some filler text</p>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <button type="button" className="btn btn-default btn-danger">Save</button>
-            </div>
+            <TextField
+              floatingLabelText="Search or add..."
+              floatingLabelStyle={styles.floatingLabelStyle}
+              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+              value={this.state.searchData}
+              onChange={this.handleChange}
+              fullWidth={false}
+            />
+            <FlatButton label="New" onClick={this.saveNewMap}/>
           </div>
-          <div className="col-sm-6 col-md-7 col-md-offset-1">
-            <div className="row input-group">
-              <input type="text" className="form-control" placeholder="Search or add..." value={this.state.searchData} onChange={this.handleChange}/>
-              <span className="input-group-btn">
-                <button className="btn btn-success" type="button" onClick={this.saveNewMap}>New</button>
-              </span>
-            </div>
-            <div className="row">
-              <div className="list-group">
-                {this.renderMaps()}
-              </div>
-            </div>
+          <div className="row">
+            <List>
+              {this.renderMaps()}
+            </List>
           </div>
         </div>
+      </div>
       );
   }
 
@@ -127,11 +132,9 @@ class User extends Component {
       let show = search === '' || el.label.indexOf(search) !== -1;
       if (show){
         return (
-          <div className="list-group-item" aria-label="Left Align" key={el.id}>
-              <Link to={'/user/' + userId + '/map/' + el.id}>
-                {el.label}
-              </Link>
-          </div>
+            <Link to={'/user/' + userId + '/map/' + el.id} key={el.id}>
+              <ListItem primaryText={el.label} />
+            </Link>
           )
       }
     });

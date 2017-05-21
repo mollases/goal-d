@@ -3,7 +3,9 @@ import _ from 'lodash';
 
 import AddElement from './add-element.component.jsx';
 import Element from './element.component.jsx';
+import GoalNode from './goal-node.component.jsx'
 import Config from './../../Services/config.service.jsx';
+import {List, ListItem} from 'material-ui/List';
 
 var config = new Config();
 
@@ -21,7 +23,6 @@ class Timeline extends Component {
   callRefresh(nodeId,childNodes){
     let that = this;
     let _childNodes = _.keys(childNodes || []);
-    _childNodes.push(nodeId);
     let nodeSearch = nodeId;
     var children = _childNodes.join(',');
 
@@ -57,19 +58,13 @@ class Timeline extends Component {
   render(){
     return(
       <div className="row">
-        <div className="col-md-7">
+        <div className="col-md-8">
+          <GoalNode />
           <AddElement onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
         </div>
-        <div className="col-md-5">
-          <div className="btn-group" role="group" aria-label="...">
-            <button type="button" className="btn btn-default btn-success">Completed</button>
-            <button type="button" className="btn btn-default btn-warning">Active</button>
-            <button type="button" className="btn btn-default btn-hold">On Hold</button>
-            <button type="button" className="btn btn-default btn-danger">Discontinued</button>
-          </div>
-        </div>
-
-        {this.renderElements()}
+        <List className="row col-md-8">
+          {this.renderElements()}
+        </List>
       </div>
     );
   }
@@ -77,10 +72,11 @@ class Timeline extends Component {
   renderElements(){
     return this.state.contents.map(function(el,index,all){
       return (
-        <div className="row col-md-8" key={index}>
+        <div className="row" key={index}>
           <Element content={el}/>
-        </div>)
-    });
+        </div>
+      );
+    })
   }
 }
 

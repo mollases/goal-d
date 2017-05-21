@@ -21,9 +21,7 @@ app.get('/user-details/:id/topic/:topic', endpoints.getUserTopic);
 
 app.post('/user-details/:id/topic/:topic/', endpoints.postUserTopic);
 
-app.get('/user-details/:id/topic/:topic/post/:post', endpoints.getUserTopicPost);
-
-app.get('/user-details/:id/topic/:topic/post/:post/extra/:extra', endpoints.getUserTopicPost);
+app.get('/user-details/:id/topic/:topic/posts/:posts', endpoints.getUserTopicPosts);
 
 app.post('/user-details/:id/topic/:topic/post/:post', endpoints.postUserTopicPost);
 

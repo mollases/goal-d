@@ -14,6 +14,7 @@ import About from './Common/about.component.jsx'
 import GoalMap from './canvas/goal-map.component.jsx'
 
 import User from './User/user.component.jsx'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com');
 const requireAuth = (nextState, replace) => {
@@ -22,7 +23,9 @@ const requireAuth = (nextState, replace) => {
   }
 }
 
+
 render(
+  <MuiThemeProvider>
     <Router history={browserHistory}>
         <Route path="/" component={Main} auth={auth}>
             <Route path="login" component={Home} />
@@ -32,6 +35,7 @@ render(
             <Route path="user/:id/map/:topic" component={GoalMap} onEnter={requireAuth} />
             <Route path="*" component={PageNotFound} />
         </Route>
-    </Router>,
-    document.getElementById('container')
+    </Router>
+  </MuiThemeProvider>,
+    document.getElementById('app')
 );

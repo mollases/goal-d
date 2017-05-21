@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {PropTypes as T} from 'prop-types'
 import AuthService from '../Services/auth-service.component.jsx'
+import FlatButton from 'material-ui/FlatButton';
 
 const propTypes = {
       location: T.object,
@@ -13,11 +14,9 @@ class Home extends Component {
   }
   render() {
     const { auth } = this.props
+
     return (
-      <div>
-        <h2>Login</h2>
-        <button type="button" className="btn btn-default btn-success" onClick={auth.login}>Login</button>
-      </div>
+      <FlatButton label={auth.loggedIn() ? 'logout' : 'login'} onClick={() => {return auth.loggedIn() ? auth.logout() : auth.login()}}/>
     )
   }
 }

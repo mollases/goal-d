@@ -10,31 +10,31 @@ export default class Config {
   }
 
   getAuthCallback(){
-    return this.url+'/user';
+    return this.url + '/user';
   }
 
   getUserDetails(user) {
-    return fetch(this.api+'/user-details/'+user);
+    return fetch(this.api + '/user-details/' + user);
   }
 
   postUserDetails(user, body, callback) {
-    return fetch(this.api+'/user-details/'+user,this.getHeadersWithBody(body))
+    return fetch(this.api + '/user-details/' + user,this.getHeadersWithBody(body))
   }
 
   getUserTopic(user, topic) {
-    return fetch(this.api+'/user-details/'+user+'/topic/'+topic);
+    return fetch(this.api + '/user-details/' + user + '/topic/' + topic);
   }
 
   postUserTopic(user, topic, body) {
-    return fetch(this.api+'/user-details/'+user+'/topic/'+topic,this.getHeadersWithBody(body))
+    return fetch(this.api + '/user-details/' + user + '/topic/' + topic,this.getHeadersWithBody(body))
   }
 
   getUserTopicPostList(user, topic, post, postList) {
-    return fetch(this.url+'/user-details/'+user+'/topic/'+topic+'/post/'+post+'/extra/'+postList);
+    return fetch(this.url + '/user-details/' + user + '/topic/' + topic + '/posts/' + postList);
   }
 
   postUserTopicOnPost(user, topic, post, body) {
-    return fetch(this.api+'/user-details/'+user+'/topic/'+topic+'/post/'+post,this.getHeadersWithBody(body))
+    return fetch(this.api + '/user-details/' + user + '/topic/' + topic + '/post/' + post,this.getHeadersWithBody(body))
   }
 
   getHeadersWithBody(body){

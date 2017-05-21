@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 
 class Element extends Component {
   constructor(props) {
@@ -8,13 +9,15 @@ class Element extends Component {
   render(){
     let d = new Date(this.props.content.timestamp).toString();
     return(
-        <div>
-          <div className="row">
-            <div className="col-md-9">{this.props.content.label}</div>
-            <div className="col-md-3">{d}</div>
-          </div>
-          <p>{this.props.content.body}</p>
-        </div>
+        <Card>
+          <CardHeader
+            title={this.props.content.label}
+            subtitle={d}
+          />
+          <CardText>
+            {this.props.content.body}
+          </CardText>
+        </Card>
     );
   }
 }

@@ -4,7 +4,15 @@ import _ from 'lodash'
 import SpringyUI from './springy-ui.component.jsx'
 import Config from '../Services/config.service.jsx'
 
+
+import {List, ListItem} from 'material-ui/List';
+import Save from 'material-ui/svg-icons/content/save';
+import ActionList from 'material-ui/svg-icons/action/list';
+
 const config = new Config();
+const iconStyles = {
+  marginRight: 24,
+};
 
 class GoalCanvas extends Component {
   constructor(props) {
@@ -19,6 +27,7 @@ class GoalCanvas extends Component {
     this.renderTips = this.renderTips.bind(this)
     this.postMap = this.postMap.bind(this)
     this.toggleTips = this.toggleTips.bind(this)
+    this.calculateWidth = this.calculateWidth.bind(this)
     this.instructions = [{
       header: "Adding",
       details: [
@@ -65,9 +74,8 @@ class GoalCanvas extends Component {
         }
         config.getUserDetails(that.props.id)
         .then(function(r){
-          r.json().then(function(js){
-            let pjs = JSON.parse(js)
-            let label = pjs.topics.filter(function(el){
+          r.json().then(function(jsn){
+            let label = jsn.topics.filter(function(el){
               if(el.id === parseInt(that.props.topicId)){
                 return el
               }
@@ -136,44 +144,47 @@ class GoalCanvas extends Component {
     this.setState({showTips:toggle})
   }
 
+  calculateWidth(){
+    return document.getElementById('goald-container') ? document.getElementById('goald-container').clientWidth : 100;
+  }
+
   render() {
     return (
       <div>
       <h3>{this.state.label}</h3>
-        <canvas className="goald" tabIndex="0" id = "goal-d"
-          data-node={this.node}
-          width={this.props.width}
-          height={this.props.width*(9/16)}
-        />
-        <div>
-          <span onClick={this.postMap}>save</span>|<span onClick={this.toggleTips}>tips</span>
+        <div className="row" id="goald-container">
+          <canvas className="goald" tabIndex="0" id="goal-d"
+            data-node={this.node}
+            width={this.calculateWidth()}
+            height={this.calculateWidth()*(9/16)}
+          />
         </div>
-        {this.state.showTips ?
-          <div className="row">
-            {this.renderTips()}
-          </div>
-          :null
-        }
+        <div className="row">
+          <Save style={iconStyles} onClick={this.postMap}/> <ActionList style={iconStyles} onClick={this.toggleTips}/>
+        </div>
+        <div className="row">
+          {this.renderTips(this.state.showTips)}
+        </div>
       </div>
     );
   }
 
-  renderTips(){
-    return this.instructions.map(function(el,index){
+  renderTips(show){
+    return !show ? this.instructions.map(function(el,index){
       let grouping = el.details.map(function (el2,index2) {
         return (
-          <li className="list-group-item" key={index + '-' + index2}>{el2}</li>
+          <ListItem primaryText={el2} key={index2}/>
         )
       });
       return (
             <div className="col-md-4" key={index}>
               <h4 className="text-center">{el.header}</h4>
-              <ul className="list-group">
+              <List>
                 {grouping}
-              </ul>
+              </List>
             </div>
             )
-    });
+    }) : '';
   }
 }
 
