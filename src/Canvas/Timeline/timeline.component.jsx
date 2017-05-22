@@ -50,21 +50,16 @@ class Timeline extends Component {
     let now = this.props.nodeId;
     let future = nextProps.nodeId;
     if(now !== future){
-    console.log(now + "=>"+ future)
       this.callRefresh(future,nextProps.childNodes);
     }
   }
 
   render(){
     return(
-      <div>
-        <div className="row col-md-8">
-          <GoalNode />
-          <AddElement onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
-        </div>
-        <List className="row col-md-8">
-          {this.renderElements()}
-        </List>
+      <div className="row col-md-8">
+        <GoalNode />
+        <AddElement onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
+        {this.renderElements()}
       </div>
     );
   }
@@ -72,7 +67,7 @@ class Timeline extends Component {
   renderElements(){
     return this.state.contents.map(function(el,index,all){
       return (
-        <div className="row" key={index}>
+        <div key={index}>
           <Element content={el}/>
         </div>
       );
