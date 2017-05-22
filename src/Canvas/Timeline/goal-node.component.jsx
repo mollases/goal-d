@@ -28,7 +28,7 @@ class GoalNode extends Component {
     return (
       <Card>
         <CardHeader
-          title="Without Avatar"
+          title={this.props.node.label}
           subtitle="Subtitle"
           actAsExpander={true}
           showExpandableButton={true}

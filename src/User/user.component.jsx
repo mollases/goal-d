@@ -97,7 +97,6 @@ class User extends Component {
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
               value={this.state.searchData}
               onChange={this.handleChange}
-              fullWidth={false}
             />
             <FlatButton label="New" onClick={this.saveNewMap}/>
           </div>

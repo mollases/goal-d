@@ -34,15 +34,14 @@ class AddElement extends Component {
     return(
         <Card>
           <CardTitle title="Add an Element"/>
-          <CardText>
             <TextField
               value={this.state.value}
               onChange={this.handleChange}
               floatingLabelText="TODO: support Markdown"
-              row={5}
+              rows={5}
               multiLine={true}
+              fullWidth={true}
             />
-          </CardText>
           <CardActions>
             <FlatButton label="Post" onClick={this.onClickHandler}/>
           </CardActions>

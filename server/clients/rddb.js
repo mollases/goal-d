@@ -63,7 +63,7 @@ function setUserTopicOnPost(user, topic, post, body, callback) {
 }
 
 function getUserTopicPosts(user, topic, postList, callback) {
-  var path = '/user-details/'+user+'/topic/'+topic+'/post/'+post+'/extra/'+extra;
+  var path = '/user-details/'+user+'/topic/'+topic+'/posts/'+postlist;
   var content = undefined;
   callRemoteDDB(path,content,callback)
 }

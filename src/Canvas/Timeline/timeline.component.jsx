@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import AddElement from './add-element.component.jsx';
 import Element from './element.component.jsx';
-import GoalNode from './goal-node.component.jsx'
 import Config from './../../Services/config.service.jsx';
 import {List, ListItem} from 'material-ui/List';
 
@@ -56,9 +55,12 @@ class Timeline extends Component {
 
   render(){
     return(
-      <div className="row col-md-8">
-        <GoalNode />
-        <AddElement onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
+      <div>
+        <AddElement
+          onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)}
+          nodeId={this.props.nodeId}
+          topicId={this.props.topicId}
+          id={this.props.id}/>
         {this.renderElements()}
       </div>
     );
@@ -68,6 +70,7 @@ class Timeline extends Component {
     return this.state.contents.map(function(el,index,all){
       return (
         <div key={index}>
+          <br/>
           <Element content={el}/>
         </div>
       );
