@@ -8,7 +8,6 @@ import AuthService from './Services/auth-service.component.jsx'
 
 import Main from './Common/main.component.jsx'
 import PageNotFound from './Common/404.component.jsx'
-import Home from './Common/home.component.jsx'
 import About from './Common/about.component.jsx'
 
 import GoalMap from './canvas/goal-map.component.jsx'
@@ -19,16 +18,14 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com');
 const requireAuth = (nextState, replace) => {
   if (!auth.loggedIn()) {
-    replace({ pathname: '/login' })
+    replace({ pathname: '/' })
   }
 }
-
 
 render(
   <MuiThemeProvider>
     <Router history={browserHistory}>
         <Route path="/" component={Main} auth={auth}>
-            <Route path="login" component={Home} />
             <Route path="about" component={About}/>
             <Route path="user/" component={User} />
             <Route path="user/:id" component={User} onEnter={requireAuth} />

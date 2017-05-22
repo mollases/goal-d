@@ -57,8 +57,8 @@ class Timeline extends Component {
 
   render(){
     return(
-      <div className="row">
-        <div className="col-md-8">
+      <div>
+        <div className="row col-md-8">
           <GoalNode />
           <AddElement onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)} nodeId={this.props.nodeId} topicId={this.props.topicId} id={this.props.id}/>
         </div>

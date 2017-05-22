@@ -10,7 +10,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 // import FlatLinkButton from './flatLinkButton.component.jsx'
 import { Link } from 'react-router';
-import Home from './home.component.jsx';
+import Login from './login.component.jsx';
 
 
 import {PropTypes as T} from 'prop-types'
@@ -29,11 +29,18 @@ constructor(props) {
 
   render() {
     let children = null;
-        if (this.props.children) {
-          children = React.cloneElement(this.props.children, {
-            auth: this.props.route.auth //sends auth instance from route to children
-          })
-        }
+    if (this.props.children) {
+      children = React.cloneElement(this.props.children, {
+        auth: this.props.route.auth //sends auth instance from route to children
+      })
+    }
+
+    var user = '';
+    if(this.props.route.auth.loggedIn()) {
+        user = (<Link to={'/user/' + this.props.route.auth.getActiveUser()} activeClassName="active">
+            <FlatButton label="user"/>
+        </Link>)
+    }
     return (
       <div>
         <AppBar
@@ -41,10 +48,8 @@ constructor(props) {
           showMenuIconButton={false}
           iconElementRight={
             <span>
-                <Link to={'/user/' + this.props.route.auth.getActiveUser()} activeClassName="active">
-                    <FlatButton label="user"/>
-                </Link>
-                <Home auth={this.props.route.auth}/>
+                {user}
+                <Login auth={this.props.route.auth}/>
                 <Link to="/about">
                     <FlatButton label="about"/>
                 </Link>

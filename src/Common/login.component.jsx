@@ -8,17 +8,28 @@ const propTypes = {
       auth: T.instanceOf(AuthService)
     };
 
-class Home extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
+    this.onClickHandler = this.onClickHandler.bind(this);
   }
+
+  onClickHandler(){
+    if(this.props.auth.loggedIn()){
+      this.props.auth.logout();
+      location.reload();
+    } else {
+      this.props.auth.login();
+    }
+  }
+
   render() {
     const { auth } = this.props
 
     return (
-      <FlatButton label={auth.loggedIn() ? 'logout' : 'login'} onClick={() => {return auth.loggedIn() ? auth.logout() : auth.login()}}/>
+      <FlatButton label={auth.loggedIn() ? 'logout' : 'login'} onClick={this.onClickHandler}/>
     )
   }
 }
 
-export default Home
+export default Login

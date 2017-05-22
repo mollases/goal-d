@@ -32,7 +32,11 @@ class GoalMap extends Component {
       return (
         <div key="0">
           <h1 className="text-center">{this.state.selectedNode.data.label}</h1>
-          <Timeline nodeId={this.state.selectedNode.id} childNodes={this.state.childNodes} id={this.props.params.id} topicId={this.props.params.topic}/>
+          <Timeline
+            nodeId={this.state.selectedNode.id}
+            childNodes={this.state.childNodes}
+            id={this.props.params.id}
+            topicId={this.props.params.topic}/>
         </div>
       )
     }
