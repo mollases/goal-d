@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import Config from './../../Services/config.service.jsx';
 
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+
 var config = new Config();
 
 class AddElement extends Component {
@@ -28,14 +32,31 @@ class AddElement extends Component {
 
   render(){
     return(
-        <div>
-          <textarea className="form-control" rows="3" value={this.state.value} onChange={this.handleChange} />
-          <button type="button" className="btn btn-default btn-sm" onClick={this.onClickHandler}>
-            <span className="glyphicon glyphicon-pushpin" aria-hidden="true"></span> Pin Note
-          </button>
-        </div>
+        <Card>
+          <CardTitle title="Add an Element"/>
+          <CardText>
+            <TextField
+              value={this.state.value}
+              onChange={this.handleChange}
+              floatingLabelText="TODO: support Markdown"
+              row={5}
+              multiLine={true}
+            />
+          </CardText>
+          <CardActions>
+            <FlatButton label="Post" onClick={this.onClickHandler}/>
+          </CardActions>
+        </Card>
     );
   }
 }
 
 export default AddElement
+
+
+        // <div>
+        //   <textarea className="form-control" rows="3" value={this.state.value} onChange={this.handleChange} />
+        //   <button type="button" className="btn btn-default btn-sm">
+        //     <span className="glyphicon glyphicon-pushpin" aria-hidden="true"></span> Pin Note
+        //   </button>
+        // </div>
