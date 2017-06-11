@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import {green600, amber600, blueGrey600 ,red600} from 'material-ui/styles/colors';
 
@@ -27,7 +27,7 @@ class GoalNode extends Component {
   render() {
     return (
       <Card>
-        <CardHeader
+        <CardTitle
           title={this.props.node.label}
           subtitle="Subtitle"
           actAsExpander={true}

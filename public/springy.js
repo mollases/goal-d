@@ -205,9 +205,11 @@
 			json = JSON.parse( json );
 		}
 
-		if ('nodes' in json || 'edges' in json) {
-			this.addNodes.apply(this, json['nodes']);
-			this.addEdges.apply(this, json['edges']);
+		if (json.nodes) {
+			this.addNodes.apply(this, json.nodes);
+		}
+		if (json.edges) {
+			this.addEdges.apply(this, json.edges);
 		}
 	}
 

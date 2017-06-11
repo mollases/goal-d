@@ -38,7 +38,7 @@ function getUserDetails(user, callback) {
   callRemoteDDB(path,content,callback)
 }
 
-function setUserDetails(user, body, callback) {
+function postUserDetails(user, body, callback) {
   var path = '/user-details/'+user;
   var content = body;
   callRemoteDDB(path,content,callback)
@@ -50,13 +50,13 @@ function getUserTopic(user, topic, callback) {
   callRemoteDDB(path,content,callback)
 }
 
-function setUserTopic(user, topic, body, callback) {
+function postUserTopic(user, topic, body, callback) {
   var path = '/user-details/'+user+'/topic/'+topic;
   var content = body;
   callRemoteDDB(path,content,callback)
 }
 
-function setUserTopicOnPost(user, topic, post, body, callback) {
+function postUserTopicPost(user, topic, post, body, callback) {
   var path = '/user-details/'+user+'/topic/'+topic+'/post/'+post;
   var content = body;
   callRemoteDDB(path,content,callback)
@@ -70,10 +70,10 @@ function getUserTopicPosts(user, topic, postList, callback) {
 
 return module.exports = {
   getUserDetails: getUserDetails,
-  setUserDetails: setUserDetails,
+  postUserDetails: postUserDetails,
   getUserTopic: getUserTopic,
-  setUserTopic: setUserTopic,
+  postUserTopic: postUserTopic,
   getUserTopicPosts: getUserTopicPosts,
-  setUserTopicOnPost: setUserTopicOnPost,
+  postUserTopicPost: postUserTopicPost,
   type: 'remote ddb'
 }

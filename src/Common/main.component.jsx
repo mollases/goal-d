@@ -44,7 +44,9 @@ constructor(props) {
     return (
       <div>
         <AppBar
-          title="Goal-d"
+          title={
+            <Link to="/">Goal-d</Link>
+          }
           showMenuIconButton={false}
           iconElementRight={
             <span>

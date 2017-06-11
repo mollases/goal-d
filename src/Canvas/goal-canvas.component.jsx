@@ -64,23 +64,25 @@ class GoalCanvas extends Component {
             map:jsn.map
           })
         }
-        if(jsn){
-          graph.loadJSON2(that.state.map);
-        }
-        return that.label;
-      }).then(function(label){
+      })
+      .catch(function(){
+        return ''
+      })
+      .then(function(){
+        graph.loadJSON2(that.state.map);
+        return that.label
+      })
+      .then(function(label){
         if(label && label !== '') {
           return;
         }
-        config.getUserDetails(that.props.id)
-        .then(function(r){
+        config.getUserDetails(that.props.id).then(function(r){
           r.json().then(function(jsn){
             let label = jsn.topics.filter(function(el){
               if(el.id === parseInt(that.props.topicId)){
                 return el
               }
             })[0].label
-
             that.setState({label:label});
           })
         })
@@ -107,9 +109,7 @@ class GoalCanvas extends Component {
       map :this.state.graph.condensed()
     };
     this.setState({map:body.map})
-    let that = this;
     config.postUserTopic(this.props.id,this.props.topicId,body)
-    .then(function(res){ console.log(res) })
   }
 
   componentWillUnmount(){
@@ -118,13 +118,18 @@ class GoalCanvas extends Component {
 
   onNodeSelected(node){
     let findChildNodes = function(map,starting) {
+      let getEdgeNodeDetails = function(nodes,ids){
+        return ids.map(function(id){
+          return _.find(nodes,{id:parseInt(id)});
+        })
+      }
       let stack = [starting];
       let childNodes = {};
       while(stack.length){
         let curr = parseInt(stack.pop())
         let contained = _.filter(childNodes,{id:curr})
         if(contained.length === 0){
-          childNodes[curr] = map.edges[curr] || [];
+          childNodes[curr] = getEdgeNodeDetails(map.nodes,map.edges[curr] || []);
           stack = stack.concat(map.edges[curr] || [])
         }
       }

@@ -3,8 +3,8 @@ import _ from 'lodash';
 
 import AddElement from './add-element.component.jsx';
 import Element from './element.component.jsx';
-import Config from './../../Services/config.service.jsx';
-import {List, ListItem} from 'material-ui/List';
+
+import Config from './../Services/config.service.jsx';
 
 var config = new Config();
 
@@ -22,14 +22,13 @@ class Timeline extends Component {
   callRefresh(nodeId,childNodes){
     let that = this;
     let _childNodes = _.keys(childNodes || []);
-    let nodeSearch = nodeId;
     var children = _childNodes.join(',');
 
     config.getUserTopicPostList(this.props.id,this.props.topicId,nodeId,_childNodes)
     .then(function(response) {
       response.json().then(function(response2){
         let sorted = _.sortBy(_.flatten(response2).map(JSON.parse),'timestamp').reverse()
-        let labeled = _.forEach(sorted,function(i){
+        _.forEach(sorted,function(i){
           i.label = _.filter(children,{id:i.nodeId})[0] || '';
           if(i.label !== ''){
             i.label=i.label.label;
@@ -61,6 +60,7 @@ class Timeline extends Component {
           nodeId={this.props.nodeId}
           topicId={this.props.topicId}
           id={this.props.id}/>
+        <br/>
         {this.renderElements()}
       </div>
     );
@@ -70,8 +70,8 @@ class Timeline extends Component {
     return this.state.contents.map(function(el,index,all){
       return (
         <div key={index}>
-          <br/>
           <Element content={el}/>
+          <br/>
         </div>
       );
     })

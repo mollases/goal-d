@@ -1,12 +1,6 @@
 import React, {Component} from 'react'
-import {PropTypes as T} from 'prop-types'
 import AuthService from '../Services/auth-service.component.jsx'
 import FlatButton from 'material-ui/FlatButton';
-
-const propTypes = {
-      location: T.object,
-      auth: T.instanceOf(AuthService)
-    };
 
 class Login extends Component {
   constructor(props) {

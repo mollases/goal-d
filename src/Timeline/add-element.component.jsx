@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import Config from './../../Services/config.service.jsx';
+import Config from './../Services/config.service.jsx';
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardHeader} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
@@ -33,7 +33,7 @@ class AddElement extends Component {
   render(){
     return(
         <Card>
-          <CardTitle title="Add an Element"/>
+          <CardHeader title="Add an Element" />
             <TextField
               value={this.state.value}
               onChange={this.handleChange}

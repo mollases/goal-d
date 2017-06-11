@@ -22,7 +22,7 @@ function getUserDetails(user, callback) {
   });
 }
 
-function setUserDetails(user, body, callback) {
+function postUserDetails(user, body, callback) {
   let payload = {
     TableName: userDetails,
     Item: {
@@ -56,7 +56,7 @@ function getUserTopic(user, topic, callback) {
   });
 }
 
-function setUserTopic(user, topic, body, callback) {
+function postUserTopic(user, topic, body, callback) {
   let payload = {
     TableName: userDetailsTopic,
     Item: {
@@ -74,7 +74,7 @@ function setUserTopic(user, topic, body, callback) {
   dynamo.putItem(payload, callback);
 }
 
-function setUserTopicOnPost(user, topic, post, body, callback) {console.log(arguments)}
+function postUserTopicPost(user, topic, post, body, callback) {console.log(arguments)}
 
 function getUserTopicPosts(user, topic, postList, callback) {
   dynamo.scan(payload, callback);
@@ -82,10 +82,10 @@ function getUserTopicPosts(user, topic, postList, callback) {
 
 return module.exports = {
   getUserDetails: getUserDetails,
-  setUserDetails: setUserDetails,
+  postUserDetails: postUserDetails,
   getUserTopic: getUserTopic,
-  setUserTopic: setUserTopic,
+  postUserTopic: postUserTopic,
   getUserTopicPosts: getUserTopicPosts,
-  setUserTopicOnPost: setUserTopicOnPost,
+  postUserTopicPost: postUserTopicPost,
   type:'local-ddb'
 }

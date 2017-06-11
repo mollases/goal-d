@@ -9,6 +9,7 @@ import AuthService from './Services/auth-service.component.jsx'
 import Main from './Common/main.component.jsx'
 import PageNotFound from './Common/404.component.jsx'
 import About from './Common/about.component.jsx'
+import Welcome from './welcome.component.jsx'
 
 import GoalMap from './canvas/goal-map.component.jsx'
 
@@ -26,6 +27,7 @@ render(
   <MuiThemeProvider>
     <Router history={browserHistory}>
         <Route path="/" component={Main} auth={auth}>
+            <IndexRoute component={Welcome}/>
             <Route path="about" component={About}/>
             <Route path="user/" component={User} />
             <Route path="user/:id" component={User} onEnter={requireAuth} />
