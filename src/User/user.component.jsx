@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import Config from '../Services/config.service.jsx'
 import TextField from 'material-ui/TextField';
 import {orange500, blue500} from 'material-ui/styles/colors';
 import UserCard from './user-card.component.jsx'
 import FlatButton from 'material-ui/FlatButton';
-import {List, ListItem} from 'material-ui/List';
+import {List} from 'material-ui/List';
+
+import Config from '../Services/config.service.jsx'
+import UserTopic from './user-topic.component.jsx'
 
 const styles = {
   errorStyle: {
@@ -39,6 +40,7 @@ class User extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.saveNewMap = this.saveNewMap.bind(this)
     this.refreshMaps = this.refreshMaps.bind(this)
+    this.saveNote = this.saveNote.bind(this)
   }
 
   handleChange(event) {
@@ -83,6 +85,10 @@ class User extends Component {
     })
   }
 
+  saveNote(id,note){
+
+  }
+
   render(){
     return (
       <div className="row">
@@ -118,6 +124,7 @@ class User extends Component {
     let userId = this.props.params.id;
     let topics = this.state.topics;
     let search = this.state.searchData;
+    var that = this
     topics.sort(function(a,b){
       if(a.time > b.time){
         return -1
@@ -131,10 +138,8 @@ class User extends Component {
       let show = search === '' || el.label.indexOf(search) !== -1;
       if (show){
         return (
-            <Link to={'/user/' + userId + '/map/' + el.id} key={el.id}>
-              <ListItem primaryText={el.label} />
-            </Link>
-          )
+          <UserTopic userId={userId} el={el} key={el.id} saveNote={that.saveNote}/>
+        )
       }
     });
   }

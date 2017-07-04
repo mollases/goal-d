@@ -120,13 +120,13 @@ class GoalCanvas extends Component {
     let findChildNodes = function(map,starting) {
       let getEdgeNodeDetails = function(nodes,ids){
         return ids.map(function(id){
-          return _.find(nodes,{id:parseInt(id)});
+          return _.find(nodes,{id:id});
         })
       }
       let stack = [starting];
       let childNodes = {};
       while(stack.length){
-        let curr = parseInt(stack.pop())
+        let curr = stack.pop()
         let contained = _.filter(childNodes,{id:curr})
         if(contained.length === 0){
           childNodes[curr] = getEdgeNodeDetails(map.nodes,map.edges[curr] || []);

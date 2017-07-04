@@ -85,42 +85,24 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 	var dragged = null;
 	var clickSelected = null;
 
-	function calculateNearestPosition(e){
-		var pos = jQuery(e.currentTarget).offset();
+	jQuery(canvas).click(function(e) {
+		var pos = jQuery(this).offset();
 		var p = fromScreen({
 			x: e.pageX - pos.left,
 			y: e.pageY - pos.top
 		});
-
-		return {
-			node : layout.nearest(p, 1).node,
-			edge : layout.nearestEdge(p, 1).edge
+		var currentlySelected = layout.nearest(p, 1);
+		if (clickSelected && currentlySelected && e.shiftKey) {
+			graph.newEdge(clickSelected.node, currentlySelected.node);
 		}
-	}
-
-	jQuery(canvas).click(function(e) {
-		var c = calculateNearestPosition(e)
-		var newNode;
-		// shift == adding something
-		if (e.shiftKey){
-			// clickshift + already selected + node = new edge between nodes
-			// clickshift + already selected = nothing
-			// clickshift + node = new node connected to old node
-			// clickshift + no node = new node
-			if (clickSelected && clickSelected != c.node) {
-				graph.newEdge(clickSelected, c.node);
-			} else {
-				newNode = graph.newNode({label:''});
-				if (c.node) {
-					graph.newEdge(c.node, newNode);
-				}
-			}
+		selected = currentlySelected;
+		clickSelected = selected;
+		var node = selected.node || null;
+		if (node && node.data && node.data.ondoubleclick) {
+			node.data.ondoubleclick();
 		}
-
-		clickSelected = newNode || c.node;
-		if(clickSelected){
-			selected = {node:clickSelected}
-			nodeSelected(clickSelected)
+		if (nodeSelected) {
+			nodeSelected(node);
 		}
 	});
 
@@ -143,8 +125,15 @@ var SpringyUI =	jQuery.fn.springy = function(params) {
 
 	// Basic double click handler
 	jQuery(canvas).dblclick(function(e) {
-		var node = layout.nearest(p, 1).node;
-		var edge = layout.nearestEdge(p, 1).edge;
+		var original = selected.node;
+		selected = {
+			node: graph.newNode({label:''})
+		}
+		if (original) {
+			graph.newEdge(original, selected.node);
+		} else {
+			selected.node.data.root = true
+		}
 	});
 
 	jQuery(canvas).mousemove(function(e) {

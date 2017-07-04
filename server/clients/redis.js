@@ -29,6 +29,7 @@ function postUserTopic(user, topic, body, callback) {
 }
 
 function getUserTopicPosts(user, topic, postList, callback) {
+  console.log(arguments)
   var callCount = 0;
   var responses = [];
   console.log(postList);
@@ -36,15 +37,17 @@ function getUserTopicPosts(user, topic, postList, callback) {
     redisClient.lrange('user-details-post-' + user + '-' + topic + '-' + postList[i], 0, -1, function(err, post) {
       callCount++;
       responses.push(err || post);
+      console.log(err)
       if (callCount === postList.length) {
         console.log(callCount)
+        console.log('getUserTopicPosts responses',responses)
         callback(responses);
       }
     });
   }
 }
 
-function postUserTopicOnPost(user, topic, post, body, callback) {
+function postUserTopicPost(user, topic, post, body, callback) {
   redisClient.lpush([userDetailsPost + '-' + user + '-' + topic + '-' + post, JSON.stringify(body)], callback)
 }
 
@@ -54,6 +57,6 @@ return module.exports = {
   getUserTopic: getUserTopic,
   postUserTopic: postUserTopic,
   getUserTopicPosts: getUserTopicPosts,
-  postUserTopicOnPost: postUserTopicOnPost,
+  postUserTopicPost: postUserTopicPost,
   type:'local-redis'
 }

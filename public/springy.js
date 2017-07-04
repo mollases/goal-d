@@ -24,23 +24,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-(function (root, factory) {
+(function (root, factory, uuid) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(function () {
-            return (root.returnExportsGlobal = factory());
+            return (root.returnExportsGlobal = factory(uuid));
         });
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like enviroments that support module.exports,
         // like Node.
-        module.exports = factory();
+        module.exports = factory(uuid);
     } else {
         // Browser globals
-        root.Springy = factory();
+        root.Springy = factory(uuid);
     }
-}(this, function() {
-
+}(this, function(uuid) {
 	var Springy = {};
 
 	var Graph = Springy.Graph = function() {
@@ -151,19 +150,9 @@
 		}
 	};
 
-	Graph.prototype.findNextId = function(nodes){
-			var i = -1;
-			var node;
-			do{
-				i++;
-				node = this.findNodeWithId(i);
-			} while(node != null)
-			return i;
-		}
-
 	Graph.prototype.newNode = function(data) {
 		var contents = data;
-		var id = data.id || this.findNextId();
+		var id = data.id || uuid()
 		var node = new Node(id, contents);
 		this.addNode(node);
 		return node;
@@ -214,7 +203,6 @@
 	}
 
 	Graph.prototype.findNodeWithId = function(id){
-		var id = parseInt(id);
 		return this.nodes.find(function(node){
 			return node.id === id;
 		});
@@ -857,4 +845,4 @@
 	};
 
   return Springy;
-}));
+},uuidv4));

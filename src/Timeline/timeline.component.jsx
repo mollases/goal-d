@@ -21,7 +21,7 @@ class Timeline extends Component {
 
   callRefresh(nodeId,childNodes){
     let that = this;
-    let _childNodes = _.keys(childNodes || []);
+    let _childNodes = _.keys(childNodes || this.props.childNodes || []);
     var children = _childNodes.join(',');
 
     config.getUserTopicPostList(this.props.id,this.props.topicId,nodeId,_childNodes)
@@ -41,7 +41,7 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    this.callRefresh(this.props.nodeId,this.props.childNodes);
+    this.callRefresh(this.props.nodeId);
   }
 
   componentWillReceiveProps(nextProps){
@@ -56,7 +56,7 @@ class Timeline extends Component {
     return(
       <div>
         <AddElement
-          onSubmitPressed={this.callRefresh.bind(this.props.nodeId,this.props.childNodes)}
+          onSubmitPressed={this.callRefresh.bind(this.props.nodeId)}
           nodeId={this.props.nodeId}
           topicId={this.props.topicId}
           id={this.props.id}/>

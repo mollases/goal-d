@@ -59,6 +59,6 @@ module.exports.postUserTopicPost = (request, response) => {
   content.timestamp = +new Date();
   client.postUserTopicPost(request.params.id,request.params.topic,request.params.post,content, function(err, saved) {
     console.log('response postUserTopicPost',saved);
-    response.json(err || saved);
+    response.json({err:err, saved:saved});
   });
 };
