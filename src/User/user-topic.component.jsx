@@ -17,6 +17,7 @@ class UserTopic extends Component {
     this.renderCardText = this.renderCardText.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.saveNote = this.saveNote.bind(this)
+    this.deleteTopic = this.deleteTopic.bind(this)
   }
 
   handleChange (event) {
@@ -25,6 +26,10 @@ class UserTopic extends Component {
 
   saveNote (event) {
     this.props.saveNote(this.props.el.id,event.target.value);
+  }
+
+  deleteTopic (event) {
+    this.props.deleteTopic(this.props.el.id);
   }
 
   render (){
@@ -36,6 +41,7 @@ class UserTopic extends Component {
               {this.props.el.label}
             </Link>
           }
+          subtitle={<span onClick={this.deleteTopic}>remove</span>}
           actAsExpander={true}
           showExpandableButton={true}
         />
@@ -76,8 +82,8 @@ class UserTopic extends Component {
           />
           <FlatButton 
             label="save" 
-            onClick={()=>{
-              this.saveNotes();
+            onClick={(evt)=>{
+              this.saveNote(evt);
               this.setState({edit:false})
             }}
           />

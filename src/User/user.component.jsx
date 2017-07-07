@@ -7,6 +7,7 @@ import {List} from 'material-ui/List';
 
 import Config from '../Services/config.service.jsx'
 import UserTopic from './user-topic.component.jsx'
+import _ from 'lodash'
 
 const styles = {
   errorStyle: {
@@ -41,6 +42,7 @@ class User extends Component {
     this.saveNewMap = this.saveNewMap.bind(this)
     this.refreshMaps = this.refreshMaps.bind(this)
     this.saveNote = this.saveNote.bind(this)
+    this.deleteTopic = this.deleteTopic.bind(this)
   }
 
   handleChange(event) {
@@ -74,6 +76,7 @@ class User extends Component {
     topics.push({
       id : topics.length,
       label: topic,
+      note: '',
       time:Date.now()
     });
     config.postUserDetails(this.props.params.id,{topics:topics})
@@ -86,8 +89,14 @@ class User extends Component {
   }
 
   saveNote(id,note){
-
+    let content = note.trim();
+    let topics = this.state.topics;
+    let topic = _.find(topics,{id:id})
+    topic.note = content
+    config.postUserDetails(this.props.params.id,{topics:topics})
   }
+
+  deleteTopic(id){}
 
   render(){
     return (
@@ -138,7 +147,7 @@ class User extends Component {
       let show = search === '' || el.label.indexOf(search) !== -1;
       if (show){
         return (
-          <UserTopic userId={userId} el={el} key={el.id} saveNote={that.saveNote}/>
+          <UserTopic userId={userId} el={el} key={el.id} saveNote={that.saveNote} deleteTopic={that.deleteTopic}/>
         )
       }
     });
