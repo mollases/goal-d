@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import cytoscape from 'cytoscape'
 
-import SpringyUI from './springy-ui.component.jsx'
 import Config from '../Services/config.service.jsx'
 
 
@@ -18,16 +18,15 @@ class GoalCanvas extends Component {
   constructor(props) {
     super(props)
     this.state ={
-      graph : new Springy.Graph(),
+      graph : {},
       showTips : true,
-      map:{}
+      map:{},
+      cy : {}
     }
-    this.ratio = this.props.ratio
     this.onNodeSelected =this.onNodeSelected.bind(this)
     this.renderTips = this.renderTips.bind(this)
     this.postMap = this.postMap.bind(this)
     this.toggleTips = this.toggleTips.bind(this)
-    this.calculateWidth = this.calculateWidth.bind(this)
     this.instructions = [{
       header: "Adding",
       details: [
@@ -52,8 +51,74 @@ class GoalCanvas extends Component {
   }
 
   componentDidMount() {
-    var graph = this.state.graph;
-    // {"nodes":[{"label":"power-map","root":true,"id":0},{"label":"connections with other people","id":1},{"label":"goals","id":2},{"label":"actionable items","id":3},{"label":"trend setters","id":4},{"label":"entreprenuers","id":5},{"label":"people in politics","id":6},{"label":"global changes","id":7},{"label":"students","id":8}],"edges":{"0":["0","1","2","3","7"],"1":["4","5","6","8"]}}
+    var elesJson = {
+  nodes: [
+    { data: { id: 'a', foo: 3, bar: 5, baz: 7 } },
+    { data: { id: 'b', foo: 7, bar: 1, baz: 3 } },
+    { data: { id: 'c', foo: 2, bar: 7, baz: 6 } },
+    { data: { id: 'd', foo: 9, bar: 5, baz: 2 } },
+    { data: { id: 'e', foo: 2, bar: 4, baz: 5 } }
+  ],
+
+  edges: [
+    { data: { id: 'ae', weight: 1, source: 'a', target: 'e' } },
+    { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
+    { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
+    { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
+    { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
+    { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
+    { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
+  ]
+};
+this.setState({
+  cy:cytoscape({
+      container: document.getElementById('cy'),
+      style: cytoscape.stylesheet()
+        .selector('node')
+          .css({
+            'background-color': '#B3767E',
+            'width': 'mapData(baz, 0, 10, 10, 40)',
+            'height': 'mapData(baz, 0, 10, 10, 40)',
+            'content': 'data(id)'
+          })
+        .selector('edge')
+          .css({
+            'line-color': '#F2B1BA',
+            'target-arrow-color': '#F2B1BA',
+            'width': 2,
+            'target-arrow-shape': 'circle',
+            'opacity': 0.8,
+            'content': 'data(id)'
+          })
+        .selector(':selected')
+          .css({
+            'background-color': 'black',
+            'line-color': 'black',
+            'target-arrow-color': 'black',
+            'source-arrow-color': 'black',
+            'opacity': 1
+          })
+        .selector('.faded')
+          .css({
+            'opacity': 0.25,
+            'text-opacity': 0
+          }),
+
+      elements: elesJson,
+
+      layout: {
+        name: 'random',
+        padding: 10
+      },
+
+      ready: function(){
+        // ready 1
+      }
+  })
+})
+
+    // var graph = this.state.graph;
+    // // {"nodes":[{"label":"power-map","root":true,"id":0},{"label":"connections with other people","id":1},{"label":"goals","id":2},{"label":"actionable items","id":3},{"label":"trend setters","id":4},{"label":"entreprenuers","id":5},{"label":"people in politics","id":6},{"label":"global changes","id":7},{"label":"students","id":8}],"edges":{"0":["0","1","2","3","7"],"1":["4","5","6","8"]}}
     let that = this;
     config.getUserTopic(this.props.id,this.props.topicId)
     .then(function(response) {
@@ -69,7 +134,7 @@ class GoalCanvas extends Component {
         return ''
       })
       .then(function(){
-        graph.loadJSON2(that.state.map);
+        // that.state.cy.add({})
         return that.label
       })
       .then(function(label){
@@ -87,19 +152,6 @@ class GoalCanvas extends Component {
           })
         })
       });
-    });
-
-    SpringyUI({
-      id: '#goal-d',
-      graph: this.state.graph,
-      stiffness: 25,
-      repulsion: 800,
-      damping: .7,
-      minEnergyThreshold: 0.0001,
-      nodeSelected: that.onNodeSelected,
-      nodeDeselected: function() {
-        that.nodeSelected(null);
-      }
     });
   }
 
@@ -149,19 +201,14 @@ class GoalCanvas extends Component {
     this.setState({showTips:toggle})
   }
 
-  calculateWidth(){
-    return document.getElementById('goald-container') ? document.getElementById('goald-container').clientWidth : 100;
-  }
-
   render() {
     return (
       <div>
       <h3>{this.state.label}</h3>
-        <div className="row" id="goald-container">
-          <canvas className="goald" tabIndex="0" id="goal-d"
+        <div className="row">
+          <div
+            id="cy"
             data-node={this.node}
-            width={this.calculateWidth()}
-            height={this.calculateWidth()*(9/16)}
           />
         </div>
         <div className="row">

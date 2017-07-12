@@ -25,7 +25,6 @@ class GoalMap extends Component {
           <div>
             <div className="row">
               <GoalCanvas
-                width={1000}
                 id={this.props.params.id}
                 onNodeSelected={this.onNodeSelected}
                 topicId={this.props.params.topic} />
