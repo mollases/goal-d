@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import cytoscape from 'cytoscape'
+import coseBilkent from 'cytoscape-cose-bilkent'
 
 import Config from '../Services/config.service.jsx'
 
-
+import TextField from 'material-ui/TextField';
 import {List, ListItem} from 'material-ui/List';
 import Save from 'material-ui/svg-icons/content/save';
 import ActionList from 'material-ui/svg-icons/action/list';
 
+coseBilkent( cytoscape )
 const config = new Config();
 const iconStyles = {
   marginRight: 24,
@@ -21,8 +23,10 @@ class GoalCanvas extends Component {
       graph : {},
       showTips : true,
       map:{},
-      cy : {}
+      
     }
+    this.cy = {}
+    this.layout = {}
     this.onNodeSelected =this.onNodeSelected.bind(this)
     this.renderTips = this.renderTips.bind(this)
     this.postMap = this.postMap.bind(this)
@@ -70,8 +74,7 @@ class GoalCanvas extends Component {
     { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
   ]
 };
-this.setState({
-  cy:cytoscape({
+this.cy = cytoscape({
       container: document.getElementById('cy'),
       style: cytoscape.stylesheet()
         .selector('node')
@@ -107,15 +110,13 @@ this.setState({
       elements: elesJson,
 
       layout: {
-        name: 'random',
-        padding: 10
+        name: 'random'
       },
 
       ready: function(){
         // ready 1
       }
   })
-})
 
     // var graph = this.state.graph;
     // // {"nodes":[{"label":"power-map","root":true,"id":0},{"label":"connections with other people","id":1},{"label":"goals","id":2},{"label":"actionable items","id":3},{"label":"trend setters","id":4},{"label":"entreprenuers","id":5},{"label":"people in politics","id":6},{"label":"global changes","id":7},{"label":"students","id":8}],"edges":{"0":["0","1","2","3","7"],"1":["4","5","6","8"]}}
@@ -134,8 +135,11 @@ this.setState({
         return ''
       })
       .then(function(){
-        // that.state.cy.add({})
-        return that.label
+        that.layout = that.cy.layout({name: 'cose-bilkent'})
+        var js = that.cy.json()
+        js.elements = elesJson
+        that.cy.json(js)
+        that.layout.run()
       })
       .then(function(label){
         if(label && label !== '') {
@@ -204,9 +208,20 @@ this.setState({
   render() {
     return (
       <div>
-      <h3>{this.state.label}</h3>
+      
+
         <div className="row">
+          <h3 className="col-md-4">{this.state.label}</h3>
+          <TextField
+            className="col-md-4"
+            floatingLabelText="graph!"
+            value={this.state.searchData}
+            onChange={this.handleChange}
+          />
+        </div>  
+         <div className="row">
           <div
+            className="col-md-4"
             id="cy"
             data-node={this.node}
           />

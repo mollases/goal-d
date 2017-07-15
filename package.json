@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "body-parser": "^1.17.1",
+    "cytoscape-cose-bilkent": "^1.6.13",
     "express": "^4.15.2"
   },
   "directories": {
