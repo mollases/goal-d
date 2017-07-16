@@ -23,11 +23,14 @@ class GoalCanvas extends Component {
       graph : {},
       showTips : true,
       map:{},
-      
+      nodeLabel: '',
+      node: {}
     }
     this.cy = {}
     this.layout = {}
+    this.t = false
     this.onNodeSelected =this.onNodeSelected.bind(this)
+    this.onNodeLabelChange =this.onNodeLabelChange.bind(this)
     this.renderTips = this.renderTips.bind(this)
     this.postMap = this.postMap.bind(this)
     this.toggleTips = this.toggleTips.bind(this)
@@ -56,25 +59,25 @@ class GoalCanvas extends Component {
 
   componentDidMount() {
     var elesJson = {
-  nodes: [
-    { data: { id: 'a', foo: 3, bar: 5, baz: 7 } },
-    { data: { id: 'b', foo: 7, bar: 1, baz: 3 } },
-    { data: { id: 'c', foo: 2, bar: 7, baz: 6 } },
-    { data: { id: 'd', foo: 9, bar: 5, baz: 2 } },
-    { data: { id: 'e', foo: 2, bar: 4, baz: 5 } }
-  ],
+      nodes: [
+        { data: { label: 'aa',  id: 'a', foo: 3, bar: 5, baz: 7 } },
+        { data: { label: 'bb',  id: 'b', foo: 7, bar: 1, baz: 3 } },
+        { data: { label: 'cc',  id: 'c', foo: 2, bar: 7, baz: 6 } },
+        { data: { label: 'dd',  id: 'd', foo: 9, bar: 5, baz: 2 } },
+        { data: { label: 'ee',  id: 'e', foo: 2, bar: 4, baz: 5 } }
+      ],
 
-  edges: [
-    { data: { id: 'ae', weight: 1, source: 'a', target: 'e' } },
-    { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
-    { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
-    { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
-    { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
-    { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
-    { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
-  ]
-};
-this.cy = cytoscape({
+      edges: [
+        { data: { id: 'ae', weight: 1, source: 'a', target: 'e' } },
+        { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
+        { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
+        { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
+        { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
+        { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
+        { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
+      ]
+    };
+    this.cy = cytoscape({
       container: document.getElementById('cy'),
       style: cytoscape.stylesheet()
         .selector('node')
@@ -82,7 +85,7 @@ this.cy = cytoscape({
             'background-color': '#B3767E',
             'width': 'mapData(baz, 0, 10, 10, 40)',
             'height': 'mapData(baz, 0, 10, 10, 40)',
-            'content': 'data(id)'
+            'content': 'data(label)'
           })
         .selector('edge')
           .css({
@@ -91,7 +94,7 @@ this.cy = cytoscape({
             'width': 2,
             'target-arrow-shape': 'circle',
             'opacity': 0.8,
-            'content': 'data(id)'
+            'content': 'data(target)'
           })
         .selector(':selected')
           .css({
@@ -105,22 +108,9 @@ this.cy = cytoscape({
           .css({
             'opacity': 0.25,
             'text-opacity': 0
-          }),
-
-      elements: elesJson,
-
-      layout: {
-        name: 'random'
-      },
-
-      ready: function(){
-        // ready 1
-      }
-  })
-
-    // var graph = this.state.graph;
-    // // {"nodes":[{"label":"power-map","root":true,"id":0},{"label":"connections with other people","id":1},{"label":"goals","id":2},{"label":"actionable items","id":3},{"label":"trend setters","id":4},{"label":"entreprenuers","id":5},{"label":"people in politics","id":6},{"label":"global changes","id":7},{"label":"students","id":8}],"edges":{"0":["0","1","2","3","7"],"1":["4","5","6","8"]}}
-    let that = this;
+          })
+    })
+    let that = this
     config.getUserTopic(this.props.id,this.props.topicId)
     .then(function(response) {
       response.json().then(function(jsn){
@@ -134,11 +124,41 @@ this.cy = cytoscape({
       .catch(function(){
         return ''
       })
-      .then(function(){
-        that.layout = that.cy.layout({name: 'cose-bilkent'})
+      .then(function(){  
         var js = that.cy.json()
         js.elements = elesJson
         that.cy.json(js)
+        that.cy.on('select', function(e){
+          that.setState({node: e.target, nodeLabel: e.target.data().label});
+          that.onNodeLabelChange(e.target._private.data)
+        })
+        that.cy.on('unselect', function(e){
+          e.target.unselect()
+          that.setState({node: {}, nodeLabel: ''});
+          that.onNodeLabelChange()
+        })
+
+        var tappedBefore;
+        var tappedTimeout;
+        that.cy.on('tap', function(event) {
+          var tappedNow = event.target;
+          if (tappedTimeout && tappedBefore) {
+            clearTimeout(tappedTimeout);
+          }
+          if(tappedBefore === tappedNow) {
+            tappedNow.trigger('doubleTap',event.position);
+            tappedBefore = null;
+          } else {
+            tappedTimeout = setTimeout(function(){ tappedBefore = null; }, 300);
+            tappedBefore = tappedNow;
+          }
+        });
+
+        that.cy.on('doubleTap', function(e,pos){
+          console.log('doublclick',e)
+          that.cy.add({ data: { label: 'z',  id: 'x'}, position:pos })
+        })
+        that.layout = that.cy.layout({name: 'cose-bilkent'})
         that.layout.run()
       })
       .then(function(label){
@@ -200,6 +220,15 @@ this.cy = cytoscape({
     this.props.onNodeSelected(node,children);
   }
 
+  onNodeLabelChange(event){
+    var val = ''
+    if(event !== undefined){
+      val = event.target && event.target.value || this.state.node.data().label
+      this.state.node.data('label', val)
+    }
+    this.setState({nodeLabel: val});
+  }
+
   toggleTips() {
     let toggle = !this.state.showTips
     this.setState({showTips:toggle})
@@ -208,15 +237,13 @@ this.cy = cytoscape({
   render() {
     return (
       <div>
-      
-
         <div className="row">
           <h3 className="col-md-4">{this.state.label}</h3>
           <TextField
             className="col-md-4"
             floatingLabelText="graph!"
-            value={this.state.searchData}
-            onChange={this.handleChange}
+            value={this.state.nodeLabel}
+            onChange={this.onNodeLabelChange}
           />
         </div>  
          <div className="row">
