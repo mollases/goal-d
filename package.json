@@ -39,7 +39,9 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "cytoscape-cose-bilkent": "^1.6.13",
-    "express": "^4.15.2"
+    "cytoscape-edgehandles": "^2.13.1",
+    "express": "^4.15.2",
+    "uuid": "^3.1.0"
   },
   "directories": {
     "test": "test"

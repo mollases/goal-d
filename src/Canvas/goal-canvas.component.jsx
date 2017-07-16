@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import uuid from 'uuid'
 import cytoscape from 'cytoscape'
 import coseBilkent from 'cytoscape-cose-bilkent'
+import edgehandles from 'cytoscape-edgehandles'
 
 import Config from '../Services/config.service.jsx'
 
@@ -11,6 +13,62 @@ import Save from 'material-ui/svg-icons/content/save';
 import ActionList from 'material-ui/svg-icons/action/list';
 
 coseBilkent( cytoscape )
+edgehandles( cytoscape )
+
+const edgeHandleDefaults = {
+  preview: true, // whether to show added edges preview before releasing selection
+  stackOrder: 4, // Controls stack order of edgehandles canvas element by setting it's z-index
+  handleSize: 4, // the size of the edge handle put on nodes
+  handleHitThreshold: 6, // a threshold for hit detection that makes it easier to grab the handle
+  handleIcon: false, // an image to put on the handle
+  handleColor: '#ff0000', // the colour of the handle and the line drawn from it
+  handleLineType: 'draw', // can be 'ghost' for real edge, 'straight' for a straight line, or 'draw' for a draw-as-you-go line
+  handleLineWidth: 2, // width of handle line in pixels
+  handleOutlineColor: '#000000', // the colour of the handle outline
+  handleOutlineWidth: 0, // the width of the handle outline in pixels
+  handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
+  handlePosition: 'middle top', // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
+  hoverDelay: 150, // time spend over a target node before it is considered a target selection
+  cxt: false, // whether cxt events trigger edgehandles (useful on touch)
+  enabled: true, // whether to start the plugin in the enabled state
+  toggleOffOnLeave: false, // whether an edge is cancelled by leaving a node (true), or whether you need to go over again to cancel (false; allows multiple edges in one pass)
+  edgeType: function( sourceNode, targetNode ) {
+    // can return 'flat' for flat edges between nodes or 'node' for intermediate node between them
+    // returning null/undefined means an edge can't be added between the two nodes
+    return 'flat';
+  },
+  loopAllowed: function( node ) {
+    // for the specified node, return whether edges from itself to itself are allowed
+    return false;
+  },
+  nodeLoopOffset: -50, // offset for edgeType: 'node' loops
+  nodeParams: function( sourceNode, targetNode ) {
+    // for edges between the specified source and target
+    // return element object to be passed to cy.add() for intermediary node
+    return {};
+  },
+  edgeParams: function( sourceNode, targetNode, i ) {
+    // for edges between the specified source and target
+    // return element object to be passed to cy.add() for edge
+    // NB: i indicates edge index in case of edgeType: 'node'
+    return {};
+  },
+  start: function( sourceNode ) {
+    // fired when edgehandles interaction starts (drag on handle)
+  },
+  complete: function( sourceNode, targetNodes, addedEntities ) {
+    // fired when edgehandles is done and entities are added
+  },
+  stop: function( sourceNode ) {
+    // fired when edgehandles interaction is stopped (either complete with added edges or incomplete)
+  },
+  cancel: function( sourceNode, renderedPosition, invalidTarget ){
+    // fired when edgehandles are cancelled ( incomplete - nothing has been added ) - renderedPosition is where the edgehandle was released, invalidTarget is
+        // a collection on which the handle was released, but which for other reasons (loopAllowed | edgeType) is an invalid target
+  }
+};
+
+
 const config = new Config();
 const iconStyles = {
   marginRight: 24,
@@ -20,7 +78,6 @@ class GoalCanvas extends Component {
   constructor(props) {
     super(props)
     this.state ={
-      graph : {},
       showTips : true,
       map:{},
       nodeLabel: '',
@@ -28,7 +85,6 @@ class GoalCanvas extends Component {
     }
     this.cy = {}
     this.layout = {}
-    this.t = false
     this.onNodeSelected =this.onNodeSelected.bind(this)
     this.onNodeLabelChange =this.onNodeLabelChange.bind(this)
     this.renderTips = this.renderTips.bind(this)
@@ -58,25 +114,6 @@ class GoalCanvas extends Component {
   }
 
   componentDidMount() {
-    var elesJson = {
-      nodes: [
-        { data: { label: 'aa',  id: 'a', foo: 3, bar: 5, baz: 7 } },
-        { data: { label: 'bb',  id: 'b', foo: 7, bar: 1, baz: 3 } },
-        { data: { label: 'cc',  id: 'c', foo: 2, bar: 7, baz: 6 } },
-        { data: { label: 'dd',  id: 'd', foo: 9, bar: 5, baz: 2 } },
-        { data: { label: 'ee',  id: 'e', foo: 2, bar: 4, baz: 5 } }
-      ],
-
-      edges: [
-        { data: { id: 'ae', weight: 1, source: 'a', target: 'e' } },
-        { data: { id: 'ab', weight: 3, source: 'a', target: 'b' } },
-        { data: { id: 'be', weight: 4, source: 'b', target: 'e' } },
-        { data: { id: 'bc', weight: 5, source: 'b', target: 'c' } },
-        { data: { id: 'ce', weight: 6, source: 'c', target: 'e' } },
-        { data: { id: 'cd', weight: 2, source: 'c', target: 'd' } },
-        { data: { id: 'de', weight: 7, source: 'd', target: 'e' } }
-      ]
-    };
     this.cy = cytoscape({
       container: document.getElementById('cy'),
       style: cytoscape.stylesheet()
@@ -94,7 +131,7 @@ class GoalCanvas extends Component {
             'width': 2,
             'target-arrow-shape': 'circle',
             'opacity': 0.8,
-            'content': 'data(target)'
+            'content': 'data(label)'
           })
         .selector(':selected')
           .css({
@@ -110,6 +147,8 @@ class GoalCanvas extends Component {
             'text-opacity': 0
           })
     })
+
+    this.cy.edgehandles( edgeHandleDefaults );
     let that = this
     config.getUserTopic(this.props.id,this.props.topicId)
     .then(function(response) {
@@ -126,7 +165,7 @@ class GoalCanvas extends Component {
       })
       .then(function(){  
         var js = that.cy.json()
-        js.elements = elesJson
+        js.elements = that.state.map
         that.cy.json(js)
         that.cy.on('select', function(e){
           that.setState({node: e.target, nodeLabel: e.target.data().label});
@@ -140,6 +179,7 @@ class GoalCanvas extends Component {
 
         var tappedBefore;
         var tappedTimeout;
+
         that.cy.on('tap', function(event) {
           var tappedNow = event.target;
           if (tappedTimeout && tappedBefore) {
@@ -154,9 +194,15 @@ class GoalCanvas extends Component {
           }
         });
 
+        that.cy.on('cxttap', function(event){
+          if(event.target){
+            event.target.remove()
+          }
+        })
+
         that.cy.on('doubleTap', function(e,pos){
           console.log('doublclick',e)
-          that.cy.add({ data: { label: 'z',  id: 'x'}, position:pos })
+          that.cy.add({ data: { label: '',  id: uuid()}, position:pos })
         })
         that.layout = that.cy.layout({name: 'cose-bilkent'})
         that.layout.run()
@@ -182,7 +228,7 @@ class GoalCanvas extends Component {
   postMap(){
     let body = {
       label: this.state.label,
-      map :this.state.graph.condensed()
+      map :this.cy.elements().jsons()
     };
     this.setState({map:body.map})
     config.postUserTopic(this.props.id,this.props.topicId,body)
