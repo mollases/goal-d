@@ -12,8 +12,6 @@ class ChildrenNodes extends Component {
     this.renderChildren = this.renderChildren.bind(this)
   }
 
-
-
   render() {
     return (
       <Card>
@@ -27,12 +25,10 @@ class ChildrenNodes extends Component {
 
   renderChildren() {
     var lists = [];
-    _.forOwn(this.props.childNodes,(v,k,o) => {
-      lists.push(v.map((el,index) => {
-          return (
-              <ListItem primaryText={el.label} key={index}/>
-            )
-      }))
+    return _.map(this.props.childNodes,(el,all) => {
+      return (
+          <ListItem primaryText={el.data().label} key={el.data().id}/>
+        )
     })
 
     return lists;

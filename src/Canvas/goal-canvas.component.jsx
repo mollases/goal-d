@@ -78,7 +78,7 @@ class GoalCanvas extends Component {
   constructor(props) {
     super(props)
     this.state ={
-      showTips : true,
+      showTips : false,
       map:{},
       nodeLabel: '',
       node: {}
@@ -126,12 +126,11 @@ class GoalCanvas extends Component {
           })
         .selector('edge')
           .css({
-            'line-color': '#F2B1BA',
-            'target-arrow-color': '#F2B1BA',
+            'content': 'data(label)',
+            'curve-style': 'bezier',
             'width': 2,
-            'target-arrow-shape': 'circle',
-            'opacity': 0.8,
-            'content': 'data(label)'
+            'target-arrow-shape': 'triangle',
+            'opacity': 0.5
           })
         .selector(':selected')
           .css({
@@ -169,7 +168,8 @@ class GoalCanvas extends Component {
         that.cy.json(js)
         that.cy.on('select', function(e){
           that.setState({node: e.target, nodeLabel: e.target.data().label});
-          that.onNodeLabelChange(e.target._private.data)
+          that.onNodeLabelChange(e.target.data(),'',true)
+          that.onNodeSelected(e.target)
         })
         that.cy.on('unselect', function(e){
           e.target.unselect()
@@ -239,37 +239,17 @@ class GoalCanvas extends Component {
   }
 
   onNodeSelected(node){
-    let findChildNodes = function(map,starting) {
-      let getEdgeNodeDetails = function(nodes,ids){
-        return ids.map(function(id){
-          return _.find(nodes,{id:id});
-        })
-      }
-      let stack = [starting];
-      let childNodes = {};
-      while(stack.length){
-        let curr = stack.pop()
-        let contained = _.filter(childNodes,{id:curr})
-        if(contained.length === 0){
-          childNodes[curr] = getEdgeNodeDetails(map.nodes,map.edges[curr] || []);
-          stack = stack.concat(map.edges[curr] || [])
-        }
-      }
-      return childNodes;
-    }
-
-    let mapContents = this.state.graph.condensed();
-    let children = [];
-    if(node){
-      children = findChildNodes(mapContents,node.id)
-    }
-    this.props.onNodeSelected(node,children);
+    var children = this.cy.edges('[source = "' +node.data().id + '"]').targets()
+    this.props.onNodeSelected(node, children);
   }
 
-  onNodeLabelChange(event){
+  onNodeLabelChange(event,extra,useData){
     var val = ''
     if(event !== undefined){
-      val = event.target && event.target.value || this.state.node.data().label
+      val = event.target && event.target.value 
+      if(useData){
+        val = this.state.node.data().label
+      }
       this.state.node.data('label', val)
     }
     this.setState({nodeLabel: val});
@@ -296,7 +276,6 @@ class GoalCanvas extends Component {
           <div
             className="col-md-4"
             id="cy"
-            data-node={this.node}
           />
         </div>
         <div className="row">
@@ -310,21 +289,23 @@ class GoalCanvas extends Component {
   }
 
   renderTips(show){
-    return !show ? this.instructions.map(function(el,index){
+    if (show) {
+      return this.instructions.map(function(el,index){
       let grouping = el.details.map(function (el2,index2) {
         return (
           <ListItem primaryText={el2} key={index2}/>
         )
       });
       return (
-            <div className="col-md-4" key={index}>
-              <h4 className="text-center">{el.header}</h4>
-              <List>
-                {grouping}
-              </List>
-            </div>
-            )
-    }) : '';
+          <div className="col-md-4" key={index}>
+            <h4 className="text-center">{el.header}</h4>
+            <List>
+              {grouping}
+            </List>
+          </div>
+        )
+      });
+    }
   }
 }
 

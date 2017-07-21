@@ -42,16 +42,16 @@ class GoalMap extends Component {
       return (
         <div key="0" className="row">
           <div className="col-md-8">
-            <GoalNode node={this.state.selectedNode.data}/>
+            <GoalNode node={this.state.selectedNode}/>
             <br/>
             <Timeline
-              nodeId={this.state.selectedNode.id}
+              nodeId={this.state.selectedNode.data().id}
               childNodes={this.state.childNodes}
               id={this.props.params.id}
               topicId={this.props.params.topic}/>
           </div>
           <div className="col-md-4">
-            <ChildrenNodes node={this.state.selectedNode.data} childNodes={this.state.childNodes}/>
+            <ChildrenNodes node={this.state.selectedNode} childNodes={this.state.childNodes}/>
           </div>
         </div>
       )
