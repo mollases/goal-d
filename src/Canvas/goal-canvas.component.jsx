@@ -184,6 +184,13 @@ class GoalCanvas extends Component {
               ele.style({'line-style':'dotted'})
             }
           })
+        } else if (ele.isParent()){
+          cmds.push({
+            content: 'free children',
+            select: function(ele){
+              ele.children().move({parent:null})
+            }
+          })
         } else {
           cmds.push({
             content: 'grouping: '+ nodeGrouping,
