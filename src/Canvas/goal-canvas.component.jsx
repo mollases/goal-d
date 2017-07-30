@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import uuid from 'uuid'
+
 import cytoscape from 'cytoscape'
 import coseBilkent from 'cytoscape-cose-bilkent'
 import edgehandles from 'cytoscape-edgehandles'
+import cxtmenu from 'cytoscape-cxtmenu'
 
 import Config from '../Services/config.service.jsx'
 
@@ -15,59 +17,8 @@ import ActionList from 'material-ui/svg-icons/action/list';
 coseBilkent( cytoscape )
 edgehandles( cytoscape )
 
-const edgeHandleDefaults = {
-  preview: true, // whether to show added edges preview before releasing selection
-  stackOrder: 4, // Controls stack order of edgehandles canvas element by setting it's z-index
-  handleSize: 4, // the size of the edge handle put on nodes
-  handleHitThreshold: 6, // a threshold for hit detection that makes it easier to grab the handle
-  handleIcon: false, // an image to put on the handle
-  handleColor: '#ff0000', // the colour of the handle and the line drawn from it
-  handleLineType: 'draw', // can be 'ghost' for real edge, 'straight' for a straight line, or 'draw' for a draw-as-you-go line
-  handleLineWidth: 2, // width of handle line in pixels
-  handleOutlineColor: '#000000', // the colour of the handle outline
-  handleOutlineWidth: 0, // the width of the handle outline in pixels
-  handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
-  handlePosition: 'middle top', // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
-  hoverDelay: 150, // time spend over a target node before it is considered a target selection
-  cxt: false, // whether cxt events trigger edgehandles (useful on touch)
-  enabled: true, // whether to start the plugin in the enabled state
-  toggleOffOnLeave: false, // whether an edge is cancelled by leaving a node (true), or whether you need to go over again to cancel (false; allows multiple edges in one pass)
-  edgeType: function( sourceNode, targetNode ) {
-    // can return 'flat' for flat edges between nodes or 'node' for intermediate node between them
-    // returning null/undefined means an edge can't be added between the two nodes
-    return 'flat';
-  },
-  loopAllowed: function( node ) {
-    // for the specified node, return whether edges from itself to itself are allowed
-    return false;
-  },
-  nodeLoopOffset: -50, // offset for edgeType: 'node' loops
-  nodeParams: function( sourceNode, targetNode ) {
-    // for edges between the specified source and target
-    // return element object to be passed to cy.add() for intermediary node
-    return {};
-  },
-  edgeParams: function( sourceNode, targetNode, i ) {
-    // for edges between the specified source and target
-    // return element object to be passed to cy.add() for edge
-    // NB: i indicates edge index in case of edgeType: 'node'
-    return {};
-  },
-  start: function( sourceNode ) {
-    // fired when edgehandles interaction starts (drag on handle)
-  },
-  complete: function( sourceNode, targetNodes, addedEntities ) {
-    // fired when edgehandles is done and entities are added
-  },
-  stop: function( sourceNode ) {
-    // fired when edgehandles interaction is stopped (either complete with added edges or incomplete)
-  },
-  cancel: function( sourceNode, renderedPosition, invalidTarget ){
-    // fired when edgehandles are cancelled ( incomplete - nothing has been added ) - renderedPosition is where the edgehandle was released, invalidTarget is
-        // a collection on which the handle was released, but which for other reasons (loopAllowed | edgeType) is an invalid target
-  }
-};
 
+cxtmenu( cytoscape );
 
 const config = new Config();
 const iconStyles = {
@@ -147,7 +98,120 @@ class GoalCanvas extends Component {
           })
     })
 
+    var nodeGrouping = false;
+    const edgeHandleDefaults = {
+      preview: true, // whether to show added edges preview before releasing selection
+      stackOrder: 4, // Controls stack order of edgehandles canvas element by setting it's z-index
+      handleSize: 4, // the size of the edge handle put on nodes
+      handleHitThreshold: 6, // a threshold for hit detection that makes it easier to grab the handle
+      handleIcon: false, // an image to put on the handle
+      handleColor: '#ff0000', // the colour of the handle and the line drawn from it
+      handleLineType: 'draw', // can be 'ghost' for real edge, 'straight' for a straight line, or 'draw' for a draw-as-you-go line
+      handleLineWidth: 2, // width of handle line in pixels
+      handleOutlineColor: '#000000', // the colour of the handle outline
+      handleOutlineWidth: 0, // the width of the handle outline in pixels
+      handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
+      handlePosition: 'middle top', // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
+      hoverDelay: 150, // time spend over a target node before it is considered a target selection
+      cxt: false, // whether cxt events trigger edgehandles (useful on touch)
+      enabled: true, // whether to start the plugin in the enabled state
+      toggleOffOnLeave: false, // whether an edge is cancelled by leaving a node (true), or whether you need to go over again to cancel (false; allows multiple edges in one pass)
+      edgeType: function( sourceNode, targetNode ) {
+        // can return 'flat' for flat edges between nodes or 'node' for intermediate node between them
+        // returning null/undefined means an edge can't be added between the two nodes
+        return 'flat';
+      },
+      loopAllowed: function( node ) {
+        // for the specified node, return whether edges from itself to itself are allowed
+        return false;
+      },
+      nodeLoopOffset: -50, // offset for edgeType: 'node' loops
+      nodeParams: function( sourceNode, targetNode ) {
+        // for edges between the specified source and target
+        // return element object to be passed to cy.add() for intermediary node
+        return {};
+      },
+      edgeParams: function( sourceNode, targetNode, i ) {
+        // for edges between the specified source and target
+        // return element object to be passed to cy.add() for edge
+        // NB: i indicates edge index in case of edgeType: 'node'
+        return {}
+      },
+      start: function( sourceNode ) {
+        // fired when edgehandles interaction starts (drag on handle)
+      },
+      complete: function( sourceNode, targetNodes, addedEntities ) {
+        if(nodeGrouping){
+          targetNodes.move({parent:sourceNode.data().id})
+        }
+      },
+      stop: function( sourceNode ) {
+        // fired when edgehandles interaction is stopped (either complete with added edges or incomplete)
+      },
+      cancel: function( sourceNode, renderedPosition, invalidTarget ){
+        // fired when edgehandles are cancelled ( incomplete - nothing has been added ) - renderedPosition is where the edgehandle was released, invalidTarget is
+            // a collection on which the handle was released, but which for other reasons (loopAllowed | edgeType) is an invalid target
+      }
+    };
+    
+
+
+    // the default values of each option are outlined below:
+    var cxtmenuDefaults = {
+      menuRadius: 100, // the radius of the circular menu in pixels
+      selector: 'node, edge', // elements matching this Cytoscape.js selector will trigger cxtmenus
+      commands: function (ele){
+        var cmds = [{
+          content: 'delete', 
+          select: function(ele){
+            ele.remove()
+          }
+        }]
+        if(ele.isEdge()){
+          cmds.push({
+            content: 'dashed',
+            select: function(ele) {
+              ele.style({'line-style':'dashed'})
+            }
+          },{
+            content: 'solid',
+            select: function(ele) {
+              ele.style({'line-style':'solid'})
+            }
+          },{
+            content: 'dotted',
+            select: function(ele) {
+              ele.style({'line-style':'dotted'})
+            }
+          })
+        } else {
+          cmds.push({
+            content: 'grouping: '+ nodeGrouping,
+            select: function(){
+              nodeGrouping = !nodeGrouping
+            }
+          })
+        }
+        return cmds  
+      }, // function( ele ){ return [ /*...*/ ] }, // example function for commands
+      fillColor: 'rgba(0, 0, 0, 0.75)', // the background colour of the menu
+      activeFillColor: 'rgba(92, 194, 237, 0.75)', // the colour used to indicate the selected command
+      activePadding: 20, // additional size in pixels for the active command
+      indicatorSize: 24, // the size in pixels of the pointer to the active command
+      separatorWidth: 3, // the empty spacing in pixels between successive commands
+      spotlightPadding: 4, // extra spacing in pixels between the element and the spotlight
+      minSpotlightRadius: 24, // the minimum radius in pixels of the spotlight
+      maxSpotlightRadius: 38, // the maximum radius in pixels of the spotlight
+      openMenuEvents: 'cxttapstart taphold', // space-separated cytoscape events that will open the menu; only `cxttapstart` and/or `taphold` work here
+      itemColor: 'white', // the colour of text in the command's content
+      itemTextShadowColor: 'black', // the text shadow colour of the command's content
+      zIndex: 9999, // the z-index of the ui div
+      atMouse: false // draw menu at mouse position
+    };
+
     this.cy.edgehandles( edgeHandleDefaults );
+    this.cy.cxtmenu( cxtmenuDefaults );
+
     let that = this
     config.getUserTopic(this.props.id,this.props.topicId)
     .then(function(response) {
@@ -194,14 +258,7 @@ class GoalCanvas extends Component {
           }
         });
 
-        that.cy.on('cxttap', function(event){
-          if(event.target){
-            event.target.remove()
-          }
-        })
-
-        that.cy.on('doubleTap', function(e,pos){
-          console.log('doublclick',e)
+        that.cy.on('doubleTap', function(event,pos){
           that.cy.add({ data: { label: '',  id: uuid()}, position:pos })
         })
         that.layout = that.cy.layout({name: 'cose-bilkent'})
