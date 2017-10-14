@@ -14,6 +14,8 @@ import {List, ListItem} from 'material-ui/List';
 import Save from 'material-ui/svg-icons/content/save';
 import ActionList from 'material-ui/svg-icons/action/list';
 
+import Toggle from 'material-ui/Toggle';
+
 coseBilkent( cytoscape )
 edgehandles( cytoscape )
 
@@ -30,6 +32,7 @@ class GoalCanvas extends Component {
     super(props)
     this.state ={
       showTips : false,
+      nodeGrouping: false,
       map:{},
       nodeLabel: '',
       node: {}
@@ -41,6 +44,7 @@ class GoalCanvas extends Component {
     this.renderTips = this.renderTips.bind(this)
     this.postMap = this.postMap.bind(this)
     this.toggleTips = this.toggleTips.bind(this)
+    this.toggleGroupingChange = this.toggleGroupingChange.bind(this)
     this.instructions = [{
       header: "Adding",
       details: [
@@ -65,40 +69,9 @@ class GoalCanvas extends Component {
   }
 
   componentDidMount() {
-    this.cy = cytoscape({
-      container: document.getElementById('cy'),
-      style: cytoscape.stylesheet()
-        .selector('node')
-          .css({
-            'background-color': '#B3767E',
-            'width': 'mapData(baz, 0, 10, 10, 40)',
-            'height': 'mapData(baz, 0, 10, 10, 40)',
-            'content': 'data(label)'
-          })
-        .selector('edge')
-          .css({
-            'content': 'data(label)',
-            'curve-style': 'bezier',
-            'width': 2,
-            'target-arrow-shape': 'triangle',
-            'opacity': 0.5
-          })
-        .selector(':selected')
-          .css({
-            'background-color': 'black',
-            'line-color': 'black',
-            'target-arrow-color': 'black',
-            'source-arrow-color': 'black',
-            'opacity': 1
-          })
-        .selector('.faded')
-          .css({
-            'opacity': 0.25,
-            'text-opacity': 0
-          })
-    })
+    let that = this
+    
 
-    var nodeGrouping = false;
     const edgeHandleDefaults = {
       preview: true, // whether to show added edges preview before releasing selection
       stackOrder: 4, // Controls stack order of edgehandles canvas element by setting it's z-index
@@ -106,7 +79,7 @@ class GoalCanvas extends Component {
       handleHitThreshold: 6, // a threshold for hit detection that makes it easier to grab the handle
       handleIcon: false, // an image to put on the handle
       handleColor: '#ff0000', // the colour of the handle and the line drawn from it
-      handleLineType: 'draw', // can be 'ghost' for real edge, 'straight' for a straight line, or 'draw' for a draw-as-you-go line
+      handleLineType: 'ghost', // can be 'ghost' for real edge, 'straight' for a straight line, or 'draw' for a draw-as-you-go line
       handleLineWidth: 2, // width of handle line in pixels
       handleOutlineColor: '#000000', // the colour of the handle outline
       handleOutlineWidth: 0, // the width of the handle outline in pixels
@@ -141,8 +114,9 @@ class GoalCanvas extends Component {
         // fired when edgehandles interaction starts (drag on handle)
       },
       complete: function( sourceNode, targetNodes, addedEntities ) {
-        if(nodeGrouping){
+        if(that.state.nodeGrouping){
           targetNodes.move({parent:sourceNode.data().id})
+          addedEntities.remove()
         }
       },
       stop: function( sourceNode ) {
@@ -191,13 +165,6 @@ class GoalCanvas extends Component {
               ele.children().move({parent:null})
             }
           })
-        } else {
-          cmds.push({
-            content: 'grouping: '+ nodeGrouping,
-            select: function(){
-              nodeGrouping = !nodeGrouping
-            }
-          })
         }
         return cmds  
       }, // function( ele ){ return [ /*...*/ ] }, // example function for commands
@@ -216,10 +183,8 @@ class GoalCanvas extends Component {
       atMouse: false // draw menu at mouse position
     };
 
-    this.cy.edgehandles( edgeHandleDefaults );
-    this.cy.cxtmenu( cxtmenuDefaults );
 
-    let that = this
+    
     config.getUserTopic(this.props.id,this.props.topicId)
     .then(function(response) {
       response.json().then(function(jsn){
@@ -234,9 +199,50 @@ class GoalCanvas extends Component {
         return ''
       })
       .then(function(){  
-        var js = that.cy.json()
-        js.elements = that.state.map
-        that.cy.json(js)
+        // var js = that.cy.json()
+        // js.elements = that.state.map
+        // that.cy.json(js)
+        that.cy = cytoscape({
+          container: document.getElementById('cy'),
+          elements:that.state.map,
+          layout: { name: 'preset'},
+          style: cytoscape.stylesheet()
+            .selector('node')
+              .css({
+                'background-color': '#B3767E',
+                'width': 'mapData(baz, 0, 10, 10, 40)',
+                'height': 'mapData(baz, 0, 10, 10, 40)',
+                'content': 'data(label)'
+              })
+            .selector('edge')
+              .css({
+                'content': 'data(label)',
+                'curve-style': 'bezier',
+                'width': 2,
+                'target-arrow-shape': 'triangle',
+                'opacity': 0.5
+              })
+            .selector(':selected')
+              .css({
+                'background-color': 'black',
+                'line-color': 'black',
+                'target-arrow-color': 'black',
+                'source-arrow-color': 'black',
+                'opacity': 1
+              })
+            .selector(':parent')
+              .css({
+                'background-opacity': 0.333
+              })
+            .selector('.faded')
+              .css({
+                'opacity': 0.25,
+                'text-opacity': 0
+              })
+        })
+
+        that.cy.edgehandles( edgeHandleDefaults );
+        that.cy.cxtmenu( cxtmenuDefaults );
         that.cy.on('select', function(e){
           that.setState({node: e.target, nodeLabel: e.target.data().label});
           that.onNodeLabelChange(e.target.data(),'',true)
@@ -268,8 +274,8 @@ class GoalCanvas extends Component {
         that.cy.on('doubleTap', function(event,pos){
           that.cy.add({ data: { label: '',  id: uuid()}, position:pos })
         })
-        that.layout = that.cy.layout({name: 'cose-bilkent'})
-        that.layout.run()
+        // that.layout = that.cy.layout({name: 'cose-bilkent'})
+        // that.layout.run()
       })
       .then(function(label){
         if(label && label !== '') {
@@ -319,6 +325,11 @@ class GoalCanvas extends Component {
     this.setState({nodeLabel: val});
   }
 
+  toggleGroupingChange() {
+    let toggle = !this.state.nodeGrouping
+    this.setState({nodeGrouping:toggle})
+  }
+
   toggleTips() {
     let toggle = !this.state.showTips
     this.setState({showTips:toggle})
@@ -334,6 +345,11 @@ class GoalCanvas extends Component {
             floatingLabelText="graph!"
             value={this.state.nodeLabel}
             onChange={this.onNodeLabelChange}
+          />
+          <Toggle
+            label="grouping"
+            labelPosition="right"
+            onToggle={this.toggleGroupingChange}
           />
         </div>  
          <div className="row">
