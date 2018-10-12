@@ -1,79 +1,82 @@
 'use strict'
 
-const request = require('request');
-const hostname = 'https://zpdg9c0o8j.execute-api.us-west-2.amazonaws.com';
-const env = '/dev/';
+const rp = require('request-promise')
 
-function callRemoteDDB(path,body,callback) {
-  var url = hostname + env + path;
-
+async function callRemoteDDB (url, body) {
   var options = {
-    url : url,
+    url: url,
     method: 'get'
   }
 
-  if(body){
-    options.method= 'post';
-    options.body = body;
-    options.json = true;
+  if (body) {
+    options.method = 'post'
+    options.body = body
+    options.json = true
   }
 
-  request(options, function (err, res, body) {
-    if (err) {
-      console.error('error posting json: ', err)
-      throw err
-    }
-    var headers = res.headers
-    var statusCode = res.statusCode
-    console.log('headers: ', headers)
-    console.log('statusCode: ', statusCode)
-    console.log('body: ', body)
-    callback(body);
-  })
+  let resp
+  try {
+    resp = await rp(options)
+  } catch (e) {
+    console.error('error posting json: ', e)
+    throw e
+  }
+  console.log(resp)
+  return resp.body
+  //  function (err, res, body) {
+  //   var headers = res.headers
+  //   var statusCode = res.statusCode
+  //   console.log('headers: ', headers)
+  //   console.log('statusCode: ', statusCode)
+  //   console.log('body: ', body)
+  // }
 }
 
-function getUserDetails(user, callback) {
-  var path = '/user-details/'+user;
-  var content = undefined;
-  callRemoteDDB(path,content,callback)
+class RemoteDynamoDB {
+  constructor (hostname, env) {
+    this.hostname = hostname
+    this.env = env
+    this.type = 'RemoteDynamoDB'
+  }
+
+  async getUserDetails (user) {
+    var path = '/user-details/' + user
+    let response = await callRemoteDDB(this.hostname + this.env + path)
+    return response
+  }
+
+  async postUserDetails (user, body) {
+    var path = '/user-details/' + user
+    var content = body
+    let response = await callRemoteDDB(this.hostname + this.env + path, content)
+    return response
+  }
+
+  async getUserTopic (user, topic) {
+    var path = '/user-details/' + user + '/topic/' + topic
+    let response = await callRemoteDDB(this.hostname + this.env + path)
+    return response
+  }
+
+  async postUserTopic (user, topic, body) {
+    var path = '/user-details/' + user + '/topic/' + topic
+    var content = body
+    let response = await callRemoteDDB(this.hostname + this.env + path, content)
+    return response
+  }
+
+  async postUserTopicPost (user, topic, post, body) {
+    var path = '/user-details/' + user + '/topic/' + topic + '/post/' + post
+    var content = body
+    let response = await callRemoteDDB(this.hostname + this.env + path, content)
+    return response
+  }
+
+  async getUserTopicPosts (user, topic, postList) {
+    var path = '/user-details/' + user + '/topic/' + topic + '/posts/' + postList
+    let response = await callRemoteDDB(this.hostname + this.env + path)
+    return response
+  }
 }
 
-function postUserDetails(user, body, callback) {
-  var path = '/user-details/'+user;
-  var content = body;
-  callRemoteDDB(path,content,callback)
-}
-
-function getUserTopic(user, topic, callback) {
-  var path = '/user-details/'+user+'/topic/'+topic;
-  var content = undefined;
-  callRemoteDDB(path,content,callback)
-}
-
-function postUserTopic(user, topic, body, callback) {
-  var path = '/user-details/'+user+'/topic/'+topic;
-  var content = body;
-  callRemoteDDB(path,content,callback)
-}
-
-function postUserTopicPost(user, topic, post, body, callback) {
-  var path = '/user-details/'+user+'/topic/'+topic+'/post/'+post;
-  var content = body;
-  callRemoteDDB(path,content,callback)
-}
-
-function getUserTopicPosts(user, topic, postList, callback) {
-  var path = '/user-details/'+user+'/topic/'+topic+'/posts/'+postlist;
-  var content = undefined;
-  callRemoteDDB(path,content,callback)
-}
-
-return module.exports = {
-  getUserDetails: getUserDetails,
-  postUserDetails: postUserDetails,
-  getUserTopic: getUserTopic,
-  postUserTopic: postUserTopic,
-  getUserTopicPosts: getUserTopicPosts,
-  postUserTopicPost: postUserTopicPost,
-  type: 'remote ddb'
-}
+module.exports = RemoteDynamoDB

@@ -1,64 +1,85 @@
 'use strict'
-let proc = require('process')
-let clib = 'ddb';
-for(var i = 0; i < proc.argv.length; i++){
-  if(proc.argv[i].startsWith('--db=')){
-    clib =  proc.argv[i].split('=')[1];
+
+class Endpoints {
+  constructor (client) {
+    this.client = client
+  }
+
+  async getUserDetails (request, response) {
+    console.log('getUserDetails', request.body)
+    let result
+    try {
+      result = await this.client.getUserDetails(request.params.id)
+      console.log('response getUserDetails', result)
+    } catch (e) {
+      result = e
+    }
+    response.json(result)
+  }
+
+  async postUserDetails (request, response) {
+    console.log('postUserDetails', JSON.stringify(request.body))
+    let result
+    try {
+      result = await this.client.postUserDetails(request.params.id, request.body)
+      console.log('response postUserDetails', JSON.stringify(result))
+    } catch (e) {
+      result = e
+      console.log('err postUserDetails', JSON.stringify(e))
+    }
+    response.json(result)
+  }
+
+  async getUserTopic (request, response) {
+    console.log('getUserTopic', request.body)
+    let result
+    try {
+      result = await this.client.getUserTopic(request.params.id, request.params.topic)
+      console.log('response getUserTopic', result)
+    } catch (e) {
+      result = e
+    }
+    response.json(result)
+  }
+
+  async postUserTopic (request, response) {
+    console.log('postUserTopic', request.body)
+    let result
+    try {
+      result = await this.client.postUserTopic(request.params.id, request.params.topic, request.body)
+      console.log('response postUserTopic', result)
+    } catch (e) {
+      result = e
+    }
+    response.json(result)
+  }
+
+  async getUserTopicPosts (request, response) {
+    console.log('getUserTopicPosts', request.body)
+    let all = request.params.posts.split(',')
+    let result
+    try {
+      result = await this.client.getUserTopicPosts(request.params.id, request.params.topic, all)
+      console.log('response getUserTopicPosts', result)
+    } catch (e) {
+      result = e
+    }
+    response.json(result)
+  }
+
+  async postUserTopicPost (request, response) {
+    console.log('postUserTopicPost', request.body)
+    let content = request.body
+    content.timestamp = +new Date()
+    let result
+    try {
+      result = await this.client.postUserTopicPost(request.params.id, request.params.topic, request.params.post, content)
+      console.log('response postUserTopicPost', result)
+    } catch (e) {
+      result = e
+    }
+    response.json(result)
   }
 }
 
-const client = require('./clients/'+clib+'.js');
-
-console.log('client.type',client.type);
-
-module.exports.getUserDetails = (request, response) => {
-  console.log('getUserDetails',request.body);
-  client.getUserDetails(request.params.id, function(err, user) {
-    console.log('response getUserDetails',user);
-    response.json(err || user);
-  });
-};
-
-module.exports.postUserDetails = (request, response) => {
-  console.log('postUserDetails',JSON.stringify(request.body));
-  client.postUserDetails(request.params.id, request.body, function(err, saved) {
-    response.json(err || saved);
-    console.log('err postUserDetails',JSON.stringify(err));
-    console.log('response postUserDetails',JSON.stringify(saved));
-  });
-};
-
-module.exports.getUserTopic = (request, response) => {
-  console.log('getUserTopic',request.body);
-  client.getUserTopic(request.params.id,request.params.topic, function(err, user) {
-    console.log('response getUserTopic',user);
-    response.json(err || user);
-  });
-};
-
-module.exports.postUserTopic = (request, response) => {
-  console.log('postUserTopic',request.body);
-  client.postUserTopic(request.params.id,request.params.topic, request.body, function(err, saved) {
-    console.log('response postUserTopic',saved);
-    response.json(err || saved);
-  });
-};
-
-module.exports.getUserTopicPosts = (request, response) => {
-  console.log('getUserTopicPosts',request.body);
-  var all = request.params.posts.split(',');
-  client.getUserTopicPosts(request.params.id, request.params.topic, all, function(err, post) {
-    console.log('response getUserTopicPosts',post);
-    response.json(err || post);
-  });
-};
-
-module.exports.postUserTopicPost = (request, response) => {
-  console.log('postUserTopicPost',request.body);
-  var content = request.body;
-  content.timestamp = +new Date();
-  client.postUserTopicPost(request.params.id,request.params.topic,request.params.post,content, function(err, saved) {
-    console.log('response postUserTopicPost',saved);
-    response.json({err:err, saved:saved});
-  });
-};
+module.exports = Endpoints
