@@ -1,27 +1,25 @@
-import React, {Component} from 'react'
-import AuthService from '../Services/auth-service.component.jsx'
-import FlatButton from 'material-ui/FlatButton';
+import React, { Component } from 'react'
+import FlatButton from 'material-ui/FlatButton'
 
 class Login extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
-    this.onClickHandler = this.onClickHandler.bind(this);
+    this.onClickHandler = this.onClickHandler.bind(this)
   }
 
-  onClickHandler(){
-    if(this.props.auth.loggedIn()){
-      this.props.auth.logout();
-      location.reload();
+  onClickHandler () {
+    if (this.props.auth.isAuthenticated()) {
+      this.props.auth.logout()
     } else {
-      this.props.auth.login();
+      this.props.auth.login()
     }
   }
 
-  render() {
+  render () {
     const { auth } = this.props
 
     return (
-      <FlatButton label={auth.loggedIn() ? 'logout' : 'login'} onClick={this.onClickHandler}/>
+      <FlatButton label={auth.isAuthenticated() ? 'logout' : 'login'} onClick={this.onClickHandler} />
     )
   }
 }

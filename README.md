@@ -2,34 +2,32 @@
 
 # proposed routes
 ```
-/user
+/user/:user
   -> about
   -> interests
-  -> (network)
-  /map
-    -> my network
-    /:goal-id
-      -> my metwork
-        (with goal-id selected)
+  -> (network?)
+  /map/:topic
+      -> topic network
+      -> model
       -> goal timeline
+      -> show selector
+  /model
+    -> CRUD models
 /about
 ```
 
+# proposed tables
 ```
-proposed redis
-incr user-details-key
-hget user-details {user-details,network,goal-network}
+user-details {about,interest,goal-network}
+user-details-map {topic network with applied models}
+user-details-map-topic {topic timeline}
+user-details-models {models}
 ```
 
 # TODO
-* better views of graphs
-    - when you click something, you only see its children and parents in a family tree structure
-* save and refresh button
 * Goal completion
     - marking tasks as {open (white), in progress (yellow), completed (green), no go (gray)}
 
-* deep link to specific goal (see better views of graphs)
-* calendar http://react-component.github.io/calendar/
 * sign in page
     - remove user id from url
 
@@ -43,5 +41,4 @@ hget user-details {user-details,network,goal-network}
 ## future
 * people search page
   - given an email address
-* find a way to convert the express server over to serverless
 * use the ddb exclusively

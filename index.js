@@ -2,33 +2,52 @@
 const express = require('express')
 const path = require('path')
 const port = process.env.PORT || 3000
-const app = express()
-const endpoints = require('./server/endpoints.js')
-const bodyParser = require('body-parser');
+const Endpoints = require('./server/endpoints.js')
+const RemoteDynamoDB = require('./server/clients/rddb.js')
+const bodyParser = require('body-parser')
+const hostname = 'https://zpdg9c0o8j.execute-api.us-west-2.amazonaws.com/'
+const env = 'dev/'
 
-// serve static assets normally
-app.use(express.static('public'))
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(bodyParser.json());
+class GoalDServer {
+  constructor (express, port, users, endpoints) {
+    this.app = express()
+    this.port = port
+    this.endpoints = endpoints
+    for (let i = 0; i < users.length; i++) {
+      this.app.use(users[i])
+    }
+  }
 
-app.get('/user-details/:id', endpoints.getUserDetails);
+  start () {
+    this.app.listen(this.port)
+    console.log('server started on port', this.port)
+  }
 
-app.post('/user-details/:id', endpoints.postUserDetails);
+  routes () {
+    this.app.get('/user-details/:id', this.endpoints.getUserDetails.bind(this.endpoints))
+    this.app.get('/user-details/:id/topic/:topic', this.endpoints.getUserTopic.bind(this.endpoints))
+    this.app.get('/user-details/:id/topic/:topic/posts/:posts', this.endpoints.getUserTopicPosts.bind(this.endpoints))
+    this.app.post('/user-details/:id', this.endpoints.postUserDetails.bind(this.endpoints))
+    this.app.post('/user-details/:id/topic/:topic/', this.endpoints.postUserTopic.bind(this.endpoints))
+    this.app.post('/user-details/:id/topic/:topic/post/:post', this.endpoints.postUserTopicPost.bind(this.endpoints))
+    this.app.get('*', (request, response) => {
+      response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+    })
+  }
+}
 
-app.get('/user-details/:id/topic/:topic', endpoints.getUserTopic);
+let users = [
+  // serve static assets normally
+  express.static('public'),
+  bodyParser.urlencoded({
+    extended: false
+  }),
+  bodyParser.json()
+]
 
-app.post('/user-details/:id/topic/:topic/', endpoints.postUserTopic);
-
-app.get('/user-details/:id/topic/:topic/posts/:posts', endpoints.getUserTopicPosts);
-
-app.post('/user-details/:id/topic/:topic/post/:post', endpoints.postUserTopicPost);
-
-// Handles all routes so you do not get a not found error
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-})
-
-app.listen(port)
-console.log("server started on port " + port)
+const client = new RemoteDynamoDB(hostname, env)
+const endpoints = new Endpoints(client)
+const goalDServer = new GoalDServer(express, port, users, endpoints)
+goalDServer.routes()
+console.log('using', client.type)
+goalDServer.start()

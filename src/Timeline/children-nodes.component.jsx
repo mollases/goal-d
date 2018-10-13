@@ -1,20 +1,16 @@
-import React, {Component} from 'react';
-import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
+import React, { Component } from 'react'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { ListItem } from 'material-ui/List'
 
 import _ from 'lodash'
 
 class ChildrenNodes extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.renderChildren = this.renderChildren.bind(this)
   }
 
-
-
-  render() {
+  render () {
     return (
       <Card>
         <CardTitle title={this.props.node.label} />
@@ -22,21 +18,16 @@ class ChildrenNodes extends Component {
           {this.renderChildren()}
         </CardText>
       </Card>
-    );
+    )
   }
 
-  renderChildren() {
-    var lists = [];
-    _.forOwn(this.props.childNodes,(v,k,o) => {
-      lists.push(v.map((el,index) => {
-          return (
-              <ListItem primaryText={el.label} key={index}/>
-            )
-      }))
+  renderChildren () {
+    return _.map(this.props.childNodes, (el, all) => {
+      return (
+        <ListItem primaryText={el.data().label} key={el.data().id} />
+      )
     })
-
-    return lists;
   }
 }
 
-export default ChildrenNodes;
+export default ChildrenNodes

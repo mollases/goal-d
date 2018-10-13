@@ -1,15 +1,15 @@
-import React, {Component} from 'react';
-import _ from 'lodash';
+import React, { Component } from 'react'
+import _ from 'lodash'
 
-import AddElement from './add-element.component.jsx';
-import Element from './element.component.jsx';
+import AddElement from './add-element.component.jsx'
+import Element from './element.component.jsx'
 
-import Config from './../Services/config.service.jsx';
+import Config from './../Services/config.service.jsx'
 
-var config = new Config();
+var config = new Config()
 
 class Timeline extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       contents: []
@@ -19,61 +19,61 @@ class Timeline extends Component {
     this.renderElements = this.renderElements.bind(this)
   }
 
-  callRefresh(nodeId,childNodes){
-    let that = this;
-    let _childNodes = _.keys(childNodes || this.props.childNodes || []);
-    var children = _childNodes.join(',');
+  callRefresh (nodeId, childNodes) {
+    let that = this
+    let _childNodes = _.keys(childNodes || this.props.childNodes || [])
+    var children = _childNodes.join(',')
 
-    config.getUserTopicPostList(this.props.id,this.props.topicId,nodeId,_childNodes)
-    .then(function(response) {
-      response.json().then(function(response2){
-        let sorted = _.sortBy(_.flatten(response2).map(JSON.parse),'timestamp').reverse()
-        _.forEach(sorted,function(i){
-          i.label = _.filter(children,{id:i.nodeId})[0] || '';
-          if(i.label !== ''){
-            i.label=i.label.label;
-          }
+    config.getUserTopicPostList(this.props.auth.getActiveUser(), this.props.topicId, nodeId, _childNodes)
+      .then(function (response) {
+        response.json().then(function (response2) {
+          let sorted = _.sortBy(_.flatten(response2).map(JSON.parse), 'timestamp').reverse()
+          _.forEach(sorted, function (i) {
+            i.label = _.filter(children, { id: i.nodeId })[0] || ''
+            if (i.label !== '') {
+              i.label = i.label.label
+            }
+          })
+          console.log(children)
+          that.setState({ contents: sorted })
         })
-        console.log(children)
-        that.setState({contents:sorted})
-      });
-    });
+      })
   }
 
-  componentDidMount() {
-    this.callRefresh(this.props.nodeId);
+  componentDidMount () {
+    this.callRefresh(this.props.nodeId)
   }
 
-  componentWillReceiveProps(nextProps){
-    let now = this.props.nodeId;
-    let future = nextProps.nodeId;
-    if(now !== future){
-      this.callRefresh(future,nextProps.childNodes);
+  componentWillReceiveProps (nextProps) {
+    let now = this.props.nodeId
+    let future = nextProps.nodeId
+    if (now !== future) {
+      this.callRefresh(future, nextProps.childNodes)
     }
   }
 
-  render(){
-    return(
+  render () {
+    return (
       <div>
         <AddElement
           onSubmitPressed={this.callRefresh.bind(this.props.nodeId)}
           nodeId={this.props.nodeId}
           topicId={this.props.topicId}
-          id={this.props.id}/>
-        <br/>
+          id={this.props.id} />
+        <br />
         {this.renderElements()}
       </div>
-    );
+    )
   }
 
-  renderElements(){
-    return this.state.contents.map(function(el,index,all){
+  renderElements () {
+    return this.state.contents.map(function (el, index, all) {
       return (
         <div key={index}>
-          <Element content={el}/>
-          <br/>
+          <Element content={el} />
+          <br />
         </div>
-      );
+      )
     })
   }
 }
