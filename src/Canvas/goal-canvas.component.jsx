@@ -185,9 +185,10 @@ class GoalCanvas extends Component {
 
 
     
-    config.getUserTopic(this.props.id,this.props.topicId)
+    config.getUserTopic(this.props.auth.getActiveUser(),this.props.topicId)
     .then(function(response) {
-      response.json().then(function(jsn){
+      response.json().then(function(json){
+        let jsn = JSON.parse(json)
         if(jsn){
           that.setState({
             label:jsn.label,
@@ -281,8 +282,9 @@ class GoalCanvas extends Component {
         if(label && label !== '') {
           return;
         }
-        config.getUserDetails(that.props.id).then(function(r){
-          r.json().then(function(jsn){
+        config.getUserDetails(that.props.auth.getActiveUser()).then(function(r){
+          r.json().then(function(json){
+            let jsn = JSON.parse(json)
             let label = jsn.topics.filter(function(el){
               if(el.id === parseInt(that.props.topicId)){
                 return el
@@ -301,7 +303,7 @@ class GoalCanvas extends Component {
       map :this.cy.elements().jsons()
     };
     this.setState({map:body.map})
-    config.postUserTopic(this.props.id,this.props.topicId,body)
+    config.postUserTopic(this.props.auth.getActiveUser(),this.props.topicId,body)
   }
 
   componentWillUnmount(){

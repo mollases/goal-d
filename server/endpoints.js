@@ -6,7 +6,7 @@ class Endpoints {
   }
 
   async getUserDetails (request, response) {
-    console.log('getUserDetails', request.body)
+    console.log('getUserDetails', request.params.id)
     let result
     try {
       result = await this.client.getUserDetails(request.params.id)

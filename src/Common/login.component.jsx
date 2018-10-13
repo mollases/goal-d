@@ -9,7 +9,7 @@ class Login extends Component {
   }
 
   onClickHandler(){
-    if(this.props.auth.loggedIn()){
+    if(this.props.auth.isAuthenticated()){
       this.props.auth.logout();
       location.reload();
     } else {
@@ -21,7 +21,7 @@ class Login extends Component {
     const { auth } = this.props
 
     return (
-      <FlatButton label={auth.loggedIn() ? 'logout' : 'login'} onClick={this.onClickHandler}/>
+      <FlatButton label={auth.isAuthenticated() ? 'logout' : 'login'} onClick={this.onClickHandler}/>
     )
   }
 }

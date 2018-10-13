@@ -14,6 +14,7 @@ async function callRemoteDDB (url, body) {
     options.json = true
   }
 
+  console.log('rddb request', options)
   let resp
   try {
     resp = await rp(options)
@@ -22,7 +23,7 @@ async function callRemoteDDB (url, body) {
     throw e
   }
   console.log(resp)
-  return resp.body
+  return resp
   //  function (err, res, body) {
   //   var headers = res.headers
   //   var statusCode = res.statusCode
@@ -39,8 +40,13 @@ class RemoteDynamoDB {
     this.type = 'RemoteDynamoDB'
   }
 
+  log (msg) {
+    console.log(msg)
+  }
+
   async getUserDetails (user) {
     var path = '/user-details/' + user
+    console.log(path)
     let response = await callRemoteDDB(this.hostname + this.env + path)
     return response
   }

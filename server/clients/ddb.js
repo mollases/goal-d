@@ -12,7 +12,7 @@ class DynamoDynamoDB {
     this.type = 'DynamoDynamoDB'
   }
 
-  getUserDetails (user, callback) {
+  getUserDetails (user) {
     let payload = {
       TableName: userDetails,
       Key: {
@@ -21,13 +21,16 @@ class DynamoDynamoDB {
         }
       }
     }
-    dynamo.getItem(payload, function (err, data) {
-      var B = data.Item.item.B
-      callback(err, JSON.parse(B.toString()))
-    })
+    console.log('getUserDetails payload', payload)
+    return dynamo.getItem(payload).promise()
+      .then(data => JSON.parse(data.Item.item.B.toString()))
+      .catch(err => {
+        console.log('err: getUserDetails', err)
+        return err
+      })
   }
 
-  postUserDetails (user, body, callback) {
+  postUserDetails (user, body) {
     let payload = {
       TableName: userDetails,
       Item: {
@@ -39,8 +42,8 @@ class DynamoDynamoDB {
         }
       }
     }
-    console.log(payload)
-    dynamo.putItem(payload, callback)
+    console.log('postUserDetails payload', payload)
+    return dynamo.putItem(payload).promise()
   }
 
   getUserTopic (user, topic, callback) {
@@ -55,10 +58,13 @@ class DynamoDynamoDB {
         }
       }
     }
-    dynamo.getItem(payload, function (err, data) {
-      var B = data.Item.item.B
-      callback(err, JSON.parse(B.toString()))
-    })
+    console.log('getUserTopic payload', payload)
+    return dynamo.getItem(payload).promise()
+      .then(data => JSON.parse(data.Item.item.B.toString()))
+      .catch(err => {
+        console.log('err: getUserTopic', err)
+        return err
+      })
   }
 
   postUserTopic (user, topic, body, callback) {
@@ -76,6 +82,7 @@ class DynamoDynamoDB {
         }
       }
     }
+    console.log('postUserTopic payload', payload)
     dynamo.putItem(payload, callback)
   }
 
