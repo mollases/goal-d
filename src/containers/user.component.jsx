@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import TextField from 'material-ui/TextField'
 import { orange500, blue500 } from 'material-ui/styles/colors'
-import UserCard from './user-card.component.jsx'
 import FlatButton from 'material-ui/FlatButton'
 import { List } from 'material-ui/List'
 
-import Config from './../../services/config.service.jsx'
-import UserTopic from './user-topic.component.jsx'
 import _ from 'lodash'
+
+import Config from './../services/config.service.jsx'
+import UserTopic from './../components/user/user-topic.component.jsx'
+import UserCard from './../components/user/user-card.component.jsx'
 
 const styles = {
   errorStyle: {

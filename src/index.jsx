@@ -10,9 +10,9 @@ import Main from './components/main.component.jsx'
 import PageNotFound from './components/404.component.jsx'
 import About from './components/about.component.jsx'
 import Callback from './components/callback.component.jsx'
-import Welcome from './welcome.component.jsx'
-import GoalMap from './components/canvas/goal-map.component.jsx'
-import User from './components/user/user.component.jsx'
+import Welcome from './components/welcome.component.jsx'
+import GoalMap from './containers/goal-map.component.jsx'
+import User from './containers/user.component.jsx'
 
 const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com')
 
