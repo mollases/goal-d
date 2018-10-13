@@ -36,23 +36,23 @@ class GoalMap extends Component {
         </div>
       </div>
     )
-    }
+  }
 
   renderTimeline () {
     if (this.state.selectedNode && this.state.selectedNode.data) {
       return (
         <div key='0' className='row'>
           <div className='col-md-8'>
-            <GoalNode node={this.state.selectedNode}/>
-            <br/>
+            <GoalNode node={this.state.selectedNode} />
+            <br />
             <Timeline
               nodeId={this.state.selectedNode.data().id}
               childNodes={this.state.childNodes}
               id={this.props.params.id}
-              topicId={this.props.params.topic}/>
+              topicId={this.props.params.topic} />
           </div>
           <div className='col-md-4'>
-            <ChildrenNodes node={this.state.selectedNode} childNodes={this.state.childNodes}/>
+            <ChildrenNodes node={this.state.selectedNode} childNodes={this.state.childNodes} />
           </div>
         </div>
       )

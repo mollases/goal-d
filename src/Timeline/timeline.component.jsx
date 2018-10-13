@@ -30,14 +30,14 @@ class Timeline extends Component {
           let sorted = _.sortBy(_.flatten(response2).map(JSON.parse), 'timestamp').reverse()
           _.forEach(sorted, function (i) {
             i.label = _.filter(children, { id: i.nodeId })[0] || ''
-          if (i.label !== '') {
+            if (i.label !== '') {
               i.label = i.label.label
-          }
+            }
           })
           console.log(children)
           that.setState({ contents: sorted })
         })
-    })
+      })
   }
 
   componentDidMount () {
