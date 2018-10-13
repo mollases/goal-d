@@ -7,9 +7,8 @@ import ActionList from 'material-ui/svg-icons/action/list'
 
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
-import Config from '../Services/config.service.jsx'
+import Config from '../../services/config.service.jsx'
 
-const config = new Config()
 const iconStyles = {
   marginRight: 24
 }
@@ -35,7 +34,7 @@ class GoalCanvas extends Component {
   }
 
   componentDidMount () {
-    config.getUserTopic(this.props.auth.getActiveUser(), this.props.topicId)
+    Config.getUserTopic(this.props.auth.getActiveUser(), this.props.topicId)
       .then((response) => response.json())
       .then((jsn) => {
         if (jsn) {
@@ -71,7 +70,7 @@ class GoalCanvas extends Component {
         if (label && label !== '') {
           return
         }
-        config.getUserDetails(this.props.auth.getActiveUser())
+        Config.getUserDetails(this.props.auth.getActiveUser())
           .then((r) => r.json())
           .then((jsn) => {
             let label = jsn.topics.filter((el) => {
@@ -90,7 +89,7 @@ class GoalCanvas extends Component {
       map: this.cy.elements().jsons()
     }
     this.setState({ map: body.map })
-    config.postUserTopic(this.props.auth.getActiveUser(), this.props.topicId, body)
+    Config.postUserTopic(this.props.auth.getActiveUser(), this.props.topicId, body)
   }
 
   componentWillUnmount () {

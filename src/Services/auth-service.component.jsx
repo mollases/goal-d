@@ -1,9 +1,8 @@
 /* global localStorage */
 import auth0 from 'auth0-js'
 import { browserHistory } from 'react-router'
-import Config from './config.service.jsx'
 
-const config = new Config()
+import Config from './config.service.jsx'
 
 export default class AuthService {
   constructor (clientID, domain) {
@@ -11,7 +10,7 @@ export default class AuthService {
     this.lock = new auth0.WebAuth({
       clientID,
       domain,
-      redirectUri: config.getAuthCallback(),
+      redirectUri: Config.getAuthCallback(),
       responseType: 'token id_token',
       scope: 'openid'
       // configurationBaseUrl: 'https://cdn.auth0.com'

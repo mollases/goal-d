@@ -5,7 +5,7 @@ import UserCard from './user-card.component.jsx'
 import FlatButton from 'material-ui/FlatButton'
 import { List } from 'material-ui/List'
 
-import Config from '../Services/config.service.jsx'
+import Config from './../../services/config.service.jsx'
 import UserTopic from './user-topic.component.jsx'
 import _ from 'lodash'
 
@@ -23,8 +23,6 @@ const styles = {
     color: blue500
   }
 }
-
-const config = new Config()
 
 class User extends Component {
   constructor (props) {
@@ -48,7 +46,7 @@ class User extends Component {
 
   refreshMaps () {
     let that = this
-    return config.getUserDetails(this.props.auth.getActiveUser())
+    return Config.getUserDetails(this.props.auth.getActiveUser())
       .then(response => response.json())
       .then(jsn => that.setState({ topics: jsn.topics || [] }))
   }
@@ -70,7 +68,7 @@ class User extends Component {
       note: '',
       time: Date.now()
     })
-    config.postUserDetails(this.props.auth.getActiveUser(), { topics: topics })
+    Config.postUserDetails(this.props.auth.getActiveUser(), { topics: topics })
       .then(this.refreshMaps)
       .then(() => {
         this.setState({
@@ -85,7 +83,7 @@ class User extends Component {
     let topics = this.state.topics
     let topic = _.find(topics, { id: id })
     topic.note = content
-    config.postUserDetails(this.props.auth.getActiveUser(), { topics: topics })
+    Config.postUserDetails(this.props.auth.getActiveUser(), { topics: topics })
   }
 
   deleteTopic (id) {}

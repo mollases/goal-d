@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import Config from './../Services/config.service.jsx'
+import Config from './../../services/config.service.jsx'
 
 import { Card, CardActions, CardHeader } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-
-var config = new Config()
 
 class AddElement extends Component {
   constructor (props) {
@@ -20,7 +18,7 @@ class AddElement extends Component {
   onClickHandler (evt) {
     let body = { body: this.state.value, userId: this.props.id, nodeId: this.props.nodeId, topicId: this.props.topicId }
     let that = this
-    config.postUserTopicOnPost(this.props.id, this.props.topicId, this.props.nodeId, body)
+    Config.postUserTopicOnPost(this.props.id, this.props.topicId, this.props.nodeId, body)
       .then(() => { this.props.onSubmitPressed() })
       .then(() => {
         that.setState({ value: '' })

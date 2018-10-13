@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
 import GoalCanvas from './goal-canvas.component.jsx'
-import Timeline from './../Timeline/timeline.component.jsx'
-import GoalNode from './../Timeline/goal-node.component.jsx'
-import ChildrenNodes from './../Timeline/children-nodes.component.jsx'
+import Timeline from './../timeline/timeline.component.jsx'
+import GoalNode from './../timeline/goal-node.component.jsx'
+import ChildrenNodes from './../timeline/children-nodes.component.jsx'
 
 class GoalMap extends Component {
   constructor (props) {

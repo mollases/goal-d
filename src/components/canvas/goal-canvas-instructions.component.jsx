@@ -5,15 +5,13 @@ const instructions = [{
   header: 'Adding',
   details: [
     'double click above to make an entry',
-    'double click an entry to make a new entry connected to the first entry',
-    'click a entry, shift click another entry to connect the two with a line'
+    'hover over an entry to find the red dot, click and drag from the red dot to another entry to connect them'
   ]
 }, {
   header: 'Removing',
   details: [
     'right click a line to delete it',
-    'right click an entry to delete it',
-    'click an entry, shift + backspace to delete it'
+    'right click an entry to delete it'
   ]
 }, {
   header: 'Editing',
@@ -25,7 +23,7 @@ const instructions = [{
 
 class GoaldInstructions extends Component {
   render () {
-    return instructions.map((el, index) => {
+    let rendered = instructions.map((el, index) => {
       let grouping = el.details.map((el2, index2) => {
         return (
           <ListItem primaryText={el2} key={index2} />
@@ -40,6 +38,11 @@ class GoaldInstructions extends Component {
         </div>
       )
     })
+    return (
+      <div className='row'>
+        {rendered}
+      </div>
+    )
   }
 }
 

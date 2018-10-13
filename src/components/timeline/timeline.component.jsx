@@ -4,9 +4,7 @@ import _ from 'lodash'
 import AddElement from './add-element.component.jsx'
 import Element from './element.component.jsx'
 
-import Config from './../Services/config.service.jsx'
-
-var config = new Config()
+import Config from './../../services/config.service.jsx'
 
 class Timeline extends Component {
   constructor (props) {
@@ -24,7 +22,7 @@ class Timeline extends Component {
     let _childNodes = _.keys(childNodes || this.props.childNodes || [])
     var children = _childNodes.join(',')
 
-    config.getUserTopicPostList(this.props.auth.getActiveUser(), this.props.topicId, nodeId, _childNodes)
+    Config.getUserTopicPostList(this.props.auth.getActiveUser(), this.props.topicId, nodeId, _childNodes)
       .then((response) => response.json())
       .then(response2 => {
         let sorted = _.sortBy(_.flatten(response2).map(JSON.parse), 'timestamp').reverse()

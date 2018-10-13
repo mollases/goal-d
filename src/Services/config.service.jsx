@@ -1,5 +1,5 @@
 /* global fetch */
-export default class Config {
+class Config {
   constructor () {
     this.url = window.location.origin
     this.api = this.url
@@ -47,3 +47,5 @@ export default class Config {
     }
   }
 }
+
+export default new Config()
