@@ -2,7 +2,7 @@
 
 const rp = require('request-promise')
 
-async function callRemoteDDB (url, body) {
+const callRemoteDDB = async (url, body) => {
   var options = {
     url: url,
     method: 'get',

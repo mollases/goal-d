@@ -25,18 +25,17 @@ class Timeline extends Component {
     var children = _childNodes.join(',')
 
     config.getUserTopicPostList(this.props.auth.getActiveUser(), this.props.topicId, nodeId, _childNodes)
-      .then(function (response) {
-        response.json().then(function (response2) {
-          let sorted = _.sortBy(_.flatten(response2).map(JSON.parse), 'timestamp').reverse()
-          _.forEach(sorted, function (i) {
-            i.label = _.filter(children, { id: i.nodeId })[0] || ''
-            if (i.label !== '') {
-              i.label = i.label.label
-            }
-          })
-          console.log(children)
-          that.setState({ contents: sorted })
+      .then((response) => response.json())
+      .then(response2 => {
+        let sorted = _.sortBy(_.flatten(response2).map(JSON.parse), 'timestamp').reverse()
+        _.forEach(sorted, (i) => {
+          i.label = _.filter(children, { id: i.nodeId })[0] || ''
+          if (i.label !== '') {
+            i.label = i.label.label
+          }
         })
+        console.log(children)
+        that.setState({ contents: sorted })
       })
   }
 
@@ -67,7 +66,7 @@ class Timeline extends Component {
   }
 
   renderElements () {
-    return this.state.contents.map(function (el, index, all) {
+    return this.state.contents.map((el, index) => {
       return (
         <div key={index}>
           <Element content={el} />

@@ -17,7 +17,6 @@ export default class AuthService {
       // configurationBaseUrl: 'https://cdn.auth0.com'
     })
 
-    // binds login functions to keep this context
     this.login = this.login.bind(this)
     this.handleAuthentication = this.handleAuthentication.bind(this)
     this.isAuthenticated = this.isAuthenticated.bind(this)

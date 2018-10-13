@@ -16,18 +16,18 @@ for (let v in proto) {
   if (proto[v] === 'constructor') {
     continue
   }
-  fns[proto[v]] = function (request, context, callback) {
+  fns[proto[v]] = (request, context, callback) => {
     console.log(JSON.stringify(request))
     let fn = context.functionName.split('-')[2]
     request.params = request.pathParameters
     let transformer = {
-      json: function (arg) {
+      json: (arg) => {
         callback(null, {
           statusCode: 200,
           headers: headers,
           body: JSON.stringify(arg) })
       },
-      opts: function () {
+      opts: () => {
         callback(null, {
           statusCode: 200,
           headers: headers

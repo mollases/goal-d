@@ -59,9 +59,6 @@ class User extends Component {
 
   saveNewMap () {
     let topic = this.state.searchData.trim()
-    let that = this
-    let refreshMaps = this.refreshMaps
-
     if (!topic) {
       return
     }
@@ -74,8 +71,9 @@ class User extends Component {
       time: Date.now()
     })
     config.postUserDetails(this.props.auth.getActiveUser(), { topics: topics })
-      .then(refreshMaps).then(function () {
-        that.setState({
+      .then(this.refreshMaps)
+      .then(() => {
+        this.setState({
           searchData: '',
           newTopic: ''
         })
@@ -128,7 +126,7 @@ class User extends Component {
     let topics = this.state.topics
     let search = this.state.searchData
     var that = this
-    topics.sort(function (a, b) {
+    topics.sort((a, b) => {
       if (a.time > b.time) {
         return -1
       } else if (a.time < b.time) {
@@ -137,7 +135,7 @@ class User extends Component {
       return 0
     })
 
-    return topics.map(function (el, index, all) {
+    return topics.map((el) => {
       let show = search === '' || el.label.indexOf(search) !== -1
       if (show) {
         return (
