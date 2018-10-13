@@ -6,7 +6,6 @@
   "scripts": {
     "watch": "webpack -d --watch",
     "build": "webpack --optimize-minimize",
-    "serve": "serve ./public",
     "startd": "nodemon",
     "start": "node index.js"
   },
@@ -33,7 +32,6 @@
     "redis": "^2.7.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "serve": "^1.4.0",
     "webpack": "^1.13.1",
     "whatwg-fetch": "^2.0.1"
   },
