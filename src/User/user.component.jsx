@@ -50,7 +50,6 @@ class User extends Component {
     let that = this
     return config.getUserDetails(this.props.auth.getActiveUser())
       .then(response => response.json())
-      .then(txt => JSON.parse(txt))
       .then(jsn => that.setState({ topics: jsn.topics || [] }))
   }
 

@@ -2,7 +2,7 @@
 
 # proposed routes
 ```
-/user/:user
+/user/
   -> about
   -> interests
   -> (network?)
@@ -12,7 +12,7 @@
       -> goal timeline
       -> show selector
   /model
-    -> CRUD models
+    -> CRUD models (dont remember why I wanted this...)
 /about
 ```
 
@@ -28,17 +28,11 @@ user-details-models {models}
 * Goal completion
     - marking tasks as {open (white), in progress (yellow), completed (green), no go (gray)}
 
-* sign in page
-    - remove user id from url
-
-
 ## wishlist
 * save as png
 * tagging and filtering in the map
 * connecting separate maps to each other (deep referencing?)
 
-
 ## future
 * people search page
   - given an email address
-* use the ddb exclusively

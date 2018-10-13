@@ -5,13 +5,13 @@ const rp = require('request-promise')
 async function callRemoteDDB (url, body) {
   var options = {
     url: url,
-    method: 'get'
+    method: 'get',
+    json: true
   }
 
   if (body) {
     options.method = 'post'
     options.body = body
-    options.json = true
   }
 
   console.log('rddb request', options)
@@ -19,18 +19,10 @@ async function callRemoteDDB (url, body) {
   try {
     resp = await rp(options)
   } catch (e) {
-    console.error('error posting json: ', e)
+    console.error('error with request', options, e)
     throw e
   }
-  console.log(resp)
   return resp
-  //  function (err, res, body) {
-  //   var headers = res.headers
-  //   var statusCode = res.statusCode
-  //   console.log('headers: ', headers)
-  //   console.log('statusCode: ', statusCode)
-  //   console.log('body: ', body)
-  // }
 }
 
 class RemoteDynamoDB {

@@ -180,8 +180,7 @@ class GoalCanvas extends Component {
 
     config.getUserTopic(this.props.auth.getActiveUser(), this.props.topicId)
       .then(function (response) {
-        response.json().then(function (json) {
-          let jsn = JSON.parse(json)
+        response.json().then(function (jsn) {
           if (jsn) {
             that.setState({
               label: jsn.label,
@@ -276,8 +275,7 @@ class GoalCanvas extends Component {
               return
             }
             config.getUserDetails(that.props.auth.getActiveUser()).then(function (r) {
-              r.json().then(function (json) {
-                let jsn = JSON.parse(json)
+              r.json().then(function (jsn) {
                 let label = jsn.topics.filter(function (el) {
                   if (el.id === parseInt(that.props.topicId)) {
                     return el
