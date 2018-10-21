@@ -18,8 +18,8 @@ class Timeline extends Component {
   }
 
   callRefresh (nodeId, childNodes) {
-    let that = this
-    let _childNodes = _.keys(childNodes || this.props.childNodes || [])
+    let _children = childNodes || this.props.childNodes
+    let _childNodes = _children.map((v) => v.data().id)
     var children = _childNodes.join(',')
 
     Config.getUserTopicPostList(this.props.auth.getActiveUser(), this.props.topicId, nodeId, _childNodes)
@@ -33,7 +33,7 @@ class Timeline extends Component {
           }
         })
         console.log(children)
-        that.setState({ contents: sorted })
+        this.setState({ contents: sorted })
       })
   }
 
@@ -54,6 +54,7 @@ class Timeline extends Component {
       <div>
         <AddElement
           onSubmitPressed={this.callRefresh.bind(this.props.nodeId)}
+          auth={this.props.auth}
           nodeId={this.props.nodeId}
           topicId={this.props.topicId}
           id={this.props.id} />

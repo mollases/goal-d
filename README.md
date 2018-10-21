@@ -27,6 +27,11 @@ user-details-models {models}
 # TODO
 * Goal completion
     - marking tasks as {open (white), in progress (yellow), completed (green), no go (gray)}
+    - where to save these?
+        - is there a way to update just that element? (refactor may be needed)
+* click to edit text, move control plane to right or below cyto window
+* use append_list?
+* lock down s3 access, move index to source from lambda?
 
 ## wishlist
 * save as png

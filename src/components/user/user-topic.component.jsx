@@ -10,7 +10,8 @@ class UserTopic extends Component {
     super(props)
     this.state = {
       edit: false,
-      value: this.props.el.notes || ''
+      value: this.props.el.note || '',
+      time: new Date(this.props.el.time).toLocaleDateString()
     }
     this.renderCardText = this.renderCardText.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -23,7 +24,7 @@ class UserTopic extends Component {
   }
 
   saveNote (event) {
-    this.props.saveNote(this.props.el.id, event.target.value)
+    this.props.saveNote(this.props.el.id, this.state.value)
   }
 
   deleteTopic (event) {
@@ -34,12 +35,8 @@ class UserTopic extends Component {
     return (
       <Card>
         <CardTitle
-          title={
-            <Link to={'/user/map/' + this.props.el.id}>
-              {this.props.el.label}
-            </Link>
-          }
-          subtitle={<span onClick={this.deleteTopic}>remove</span>}
+          title={this.props.el.label}
+          subtitle={<span onClick={this.deleteTopic}>{this.state.time}</span>}
           actAsExpander
           showExpandableButton
         />
@@ -61,6 +58,9 @@ class UserTopic extends Component {
             label='edit'
             onClick={() => { this.setState({ edit: true }) }}
           />
+          <Link to={'/user/map/' + this.props.el.id}>
+              go!
+          </Link>
         </div>
       )
     } else {
@@ -70,7 +70,6 @@ class UserTopic extends Component {
             value={this.state.value}
             onChange={this.handleChange}
             floatingLabelText='TODO: support Markdown'
-            rows={5}
             multiLine
             fullWidth
           />
@@ -85,6 +84,9 @@ class UserTopic extends Component {
               this.setState({ edit: false })
             }}
           />
+          <Link to={'/user/map/' + this.props.el.id}>
+              go!
+          </Link>
         </div>
       )
     }

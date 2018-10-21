@@ -9,12 +9,12 @@ import GoalDEdge from './goal-canvas-edge.jsx'
 
 coseBilkent(cytoscape)
 edgehandles(cytoscape)
-
 cxtmenu(cytoscape)
 
 export default (elements) => {
   const cy = cytoscape({
     container: document.getElementById('cy'),
+    panningEnabled: false,
     elements,
     layout: { name: 'preset' },
     style: cytoscape.stylesheet()

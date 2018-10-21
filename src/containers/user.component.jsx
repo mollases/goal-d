@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 import Config from './../services/config.service.jsx'
 import UserTopic from './../components/user/user-topic.component.jsx'
-import UserCard from './../components/user/user-card.component.jsx'
+// import UserCard from './../components/user/user-card.component.jsx'
 
 const styles = {
   errorStyle: {
@@ -46,10 +46,9 @@ class User extends Component {
   }
 
   refreshMaps () {
-    let that = this
     return Config.getUserDetails(this.props.auth.getActiveUser())
       .then(response => response.json())
-      .then(jsn => that.setState({ topics: jsn.topics || [] }))
+      .then(jsn => this.setState({ topics: jsn.topics || [] }))
   }
 
   componentWillMount () {
@@ -92,9 +91,9 @@ class User extends Component {
   render () {
     return (
       <div className='row'>
-        <div className='col-sm-6 col-md-4'>
+        {/* <div className='col-sm-6 col-md-4'>
           <UserCard />
-        </div>
+        </div> */}
         <div className='col-sm-6 col-md-7 col-md-offset-1'>
           <div className='row'>
             <TextField
@@ -124,7 +123,6 @@ class User extends Component {
     let userId = this.props.params.id
     let topics = this.state.topics
     let search = this.state.searchData
-    var that = this
     topics.sort((a, b) => {
       if (a.time > b.time) {
         return -1
@@ -138,7 +136,7 @@ class User extends Component {
       let show = search === '' || el.label.indexOf(search) !== -1
       if (show) {
         return (
-          <UserTopic userId={userId} el={el} key={el.id} saveNote={that.saveNote} deleteTopic={that.deleteTopic} />
+          <UserTopic userId={userId} el={el} key={el.id} saveNote={this.saveNote} deleteTopic={this.deleteTopic} />
         )
       }
     })

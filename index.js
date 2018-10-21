@@ -6,7 +6,7 @@ const Endpoints = require('./server/endpoints.js')
 const RemoteDynamoDB = require('./server/clients/rddb.js')
 const bodyParser = require('body-parser')
 const hostname = 'https://zpdg9c0o8j.execute-api.us-west-2.amazonaws.com/'
-const env = 'dev/'
+const env = 'dev'
 
 class GoalDServer {
   constructor (express, port, users, endpoints) {
@@ -49,5 +49,5 @@ const client = new RemoteDynamoDB(hostname, env)
 const endpoints = new Endpoints(client)
 const goalDServer = new GoalDServer(express, port, users, endpoints)
 goalDServer.routes()
-console.log('using', client.type)
+console.log('using', client.constructor.name)
 goalDServer.start()

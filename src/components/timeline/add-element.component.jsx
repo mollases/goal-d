@@ -16,12 +16,11 @@ class AddElement extends Component {
   }
 
   onClickHandler (evt) {
-    let body = { body: this.state.value, userId: this.props.id, nodeId: this.props.nodeId, topicId: this.props.topicId }
-    let that = this
-    Config.postUserTopicOnPost(this.props.id, this.props.topicId, this.props.nodeId, body)
+    let body = { body: this.state.value, userId: this.props.auth.getActiveUser(), nodeId: this.props.nodeId, topicId: this.props.topicId }
+    Config.postUserTopicOnPost(this.props.auth.getActiveUser(), this.props.topicId, this.props.nodeId, body)
       .then(() => { this.props.onSubmitPressed() })
       .then(() => {
-        that.setState({ value: '' })
+        this.setState({ value: '' })
       })
   }
 

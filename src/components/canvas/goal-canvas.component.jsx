@@ -27,7 +27,6 @@ class GoalCanvas extends Component {
     this.layout = {}
     this.onNodeSelected = this.onNodeSelected.bind(this)
     this.onNodeLabelChange = this.onNodeLabelChange.bind(this)
-    this.renderTips = this.renderTips.bind(this)
     this.postMap = this.postMap.bind(this)
     this.toggleTips = this.toggleTips.bind(this)
     // this.toggleGroupingChange = this.toggleGroupingChange.bind(this)
@@ -44,13 +43,8 @@ class GoalCanvas extends Component {
           })
         }
       })
-      .catch(() => {
-        return ''
-      })
+      .catch(() => {}) // dont error out
       .then(() => {
-        // var js = that.cy.json()
-        // js.elements = that.state.map
-        // that.cy.json(js)
         this.cy = GoalDCytoscape(this.state.map)
         this.cy.on('select', (e) => {
           this.setState({ node: e.target, nodeLabel: e.target.data().label })
@@ -62,12 +56,9 @@ class GoalCanvas extends Component {
           this.setState({ node: {}, nodeLabel: '' })
           this.onNodeLabelChange()
         })
-
-        // that.layout = that.cy.layout({name: 'cose-bilkent'})
-        // that.layout.run()
       })
-      .then((label) => {
-        if (label && label !== '') {
+      .then(() => {
+        if (this.state.label && this.state.label !== '') {
           return
         }
         Config.getUserDetails(this.props.auth.getActiveUser())
@@ -150,16 +141,10 @@ class GoalCanvas extends Component {
           <Save style={iconStyles} onClick={this.postMap} /> <ActionList style={iconStyles} onClick={this.toggleTips} />
         </div>
         <div className='row'>
-          {this.renderTips(this.state.showTips)}
+          {this.state.showTips ? <GoalDInstructions /> : ''}
         </div>
       </div>
     )
-  }
-
-  renderTips (show) {
-    if (show) {
-      return <GoalDInstructions />
-    }
   }
 }
 

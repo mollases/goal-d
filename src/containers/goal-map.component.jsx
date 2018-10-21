@@ -46,6 +46,7 @@ class GoalMap extends Component {
             <GoalNode node={this.state.selectedNode} />
             <br />
             <Timeline
+              auth={this.props.auth}
               nodeId={this.state.selectedNode.data().id}
               childNodes={this.state.childNodes}
               id={this.props.params.id}

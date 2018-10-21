@@ -6,12 +6,9 @@ var dynamo = new AWS.DynamoDB()
 
 const userDetails = 'goald-user-details'
 const userDetailsTopic = 'goald-user-details-topics'
+const userDetailsTopicPosts = 'goald-user-details-topics-posts'
 
 class DynamoDynamoDB {
-  constructor () {
-    this.type = 'DynamoDynamoDB'
-  }
-
   getUserDetails (user) {
     let payload = {
       TableName: userDetails,
@@ -67,7 +64,7 @@ class DynamoDynamoDB {
       })
   }
 
-  postUserTopic (user, topic, body, callback) {
+  postUserTopic (user, topic, body) {
     let payload = {
       TableName: userDetailsTopic,
       Item: {
@@ -83,10 +80,27 @@ class DynamoDynamoDB {
       }
     }
     console.log('postUserTopic payload', payload)
-    dynamo.putItem(payload, callback)
+    return dynamo.putItem(payload).promise()
   }
 
-  postUserTopicPost (user, topic, post, body, callback) { console.log(arguments) }
+  postUserTopicPost (user, topic, body, post) {
+    let payload = {
+      TableName: userDetailsTopicPosts,
+      Item: {
+        'user-id': {
+          S: user
+        },
+        topic: {
+          S: topic
+        },
+        Notes: {
+          B: Buffer.from(body)
+        }
+      }
+    }
+    console.log('postUserTopicPost payload', payload)
+    return dynamo.putItem(payload).promise()
+  }
 
   getUserTopicPosts (user, topic, postList, callback) {
     dynamo.scan(user, callback)

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
 
-import _ from 'lodash'
-
 class ChildrenNodes extends Component {
   constructor (props) {
     super(props)
@@ -22,7 +20,7 @@ class ChildrenNodes extends Component {
   }
 
   renderChildren () {
-    return _.map(this.props.childNodes, (el, all) => {
+    return this.props.childNodes.map((el, all) => {
       return (
         <ListItem primaryText={el.data().label} key={el.data().id} />
       )

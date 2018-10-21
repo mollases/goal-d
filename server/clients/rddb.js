@@ -29,11 +29,6 @@ class RemoteDynamoDB {
   constructor (hostname, env) {
     this.hostname = hostname
     this.env = env
-    this.type = 'RemoteDynamoDB'
-  }
-
-  log (msg) {
-    console.log(msg)
   }
 
   async getUserDetails (user) {
