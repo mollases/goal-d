@@ -68,7 +68,7 @@ class User extends Component {
       note: '',
       time: Date.now()
     })
-    Config.postUserDetails(this.props.auth.getActiveUser(), { topics: topics })
+    Config.postUserDetails(this.props.auth.getActiveUser(), topics)
       .then(this.refreshMaps)
       .then(() => {
         this.setState({
@@ -83,7 +83,7 @@ class User extends Component {
     let topics = this.state.topics
     let topic = _.find(topics, { id: id })
     topic.note = content
-    Config.postUserDetails(this.props.auth.getActiveUser(), { topics: topics })
+    Config.postUserDetails(this.props.auth.getActiveUser(), topics)
   }
 
   deleteTopic (id) {}
