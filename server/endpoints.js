@@ -37,6 +37,7 @@ class Endpoints {
       result = await this.client.getUserTopic(request.params.id, request.params.topic)
       console.log('response getUserTopic', result)
     } catch (e) {
+      console.log('err', e)
       result = e
     }
     response.json(result)
@@ -49,6 +50,7 @@ class Endpoints {
       result = await this.client.postUserTopic(request.params.id, request.params.topic, request.body)
       console.log('response postUserTopic', result)
     } catch (e) {
+      console.log('err', e)
       result = e
     }
     response.json(result)

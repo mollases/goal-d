@@ -54,7 +54,7 @@ class DynamoDynamoDB {
     return this.docClient.put(payload).promise()
   }
 
-  getUserTopic (user, topic, callback) {
+  getUserTopic (user, topic) {
     let payload = {
       TableName: userDetailsTopic,
       Key: {
@@ -64,30 +64,45 @@ class DynamoDynamoDB {
     }
     console.log('getUserTopic payload', payload)
     return this.docClient.get(payload).promise()
-      .then(data => JSON.parse(data.Item.item.toString()))
+      .then(data => {
+        console.log(data)
+        try {
+          return JSON.parse(data.Item.item.toString())
+        } catch (e) {
+          return data.Item
+        }
+      })
       .catch(err => {
         console.log('err: getUserTopic', err)
         return err
       })
   }
 
-  postUserTopic (user, topic, body) {
+  postUserTopic (user, topic, item) {
+    let contents = JSON.parse(item)
+    for (let i = 0; i < contents.map.length; i++) {
+      if (contents.map[i].data && contents.map[i].data.label === '') {
+        delete contents.map[i].data.label
+      }
+      if (contents.map[i].classes === '') {
+        delete contents.map[i].classes
+      }
+    }
+
     let payload = {
       TableName: userDetailsTopic,
       Item: {
-        'user-id': {
-          S: user
-        },
-        topic: {
-          S: topic
-        },
-        item: {
-          B: Buffer.from(body)
-        }
+        'user-id': user,
+        topic,
+        ...contents
       }
     }
-    console.log('postUserTopic payload', payload)
-    return dynamo.putItem(payload).promise()
+    console.log('postUserTopic payload', JSON.stringify(payload))
+    return this.docClient.put(payload).promise()
+      .catch(err => {
+        console.log('err', err)
+        throw err
+      })
   }
 
   getUserTopicPosts (user, topic, postList, callback) {

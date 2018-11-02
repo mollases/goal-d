@@ -32,6 +32,11 @@ user-details-models {models}
 * click to edit text, move control plane to right or below cyto window
 * use append_list?
 * lock down s3 access, move index to source from lambda?
+* enter on title pressed
+* optimize for phone
+* graph! -> name the node
+* make the first name be graph to be the title
+* what - why - how / where - who
 
 ## wishlist
 * save as png

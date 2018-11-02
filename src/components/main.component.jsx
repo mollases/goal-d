@@ -44,7 +44,7 @@ class Main extends Component {
         />
 
         <div className='row'>
-          <div className='container col-md-offset-2 col-md-8'>
+          <div className='container col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8'>
             {children}
           </div>
         </div>

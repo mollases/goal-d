@@ -14,7 +14,7 @@ cxtmenu(cytoscape)
 export default (elements) => {
   const cy = cytoscape({
     container: document.getElementById('cy'),
-    panningEnabled: false,
+    userPanningEnabled: false,
     elements,
     layout: { name: 'preset' },
     style: cytoscape.stylesheet()
