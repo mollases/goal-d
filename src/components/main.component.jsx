@@ -27,7 +27,7 @@ class Main extends Component {
       </Link>)
     }
     return (
-      <div>
+      <div className='container'>
         <AppBar
           title={
             <Link to='/'>Goal-d</Link>
@@ -44,7 +44,7 @@ class Main extends Component {
         />
 
         <div className='row'>
-          <div className='container col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8'>
+          <div className='col-xs-offset-1 col-xs-10 col-md-offset-2 col-md-8'>
             {children}
           </div>
         </div>
