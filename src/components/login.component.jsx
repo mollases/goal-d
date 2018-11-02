@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import FlatButton from 'material-ui/FlatButton'
+import autoBind from 'react-autobind'
 
 class Login extends Component {
   constructor (props) {
     super(props)
-    this.onClickHandler = this.onClickHandler.bind(this)
+    autoBind(this)
   }
 
   onClickHandler () {

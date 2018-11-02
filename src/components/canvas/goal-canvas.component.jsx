@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import autoBind from 'react-autobind'
 
 import TextField from 'material-ui/TextField'
 import Save from 'material-ui/svg-icons/content/save'
@@ -25,11 +26,7 @@ class GoalCanvas extends Component {
     }
     this.cy = {}
     this.layout = {}
-    this.onNodeSelected = this.onNodeSelected.bind(this)
-    this.onNodeLabelChange = this.onNodeLabelChange.bind(this)
-    this.postMap = this.postMap.bind(this)
-    this.toggleTips = this.toggleTips.bind(this)
-    // this.toggleGroupingChange = this.toggleGroupingChange.bind(this)
+    autoBind(this)
   }
 
   componentDidMount () {

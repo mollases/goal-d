@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import autoBind from 'react-autobind'
 
 import GoalCanvas from './../components/canvas/goal-canvas.component.jsx'
 import Timeline from './../components/timeline/timeline.component.jsx'
@@ -12,8 +13,7 @@ class GoalMap extends Component {
       selectedNode: null,
       childNodes: []
     }
-    this.onNodeSelected = this.onNodeSelected.bind(this)
-    this.renderTimeline = this.renderTimeline.bind(this)
+    autoBind(this)
   }
 
   onNodeSelected (node, childNodes) {

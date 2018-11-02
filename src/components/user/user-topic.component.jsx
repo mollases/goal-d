@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import autoBind from 'react-autobind'
 import { Link } from 'react-router'
 
 import TextField from 'material-ui/TextField'
@@ -13,10 +14,7 @@ class UserTopic extends Component {
       value: this.props.el.note || '',
       time: new Date(this.props.el.time).toLocaleDateString()
     }
-    this.renderCardText = this.renderCardText.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.saveNote = this.saveNote.bind(this)
-    this.deleteTopic = this.deleteTopic.bind(this)
+    autoBind(this)
   }
 
   handleChange (event) {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import autoBind from 'react-autobind'
 
 import AddElement from './add-element.component.jsx'
 import Element from './element.component.jsx'
@@ -12,9 +13,7 @@ class Timeline extends Component {
     this.state = {
       contents: []
     }
-    this.renderElements = this.renderElements.bind(this)
-    this.callRefresh = this.callRefresh.bind(this)
-    this.renderElements = this.renderElements.bind(this)
+    autoBind(this)
   }
 
   callRefresh (nodeId, childNodes) {

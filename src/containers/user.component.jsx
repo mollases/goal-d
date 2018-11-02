@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import autoBind from 'react-autobind'
+
 import TextField from 'material-ui/TextField'
 import { orange500, blue500 } from 'material-ui/styles/colors'
 import FlatButton from 'material-ui/FlatButton'
@@ -33,12 +35,7 @@ class User extends Component {
       newMap: false,
       topics: []
     }
-    this.renderMaps = this.renderMaps.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.saveNewMap = this.saveNewMap.bind(this)
-    this.refreshMaps = this.refreshMaps.bind(this)
-    this.saveNote = this.saveNote.bind(this)
-    this.deleteTopic = this.deleteTopic.bind(this)
+    autoBind(this)
   }
 
   handleChange (event) {

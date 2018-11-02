@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import autoBind from 'react-autobind'
 import Config from './../../services/config.service.jsx'
 
 import { Card, CardActions, CardHeader } from 'material-ui/Card'
@@ -11,8 +12,7 @@ class AddElement extends Component {
     this.state = {
       value: ''
     }
-    this.onClickHandler = this.onClickHandler.bind(this)
-    this.handleChange = this.handleChange.bind(this)
+    autoBind(this)
   }
 
   onClickHandler (evt) {

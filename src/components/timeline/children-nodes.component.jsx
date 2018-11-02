@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import autoBind from 'react-autobind'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
 
 class ChildrenNodes extends Component {
   constructor (props) {
     super(props)
-    this.renderChildren = this.renderChildren.bind(this)
+    autoBind(this)
   }
 
   render () {
