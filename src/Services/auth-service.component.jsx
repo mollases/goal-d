@@ -1,12 +1,12 @@
 /* global localStorage */
 import auth0 from 'auth0-js'
-import { browserHistory } from 'react-router'
 
 import Config from './config.service.jsx'
 
 export default class AuthService {
-  constructor (clientID, domain) {
+  constructor (clientID, domain, history) {
     // Configure Auth0
+    this.history = history
     this.lock = new auth0.WebAuth({
       clientID,
       domain,
@@ -23,13 +23,13 @@ export default class AuthService {
     this.logout = this.logout.bind(this)
   }
 
-  handleAuthentication () {
+  handleAuthentication (history) {
     this.lock.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
-        browserHistory.replace('/user')
+        history.push('/user')
       } else if (err) {
-        browserHistory.replace('/error')
+        history.push('/error')
       }
     })
   }
@@ -70,12 +70,12 @@ export default class AuthService {
     return new Date().getTime() < expiresAt
   }
 
-  logout () {
+  logout (history) {
     // Clear access token and ID token from local storage
     localStorage.removeItem('access_token')
     localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
     // navigate to the home route
-    browserHistory.replace('/')
+    history.push('/')
   }
 }

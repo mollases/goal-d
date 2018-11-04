@@ -10,7 +10,7 @@ class Login extends Component {
 
   onClickHandler () {
     if (this.props.auth.isAuthenticated()) {
-      this.props.auth.logout()
+      this.props.auth.logout(this.props.history)
     } else {
       this.props.auth.login()
     }
