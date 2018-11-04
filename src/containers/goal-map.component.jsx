@@ -26,9 +26,9 @@ class GoalMap extends Component {
         <div className='row'>
           <GoalCanvas
             auth={this.props.auth}
-            id={this.props.params.id}
+            id={this.props.auth.getActiveUser()}
             onNodeSelected={this.onNodeSelected}
-            topicId={this.props.params.topic} />
+            topicId={this.props.match.params.topic} />
           <br />
         </div>
         <div className='row'>

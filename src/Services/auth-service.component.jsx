@@ -4,9 +4,8 @@ import auth0 from 'auth0-js'
 import Config from './config.service.jsx'
 
 export default class AuthService {
-  constructor (clientID, domain, history) {
+  constructor (clientID, domain) {
     // Configure Auth0
-    this.history = history
     this.lock = new auth0.WebAuth({
       clientID,
       domain,
