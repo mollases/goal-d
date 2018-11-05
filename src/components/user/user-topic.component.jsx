@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 import TextField from 'material-ui/TextField'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
 
 class UserTopic extends Component {
   constructor (props) {
@@ -56,9 +59,9 @@ class UserTopic extends Component {
             label='edit'
             onClick={() => { this.setState({ edit: true }) }}
           />
-          <Link to={'/user/map/' + this.props.el.id}>
+          <NavLink to={'/user/map/' + this.props.el.id}>
               go!
-          </Link>
+          </NavLink>
         </div>
       )
     } else {
@@ -82,9 +85,9 @@ class UserTopic extends Component {
               this.setState({ edit: false })
             }}
           />
-          <Link to={'/user/map/' + this.props.el.id}>
+          <NavLink to={'/user/map/' + this.props.el.id}>
               go!
-          </Link>
+          </NavLink>
         </div>
       )
     }

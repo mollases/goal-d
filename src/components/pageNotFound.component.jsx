@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 class PageNotFound extends Component {
   render () {
     return (
-      <div> Oh no! 404, go <Link to='/' activeClassName='active'>home</Link> </div>
+      <div> Oh no! 404, go <NavLink to='/' activeClassName='active'>home</NavLink> </div>
     )
   }
 }

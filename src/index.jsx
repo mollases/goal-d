@@ -1,19 +1,18 @@
 import React from 'react'
-import { render } from 'react-dom'
 // Import routing components
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import ReactDOM from 'react-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import AuthService from './services/auth-service.component.jsx'
 
-import Main from './components/main.component.jsx'
-import PageNotFound from './components/404.component.jsx'
+import PageNotFound from './components/pageNotFound.component.jsx'
 import About from './components/about.component.jsx'
 import Callback from './components/callback.component.jsx'
 import Welcome from './components/welcome.component.jsx'
 import GoalMap from './containers/goal-map.component.jsx'
 import User from './containers/user.component.jsx'
-
+import Main from './components/main.component.jsx'
 const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com')
 
 const requireAuth = (nextState, replace) => {
@@ -22,27 +21,24 @@ const requireAuth = (nextState, replace) => {
   }
 }
 
-const handleAuthentication = ({ location }) => {
-  if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication()
-  }
-}
-
-render(
+ReactDOM.render((
   <MuiThemeProvider>
-    <Router history={browserHistory}>
-      <Route path='/' component={Main} auth={auth}>
-        <IndexRoute component={Welcome} />
-        <Route path='about' component={About} />
-        <Route path='user' component={(props) => <User auth={auth} {...props} />} onEnter={requireAuth} />
-        <Route path='user/map/:topic' component={(props) => <GoalMap auth={auth} {...props} />} onEnter={requireAuth} />
-        <Route path='callback' component={(props) => {
-          handleAuthentication(props)
-          return <Callback {...props} />
-        }} />
-        <Route path='*' component={PageNotFound} />
-      </Route>
-    </Router>
-  </MuiThemeProvider>,
-  document.getElementById('app')
-)
+    <BrowserRouter>
+      <div>
+        <Main auth={auth} />
+        <div className='container'>
+          <Switch>
+            <Route path='/' exact component={Welcome} auth={auth} />
+            <Route path='/about' component={About} auth={auth} />
+            <Route path='/user/map/:topic' exact component={(props) => <GoalMap auth={auth} {...props} />} onEnter={requireAuth} />
+            <Route path='/user' component={(props) => <User auth={auth} {...props} />} onEnter={requireAuth} />
+            <Route path='/callback' component={(props) => {
+              return <Callback {...props} auth={auth} />
+            }} />
+            <Route component={PageNotFound} auth={auth} />
+          </Switch>
+        </div>
+      </div>
+    </BrowserRouter>
+  </MuiThemeProvider>
+), document.getElementById('app'))

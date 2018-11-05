@@ -117,7 +117,7 @@ class User extends Component {
       return
     }
 
-    let userId = this.props.params.id
+    let userId = this.props.auth.getActiveUser()
     let topics = this.state.topics
     let search = this.state.searchData
     topics.sort((a, b) => {
