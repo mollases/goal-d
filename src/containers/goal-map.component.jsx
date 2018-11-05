@@ -23,7 +23,7 @@ class GoalMap extends Component {
   render () {
     return (
       <div>
-        <div className='row'>
+        <div className='row col-md-12'>
           <GoalCanvas
             auth={this.props.auth}
             id={this.props.auth.getActiveUser()}
@@ -31,7 +31,7 @@ class GoalMap extends Component {
             topicId={this.props.match.params.topic} />
           <br />
         </div>
-        <div className='row'>
+        <div className='row col-md-12'>
           {this.renderTimeline()}
         </div>
       </div>
@@ -41,7 +41,7 @@ class GoalMap extends Component {
   renderTimeline () {
     if (this.state.selectedNode && this.state.selectedNode.data) {
       return (
-        <div key='0' className='row'>
+        <div key='0' className='row col-md-12'>
           <div className='col-md-8'>
             <GoalNode node={this.state.selectedNode} />
             <br />
@@ -49,8 +49,8 @@ class GoalMap extends Component {
               auth={this.props.auth}
               nodeId={this.state.selectedNode.data().id}
               childNodes={this.state.childNodes}
-              id={this.props.params.id}
-              topicId={this.props.params.topic} />
+              id={this.props.auth.getActiveUser()}
+              topicId={this.props.match.params.topic} />
           </div>
           <div className='col-md-4'>
             <ChildrenNodes node={this.state.selectedNode} childNodes={this.state.childNodes} />

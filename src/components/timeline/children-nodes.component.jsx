@@ -21,11 +21,14 @@ class ChildrenNodes extends Component {
   }
 
   renderChildren () {
-    return this.props.childNodes.map((el, all) => {
-      return (
-        <ListItem primaryText={el.data().label} key={el.data().id} />
-      )
-    })
+    if (this.props.childNodes && this.props.childNodes.length) {
+      return this.props.childNodes.map((el, all) => {
+        return (
+          <ListItem primaryText={el.data().label} key={el.data().id} />
+        )
+      })
+    }
+    return (<ListItem primaryText='Select a node with children to see its children here' />)
   }
 }
 

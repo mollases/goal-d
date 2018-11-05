@@ -114,7 +114,7 @@ class GoalCanvas extends Component {
   render () {
     return (
       <div>
-        <div className='row'>
+        <div className='row col-md-12'>
           <h3 className='col-md-4'>{this.state.label}</h3>
           <TextField
             className='col-md-4'
@@ -128,16 +128,16 @@ class GoalCanvas extends Component {
             onToggle={this.toggleGroupingChange}
           /> */}
         </div>
-        <div className='row'>
+        <div className='row col-md-12'>
           <div
             className='col-md-4'
             id='cy'
           />
         </div>
-        <div className='row'>
+        <div className='row col-md-12'>
           <Save style={iconStyles} onClick={this.postMap} /> <ActionList style={iconStyles} onClick={this.toggleTips} />
         </div>
-        <div className='row'>
+        <div className='row col-md-12'>
           {this.state.showTips ? <GoalDInstructions /> : ''}
         </div>
       </div>
