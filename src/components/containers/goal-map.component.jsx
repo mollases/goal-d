@@ -28,14 +28,11 @@ const TimelinewNodes = ({ selectedNode, selectedNodeChildren, auth, store, user,
 class GoalMap extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      bump: 0
-    }
     autoBind(this)
   }
 
-  onNodeSelected () {
-    this.setState({ bump: this.state.bump++ })
+  componentWillMount () {
+    this.props.store.subscribe(this.forceUpdate.bind(this))
   }
 
   render () {
@@ -50,7 +47,6 @@ class GoalMap extends Component {
           <GoalCanvas
             store={this.props.store}
             auth={this.props.auth}
-            onNodeSelected={this.onNodeSelected}
             id={this.props.auth.getActiveUser()}
             topicId={this.props.match.params.topic} />
           <br />

@@ -92,7 +92,6 @@ class GoalCanvas extends Component {
   onNodeSelected (node) {
     var children = this.cy.edges('[source = "' + node.data().id + '"]').targets()
     this.props.store.dispatch(nodeSelected(node, children))
-    this.props.onNodeSelected()
   }
 
   onNodeLabelChange (event, extra, useData) {
