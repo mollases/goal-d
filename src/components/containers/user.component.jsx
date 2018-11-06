@@ -8,8 +8,9 @@ import { List } from 'material-ui/List'
 
 import _ from 'lodash'
 
-import Config from './../services/config.service.jsx'
-import UserTopic from './../components/user/user-topic.component.jsx'
+import Config from './../../services/config.service.jsx'
+import UserTopic from './../user/user-topic.component.jsx'
+import { getTopics, postTopic, updateSearchParam } from './../../actions/user.actions.jsx'
 // import UserCard from './../components/user/user-card.component.jsx'
 
 const styles = {
@@ -30,54 +31,43 @@ const styles = {
 class User extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      searchData: '',
-      newMap: false,
-      topics: []
-    }
     autoBind(this)
   }
 
   handleChange (event) {
-    this.setState({ searchData: event.target.value })
+    this.props.store.dispatch(updateSearchParam(event.target.value))
   }
 
   refreshMaps () {
-    return Config.getUserDetails(this.props.auth.getActiveUser())
-      .then(response => response.json())
-      .then(jsn => this.setState({ topics: jsn.topics || [] }))
+    return getTopics(Config, this.props.auth.getActiveUser(), this.props.store.dispatch)
   }
 
   componentWillMount () {
-    return this.refreshMaps()
+    this.props.store.subscribe(this.forceUpdate.bind(this))
+    this.refreshMaps()
   }
 
   saveNewMap () {
-    let topic = this.state.searchData.trim()
-    if (!topic) {
+    const stateProps = this.props.store.getState()
+    let search = stateProps.searchData.trim()
+    if (!search) {
       return
     }
 
-    let topics = this.state.topics
+    let topics = stateProps.topics
     topics.push({
       id: topics.length,
-      label: topic,
+      label: search,
       note: '',
       time: Date.now()
     })
-    Config.postUserDetails(this.props.auth.getActiveUser(), topics)
-      .then(this.refreshMaps)
-      .then(() => {
-        this.setState({
-          searchData: '',
-          newTopic: ''
-        })
-      })
+    postTopic(topics, Config, this.props.auth.getActiveUser(), this.props.store.dispatch)
   }
 
   saveNote (id, note) {
+    const stateProps = this.props.store.getState()
     let content = note.trim()
-    let topics = this.state.topics
+    let topics = stateProps.topics
     let topic = _.find(topics, { id: id })
     topic.note = content
     Config.postUserDetails(this.props.auth.getActiveUser(), topics)
@@ -86,6 +76,7 @@ class User extends Component {
   deleteTopic (id) {}
 
   render () {
+    const stateProps = this.props.store.getState()
     return (
       <div className='row'>
         {/* <div className='col-sm-6 col-md-4'>
@@ -97,7 +88,7 @@ class User extends Component {
               floatingLabelText='Search or add...'
               floatingLabelStyle={styles.floatingLabelStyle}
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-              value={this.state.searchData}
+              value={stateProps.searchData}
               onChange={this.handleChange}
             />
             <FlatButton label='New' onClick={this.saveNewMap} />
@@ -113,13 +104,14 @@ class User extends Component {
   }
 
   renderMaps () {
-    if (!this.state.topics) {
+    const stateProps = this.props.store.getState()
+    if (!stateProps.topics) {
       return
     }
 
     let userId = this.props.auth.getActiveUser()
-    let topics = this.state.topics
-    let search = this.state.searchData
+    let topics = stateProps.topics
+    let search = stateProps.searchData
     topics.sort((a, b) => {
       if (a.time > b.time) {
         return -1

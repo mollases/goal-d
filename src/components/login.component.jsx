@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import FlatButton from 'material-ui/FlatButton'
 import autoBind from 'react-autobind'
 
@@ -17,12 +18,10 @@ class Login extends Component {
   }
 
   render () {
-    const { auth } = this.props
-
     return (
-      <FlatButton label={auth.isAuthenticated() ? 'logout' : 'login'} onClick={this.onClickHandler} />
+      <FlatButton label={this.props.auth.isAuthenticated() ? 'logout' : 'login'} onClick={this.onClickHandler} />
     )
   }
 }
 
-export default Login
+export default withRouter(Login)
