@@ -68,9 +68,9 @@ class User extends Component {
     const stateProps = this.props.store.getState()
     let content = note.trim()
     let topics = stateProps.topics
-    let topic = _.find(topics, { id: id })
+    let topic = _.find(topics, { id })
     topic.note = content
-    Config.postUserDetails(this.props.auth.getActiveUser(), topics)
+    postTopic(topics, Config, this.props.auth.getActiveUser(), this.props.store.dispatch)
   }
 
   deleteTopic (id) {}
