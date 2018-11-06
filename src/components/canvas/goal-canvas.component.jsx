@@ -9,6 +9,7 @@ import ActionList from 'material-ui/svg-icons/action/list'
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
 import Config from '../../services/config.service.jsx'
+import { toggleInstructions, nodeSelected } from './../../actions/goal-canvas.actions.jsx'
 
 const iconStyles = {
   marginRight: 24
@@ -18,7 +19,6 @@ class GoalCanvas extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      showTips: false,
       nodeGrouping: false,
       map: {},
       nodeLabel: '',
@@ -29,7 +29,12 @@ class GoalCanvas extends Component {
     autoBind(this)
   }
 
+  getState () {
+    return this.props.store.getState().GoalCanvasReducer
+  }
+
   componentDidMount () {
+    this.props.store.subscribe(this.forceUpdate.bind(this))
     Config.getUserTopic(this.props.auth.getActiveUser(), this.props.topicId)
       .then((response) => response.json())
       .then((jsn) => {
@@ -86,7 +91,7 @@ class GoalCanvas extends Component {
 
   onNodeSelected (node) {
     var children = this.cy.edges('[source = "' + node.data().id + '"]').targets()
-    this.props.onNodeSelected(node, children)
+    this.props.store.dispatch(nodeSelected(node, children))
   }
 
   onNodeLabelChange (event, extra, useData) {
@@ -107,11 +112,11 @@ class GoalCanvas extends Component {
   // }
 
   toggleTips () {
-    let toggle = !this.state.showTips
-    this.setState({ showTips: toggle })
+    this.props.store.dispatch(toggleInstructions())
   }
 
   render () {
+    const stateProps = this.getState()
     return (
       <div>
         <div className='row col-md-12'>
@@ -138,7 +143,7 @@ class GoalCanvas extends Component {
           <Save style={iconStyles} onClick={this.postMap} /> <ActionList style={iconStyles} onClick={this.toggleTips} />
         </div>
         <div className='row col-md-12'>
-          {this.state.showTips ? <GoalDInstructions /> : ''}
+          {stateProps.showTips ? <GoalDInstructions /> : ''}
         </div>
       </div>
     )

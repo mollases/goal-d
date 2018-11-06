@@ -6,58 +6,61 @@ import Timeline from './../timeline/timeline.component.jsx'
 import GoalNode from './../timeline/goal-node.component.jsx'
 import ChildrenNodes from './../timeline/children-nodes.component.jsx'
 
+const TimelinewNodes = ({ selectedNode, selectedNodeChildren, auth, store, user, topic }) => (
+  <div className='row col-md-12'>
+    <div className='col-md-8'>
+      <GoalNode node={selectedNode} />
+      <br />
+      <Timeline
+        store={store}
+        auth={auth}
+        nodeId={selectedNode.data().id}
+        childNodes={selectedNodeChildren}
+        id={user}
+        topicId={topic} />
+    </div>
+    <div className='col-md-4'>
+      <ChildrenNodes node={selectedNode} childNodes={selectedNodeChildren} />
+    </div>
+  </div>
+)
+
 class GoalMap extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      selectedNode: null,
-      childNodes: []
-    }
     autoBind(this)
   }
 
-  onNodeSelected (node, childNodes) {
-    this.setState({ selectedNode: node, childNodes: childNodes })
-  }
-
   render () {
+    const stateProps = this.props.store.getState().GoalCanvasReducer
+    let renderTimeline = false
+    if (stateProps.selectedNode && stateProps.selectedNode.data) {
+      renderTimeline = true
+    }
     return (
       <div>
         <div className='row col-md-12'>
           <GoalCanvas
+            store={this.props.store}
             auth={this.props.auth}
             id={this.props.auth.getActiveUser()}
-            onNodeSelected={this.onNodeSelected}
             topicId={this.props.match.params.topic} />
           <br />
         </div>
         <div className='row col-md-12'>
-          {this.renderTimeline()}
+          { !renderTimeline ? null
+            : <TimelinewNodes
+              selectedNode={stateProps.selectedNode}
+              selectedNodeChildren={stateProps.selectedNodeChildren}
+              auth={this.props.auth}
+              store={this.props.store}
+              user={this.props.auth.getActiveUser()}
+              topicId={this.props.match.params.topic}
+            />
+          }
         </div>
       </div>
     )
-  }
-
-  renderTimeline () {
-    if (this.state.selectedNode && this.state.selectedNode.data) {
-      return (
-        <div className='row col-md-12'>
-          <div className='col-md-8'>
-            <GoalNode node={this.state.selectedNode} />
-            <br />
-            <Timeline
-              auth={this.props.auth}
-              nodeId={this.state.selectedNode.data().id}
-              childNodes={this.state.childNodes}
-              id={this.props.auth.getActiveUser()}
-              topicId={this.props.match.params.topic} />
-          </div>
-          <div className='col-md-4'>
-            <ChildrenNodes node={this.state.selectedNode} childNodes={this.state.childNodes} />
-          </div>
-        </div>
-      )
-    }
   }
 }
 

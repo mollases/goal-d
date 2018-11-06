@@ -34,6 +34,10 @@ class User extends Component {
     autoBind(this)
   }
 
+  getState () {
+    return this.props.store.getState().UserReducer
+  }
+
   handleChange (event) {
     this.props.store.dispatch(updateSearchParam(event.target.value))
   }
@@ -48,7 +52,7 @@ class User extends Component {
   }
 
   saveNewMap () {
-    const stateProps = this.props.store.getState()
+    const stateProps = this.getState()
     let search = stateProps.searchData.trim()
     if (!search) {
       return
@@ -65,7 +69,7 @@ class User extends Component {
   }
 
   saveNote (id, note) {
-    const stateProps = this.props.store.getState()
+    const stateProps = this.getState()
     let content = note.trim()
     let topics = stateProps.topics
     let topic = _.find(topics, { id })
@@ -76,7 +80,7 @@ class User extends Component {
   deleteTopic (id) {}
 
   render () {
-    const stateProps = this.props.store.getState()
+    const stateProps = this.getState()
     return (
       <div className='row'>
         {/* <div className='col-sm-6 col-md-4'>
@@ -104,7 +108,7 @@ class User extends Component {
   }
 
   renderMaps () {
-    const stateProps = this.props.store.getState()
+    const stateProps = this.getState()
     if (!stateProps.topics) {
       return
     }

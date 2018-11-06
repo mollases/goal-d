@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
@@ -17,9 +17,11 @@ import GoalMap from './components/containers/goal-map.component.jsx'
 import User from './components/containers/user.component.jsx'
 
 import UserReducer from './reducers/user.reducer.jsx'
+import GoalCanvasReducer from './reducers/goal-canvas.reducer.jsx'
 
 const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com')
-let store = createStore(UserReducer)
+let reducers = combineReducers({ UserReducer, GoalCanvasReducer })
+let store = createStore(reducers)
 
 ReactDOM.render((
   <MuiThemeProvider>
