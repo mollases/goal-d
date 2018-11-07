@@ -11,11 +11,10 @@ coseBilkent(cytoscape)
 edgehandles(cytoscape)
 cxtmenu(cytoscape)
 
-export default (elements) => {
+export default () => {
   const cy = cytoscape({
     container: document.getElementById('cy'),
     userPanningEnabled: false,
-    elements,
     layout: { name: 'preset' },
     style: cytoscape.stylesheet()
       .selector('node')

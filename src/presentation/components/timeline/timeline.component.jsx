@@ -5,7 +5,7 @@ import autoBind from 'react-autobind'
 import AddElement from './add-element.component.jsx'
 import Element from './element.component.jsx'
 
-import Config from './../../services/config.service.jsx'
+import Config from './../../../services/config.service.jsx'
 
 class Timeline extends Component {
   constructor (props) {
@@ -21,7 +21,7 @@ class Timeline extends Component {
     let _childNodes = _children.map((v) => v.data().id)
     var children = _childNodes.join(',')
 
-    Config.getUserTopicPostList(this.props.auth.getActiveUser(), this.props.topicId, nodeId, _childNodes)
+    Config.getUserTopicPostList(this.props.userId, this.props.topicId, nodeId, _childNodes)
       .then((response) => response.json())
       .then(response2 => {
         let sorted = _.sortBy(_.flatten(response2).map(JSON.parse), 'timestamp').reverse()
@@ -53,7 +53,7 @@ class Timeline extends Component {
       <div>
         <AddElement
           onSubmitPressed={this.callRefresh.bind(this.props.nodeId)}
-          auth={this.props.auth}
+          userId={this.props.userId}
           nodeId={this.props.nodeId}
           topicId={this.props.topicId}
           id={this.props.id} />

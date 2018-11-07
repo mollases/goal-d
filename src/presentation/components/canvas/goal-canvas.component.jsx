@@ -8,8 +8,8 @@ import ActionList from 'material-ui/svg-icons/action/list'
 
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
-import Config from '../../services/config.service.jsx'
-import { toggleInstructions, nodeSelected } from './../../actions/goal-canvas.actions.jsx'
+import Config from '../../../services/config.service.jsx'
+import { toggleInstructions, nodeSelected } from './../../../actions/goal-canvas.actions.jsx'
 
 const iconStyles = {
   marginRight: 24
@@ -35,7 +35,7 @@ class GoalCanvas extends Component {
 
   componentDidMount () {
     this.props.store.subscribe(this.forceUpdate.bind(this))
-    Config.getUserTopic(this.props.auth.getActiveUser(), this.props.topicId)
+    Config.getUserTopic(this.props.userId, this.props.topicId)
       .then((response) => response.json())
       .then((jsn) => {
         if (jsn) {
@@ -47,7 +47,10 @@ class GoalCanvas extends Component {
       })
       .catch(() => {}) // dont error out
       .then(() => {
-        this.cy = GoalDCytoscape(this.state.map)
+        this.cy = GoalDCytoscape()
+        this.cy.add(this.state.map)
+        let layout = this.cy.layout({ name: 'preset' })
+        layout.run()
         this.cy.on('select', (e) => {
           this.setState({ node: e.target, nodeLabel: e.target.data().label })
           this.onNodeLabelChange(e.target.data(), '', true)
@@ -63,7 +66,7 @@ class GoalCanvas extends Component {
         if (this.state.label && this.state.label !== '') {
           return
         }
-        Config.getUserDetails(this.props.auth.getActiveUser())
+        Config.getUserDetails(this.props.userId)
           .then((r) => r.json())
           .then((jsn) => {
             let label = jsn.topics.filter((el) => {
@@ -82,7 +85,7 @@ class GoalCanvas extends Component {
       map: this.cy.elements().jsons()
     }
     this.setState({ map: body.map })
-    Config.postUserTopic(this.props.auth.getActiveUser(), this.props.topicId, body)
+    Config.postUserTopic(this.props.userId, this.props.topicId, body)
   }
 
   componentWillUnmount () {

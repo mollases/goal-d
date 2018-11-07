@@ -9,7 +9,7 @@ import { List } from 'material-ui/List'
 import _ from 'lodash'
 
 import Config from './../../services/config.service.jsx'
-import UserTopic from './../user/user-topic.component.jsx'
+import UserTopic from './../components/user/user-topic.component.jsx'
 import { getTopics, postTopic, updateSearchParam } from './../../actions/user.actions.jsx'
 // import UserCard from './../components/user/user-card.component.jsx'
 
