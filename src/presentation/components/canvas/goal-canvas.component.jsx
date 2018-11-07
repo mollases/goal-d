@@ -9,7 +9,7 @@ import ActionList from 'material-ui/svg-icons/action/list'
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
 import Config from '../../../services/config.service.jsx'
-import { toggleInstructions, nodeSelected } from './../../../actions/goal-canvas.actions.jsx'
+import { toggleInstructions, nodeSelected, getLabel } from './../../../actions/goal-canvas.actions.jsx'
 
 const iconStyles = {
   marginRight: 24
@@ -25,7 +25,6 @@ class GoalCanvas extends Component {
       node: {}
     }
     this.cy = {}
-    this.layout = {}
     autoBind(this)
   }
 
@@ -63,25 +62,18 @@ class GoalCanvas extends Component {
         })
       })
       .then(() => {
-        if (this.state.label && this.state.label !== '') {
+        let stateProps = this.getState()
+        if (stateProps.label && stateProps.label !== '') {
           return
         }
-        Config.getUserDetails(this.props.userId)
-          .then((r) => r.json())
-          .then((jsn) => {
-            let label = jsn.topics.filter((el) => {
-              if (el.id === parseInt(this.props.topicId)) {
-                return el
-              }
-            })[0].label
-            this.setState({ label: label })
-          })
+        getLabel(this.props.topicId, this.props.userId, Config, this.props.store.dispatch)
       })
   }
 
   postMap () {
+    const stateProps = this.getState()
     let body = {
-      label: this.state.label,
+      label: stateProps.label,
       map: this.cy.elements().jsons()
     }
     this.setState({ map: body.map })
@@ -123,7 +115,7 @@ class GoalCanvas extends Component {
     return (
       <div>
         <div className='row col-md-12'>
-          <h3 className='col-md-4'>{this.state.label}</h3>
+          <h3 className='col-md-4'>{stateProps.label}</h3>
           <TextField
             className='col-md-4'
             floatingLabelText='graph!'

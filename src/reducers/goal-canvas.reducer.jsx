@@ -3,7 +3,8 @@ import { GOAL_CANVAS_ACTIONS } from './../actions/goal-canvas.actions.jsx'
 const initialState = {
   showTips: false,
   selectedNode: {},
-  selectedNodeChildren: []
+  selectedNodeChildren: [],
+  label: ''
 }
 
 const GoalCanvasReducer = (state = initialState, action) => {
@@ -13,6 +14,11 @@ const GoalCanvasReducer = (state = initialState, action) => {
         showTips: !state.showTips
       })
       return toggleTips
+    case GOAL_CANVAS_ACTIONS.GET_LABEL_SUCCESS:
+      const withLabel = Object.assign({}, state, {
+        label: action.label
+      })
+      return withLabel
     case GOAL_CANVAS_ACTIONS.NODE_SELECTED:
       const withSelectedNode = Object.assign({}, state, {
         selectedNode: action.selectedNode,

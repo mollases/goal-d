@@ -19,15 +19,15 @@ const updateSearchParam = (newSearch) => {
   }
 }
 
-const postTopic = (topics, config, user, dispatch) => {
-  config.postUserDetails(user, topics)
-    .then(() => getTopics(config, user, dispatch))
+const postTopic = (topics, config, userId, dispatch) => {
+  config.postUserDetails(userId, topics)
+    .then(() => getTopics(config, userId, dispatch))
     .then(() => dispatch(postTopicSuccess()))
     .catch(() => dispatch(postTopicFailure()))
 }
 
-const getTopics = (config, user, dispatch) => {
-  return config.getUserDetails(user)
+const getTopics = (config, userId, dispatch) => {
+  return config.getUserDetails(userId)
     .then(response => response.json())
     .then(jsn => (jsn.topics || []))
     .then(topics => dispatch(getTopicsSuccess(topics)))

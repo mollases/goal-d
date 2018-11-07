@@ -55,8 +55,7 @@ class Timeline extends Component {
           onSubmitPressed={this.callRefresh.bind(this.props.nodeId)}
           userId={this.props.userId}
           nodeId={this.props.nodeId}
-          topicId={this.props.topicId}
-          id={this.props.id} />
+          topicId={this.props.topicId} />
         <br />
         {this.renderElements()}
       </div>
