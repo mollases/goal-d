@@ -9,7 +9,7 @@ import ActionList from 'material-ui/svg-icons/action/list'
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
 import Config from '../../../services/config.service.jsx'
-import { toggleInstructions, nodeSelected, getLabel } from './../../../actions/goal-canvas.actions.jsx'
+import { toggleInstructions, nodeSelected, getTopicLabel, getTopicMap } from './../../../actions/goal-canvas.actions.jsx'
 
 const iconStyles = {
   marginRight: 24
@@ -18,12 +18,6 @@ const iconStyles = {
 class GoalCanvas extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      nodeGrouping: false,
-      map: {},
-      nodeLabel: '',
-      node: {}
-    }
     this.cy = {}
     autoBind(this)
   }
@@ -34,31 +28,18 @@ class GoalCanvas extends Component {
 
   componentDidMount () {
     this.props.store.subscribe(this.forceUpdate.bind(this))
-    Config.getUserTopic(this.props.userId, this.props.topicId)
-      .then((response) => response.json())
-      .then((jsn) => {
-        if (jsn) {
-          this.setState({
-            label: jsn.label,
-            map: jsn.map
-          })
-        }
-      })
-      .catch(() => {}) // dont error out
+    getTopicMap(this.props.topicId, this.props.userId, Config, this.props.store.dispatch)
       .then(() => {
+        const stateProps = this.getState()
         this.cy = GoalDCytoscape()
-        this.cy.add(this.state.map)
+        this.cy.add(stateProps.map)
         let layout = this.cy.layout({ name: 'preset' })
         layout.run()
         this.cy.on('select', (e) => {
-          this.setState({ node: e.target, nodeLabel: e.target.data().label })
-          this.onNodeLabelChange(e.target.data(), '', true)
           this.onNodeSelected(e.target)
         })
         this.cy.on('unselect', (e) => {
-          e.target.unselect()
-          this.setState({ node: {}, nodeLabel: '' })
-          this.onNodeLabelChange()
+          this.onNodeSelected()
         })
       })
       .then(() => {
@@ -66,7 +47,7 @@ class GoalCanvas extends Component {
         if (stateProps.label && stateProps.label !== '') {
           return
         }
-        getLabel(this.props.topicId, this.props.userId, Config, this.props.store.dispatch)
+        getTopicLabel(this.props.topicId, this.props.userId, Config, this.props.store.dispatch)
       })
   }
 
@@ -85,26 +66,27 @@ class GoalCanvas extends Component {
   }
 
   onNodeSelected (node) {
-    var children = this.cy.edges('[source = "' + node.data().id + '"]').targets()
-    this.props.store.dispatch(nodeSelected(node, children))
+    if (node) {
+      var children = this.cy.edges('[source = "' + node.data().id + '"]').targets()
+      this.props.store.dispatch(nodeSelected(node, node.data().label, children))
+    } else {
+      this.props.store.dispatch(nodeSelected({}, '', []))
+    }
   }
 
   onNodeLabelChange (event, extra, useData) {
     var val = ''
+    const stateProps = this.getState()
     if (event !== undefined) {
       val = event.target && event.target.value
       if (useData) {
-        val = this.state.node.data().label
+        val = stateProps.selectedNode.data().label
       }
-      this.state.node.data('label', val)
+      stateProps.selectedNode.data('label', val)
     }
-    this.setState({ nodeLabel: val })
-  }
 
-  // toggleGroupingChange () {
-  //   let toggle = !this.state.nodeGrouping
-  //   this.setState({ nodeGrouping: toggle })
-  // }
+    this.props.store.dispatch(nodeSelected(stateProps.selectedNode, val, stateProps.selectedNodeChildren))
+  }
 
   toggleTips () {
     this.props.store.dispatch(toggleInstructions())
@@ -119,14 +101,9 @@ class GoalCanvas extends Component {
           <TextField
             className='col-md-4'
             floatingLabelText='graph!'
-            value={this.state.nodeLabel}
+            value={stateProps.selectedNodeLabel}
             onChange={this.onNodeLabelChange}
           />
-          {/* <Toggle
-            label='grouping'
-            labelPosition='right'
-            onToggle={this.toggleGroupingChange}
-          /> */}
         </div>
         <div className='row col-md-12'>
           <div
