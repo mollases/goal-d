@@ -18,7 +18,7 @@ class Timeline extends Component {
 
   callRefresh (nodeId, childNodes) {
     let _children = childNodes || this.props.childNodes
-    let _childNodes = _children.map((v) => v.data().id)
+    let _childNodes = _children.map((v) => v.id())
     var children = _childNodes.join(',')
 
     Config.getUserTopicPostList(this.props.userId, this.props.topicId, nodeId, _childNodes)

@@ -58,8 +58,8 @@ class GoalCanvas extends Component {
 
   onNodeSelected (node) {
     if (node) {
-      var children = this.cy.edges('[source = "' + node.data().id + '"]').targets()
-      this.props.store.dispatch(nodeSelected(node, node.data().label, children))
+      var children = this.cy.edges('[source = "' + node.id() + '"]').targets()
+      this.props.store.dispatch(nodeSelected(node, node.data('label'), children))
     } else {
       this.props.store.dispatch(nodeSelected({}, '', []))
     }
@@ -70,7 +70,7 @@ class GoalCanvas extends Component {
     if (event !== undefined) {
       val = event.target && event.target.value
       if (useData) {
-        val = this.props.selectedNode.data().label
+        val = this.props.selectedNode.data('label')
       }
       this.props.selectedNode.data('label', val)
     }

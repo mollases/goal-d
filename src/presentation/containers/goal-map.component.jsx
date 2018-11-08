@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
 import GoalCanvas from './../components/canvas/goal-canvas.component.jsx'
@@ -13,7 +14,7 @@ const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, top
       <br />
       <Timeline
         store={store}
-        nodeId={selectedNode.data().id}
+        nodeId={selectedNode.id()}
         childNodes={selectedNodeChildren}
         userId={userId}
         topicId={topic} />
@@ -30,14 +31,9 @@ class GoalMap extends Component {
     autoBind(this)
   }
 
-  componentWillMount () {
-    this.props.store.subscribe(this.forceUpdate.bind(this))
-  }
-
   render () {
-    const stateProps = this.props.store.getState().GoalCanvasReducer
     let renderTimeline = false
-    if (stateProps.selectedNode && stateProps.selectedNode.data) {
+    if (this.props.selectedNode && this.props.selectedNode.data) {
       renderTimeline = true
     }
     return (
@@ -52,8 +48,8 @@ class GoalMap extends Component {
         <div className='row col-md-12'>
           { !renderTimeline ? null
             : <TimelinewNodes
-              selectedNode={stateProps.selectedNode}
-              selectedNodeChildren={stateProps.selectedNodeChildren}
+              selectedNode={this.props.selectedNode}
+              selectedNodeChildren={this.props.selectedNodeChildren}
               store={this.props.store}
               userId={this.props.auth.getActiveUser()}
               topicId={this.props.match.params.topic}
@@ -65,4 +61,11 @@ class GoalMap extends Component {
   }
 }
 
-export default GoalMap
+const mapStateToProps = state => {
+  return {
+    selectedNode: state.GoalCanvasReducer.selectedNode,
+    selectedNodeChildren: state.GoalCanvasReducer.selectedNodeChildren
+  }
+}
+
+export default connect(mapStateToProps)(GoalMap)

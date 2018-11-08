@@ -23,7 +23,7 @@ class GoalNode extends Component {
     return (
       <Card>
         <CardTitle
-          title={this.props.node.data().label}
+          title={this.props.node.data('label')}
           // actAsExpander
           // showExpandableButton
         />

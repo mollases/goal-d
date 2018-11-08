@@ -15,6 +15,6 @@ export default class Callback extends Component {
   }
 
   render () {
-    return (<h1>Loading Page</h1>)
+    return (<h1>Something went wrong logging you in, dont worry, I'm on it.</h1>)
   }
 }
