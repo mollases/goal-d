@@ -1,3 +1,5 @@
+import Config from './../services/config.service.jsx'
+
 const POST_TOPICS_SUCCESS = 'POST_TOPICS_SUCCESS'
 const POST_TOPICS_FAILURE = 'POST_TOPICS_FAILURE'
 const GET_TOPICS_SUCCESS = 'GET_TOPICS_SUCCESS'
@@ -19,15 +21,15 @@ const updateSearchParam = (newSearch) => {
   }
 }
 
-const postTopic = (topics, config, userId, dispatch) => {
-  config.postUserDetails(userId, topics)
-    .then(() => getTopics(config, userId, dispatch))
+const postTopic = (topics, userId, dispatch) => {
+  Config.postUserDetails(userId, topics)
+    .then(() => getTopics(userId, dispatch))
     .then(() => dispatch(postTopicSuccess()))
     .catch(() => dispatch(postTopicFailure()))
 }
 
-const getTopics = (config, userId, dispatch) => {
-  return config.getUserDetails(userId)
+const getTopics = (userId, dispatch) => {
+  return Config.getUserDetails(userId)
     .then(response => response.json())
     .then(jsn => (jsn.topics || []))
     .then(topics => dispatch(getTopicsSuccess(topics)))

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
 import TextField from 'material-ui/TextField'
@@ -8,7 +9,6 @@ import { List } from 'material-ui/List'
 
 import _ from 'lodash'
 
-import Config from './../../services/config.service.jsx'
 import UserTopic from './../components/user/user-topic.component.jsx'
 import { getTopics, postTopic, updateSearchParam } from './../../actions/user.actions.jsx'
 // import UserCard from './../components/user/user-card.component.jsx'
@@ -34,53 +34,45 @@ class User extends Component {
     autoBind(this)
   }
 
-  getState () {
-    return this.props.store.getState().UserReducer
-  }
-
   handleChange (event) {
     this.props.store.dispatch(updateSearchParam(event.target.value))
   }
 
   refreshMaps () {
-    return getTopics(Config, this.props.auth.getActiveUser(), this.props.store.dispatch)
+    return getTopics(this.props.auth.getActiveUser(), this.props.store.dispatch)
   }
 
   componentWillMount () {
-    this.props.store.subscribe(this.forceUpdate.bind(this))
     this.refreshMaps()
   }
 
   saveNewMap () {
-    const stateProps = this.getState()
-    let search = stateProps.searchData.trim()
+    let search = this.props.searchData.trim()
     if (!search) {
       return
     }
 
-    let topics = stateProps.topics
+    let topics = this.props.topics
     topics.push({
       id: topics.length,
       label: search,
       note: '',
       time: Date.now()
     })
-    postTopic(topics, Config, this.props.auth.getActiveUser(), this.props.store.dispatch)
+    postTopic(topics, this.props.auth.getActiveUser(), this.props.store.dispatch)
   }
 
   saveNote (id, note) {
-    const stateProps = this.getState()
     let content = note.trim()
-    let topics = stateProps.topics
+    let topics = this.props.topics
     let topic = _.find(topics, { id })
     topic.note = content
-    postTopic(topics, Config, this.props.auth.getActiveUser(), this.props.store.dispatch)
+    postTopic(topics, this.props.auth.getActiveUser(), this.props.store.dispatch)
   }
 
   deleteTopic (id) {}
 
   render () {
-    const stateProps = this.getState()
     return (
       <div className='row'>
         {/* <div className='col-sm-6 col-md-4'>
@@ -92,7 +84,7 @@ class User extends Component {
               floatingLabelText='Search or add...'
               floatingLabelStyle={styles.floatingLabelStyle}
               floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-              value={stateProps.searchData}
+              value={this.props.searchData}
               onChange={this.handleChange}
             />
             <FlatButton label='New' onClick={this.saveNewMap} />
@@ -108,14 +100,13 @@ class User extends Component {
   }
 
   renderMaps () {
-    const stateProps = this.getState()
-    if (!stateProps.topics) {
+    if (!this.props.topics) {
       return
     }
 
     let userId = this.props.auth.getActiveUser()
-    let topics = stateProps.topics
-    let search = stateProps.searchData
+    let topics = this.props.topics
+    let search = this.props.searchData
     topics.sort((a, b) => {
       if (a.time > b.time) {
         return -1
@@ -136,4 +127,11 @@ class User extends Component {
   }
 }
 
-export default User
+const mapStateToProps = state => {
+  return {
+    searchData: state.UserReducer.searchData,
+    topics: state.UserReducer.topics
+  }
+}
+
+export default connect(mapStateToProps)(User)

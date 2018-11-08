@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
 import TextField from 'material-ui/TextField'
@@ -8,8 +9,7 @@ import ActionList from 'material-ui/svg-icons/action/list'
 
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
-import Config from '../../../services/config.service.jsx'
-import { toggleInstructions, nodeSelected, getTopicLabel, getTopicMap } from './../../../actions/goal-canvas.actions.jsx'
+import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopicMap } from './../../../actions/goal-canvas.actions.jsx'
 
 const iconStyles = {
   marginRight: 24
@@ -22,17 +22,11 @@ class GoalCanvas extends Component {
     autoBind(this)
   }
 
-  getState () {
-    return this.props.store.getState().GoalCanvasReducer
-  }
-
   componentDidMount () {
-    this.props.store.subscribe(this.forceUpdate.bind(this))
-    getTopicMap(this.props.topicId, this.props.userId, Config, this.props.store.dispatch)
+    getTopicMap(this.props.topicId, this.props.userId, this.props.store.dispatch)
       .then(() => {
-        const stateProps = this.getState()
         this.cy = GoalDCytoscape()
-        this.cy.add(stateProps.map)
+        this.cy.add(this.props.map)
         let layout = this.cy.layout({ name: 'preset' })
         layout.run()
         this.cy.on('select', (e) => {
@@ -43,22 +37,19 @@ class GoalCanvas extends Component {
         })
       })
       .then(() => {
-        let stateProps = this.getState()
-        if (stateProps.label && stateProps.label !== '') {
+        if (this.props.label && this.props.label !== '') {
           return
         }
-        getTopicLabel(this.props.topicId, this.props.userId, Config, this.props.store.dispatch)
+        getTopicLabel(this.props.topicId, this.props.userId, this.props.store.dispatch)
       })
   }
 
   postMap () {
-    const stateProps = this.getState()
     let body = {
-      label: stateProps.label,
+      label: this.props.label,
       map: this.cy.elements().jsons()
     }
-    this.setState({ map: body.map })
-    Config.postUserTopic(this.props.userId, this.props.topicId, body)
+    postTopicMap(this.props.topicId, this.props.userId, body, this.props.store.dispatch)
   }
 
   componentWillUnmount () {
@@ -76,16 +67,15 @@ class GoalCanvas extends Component {
 
   onNodeLabelChange (event, extra, useData) {
     var val = ''
-    const stateProps = this.getState()
     if (event !== undefined) {
       val = event.target && event.target.value
       if (useData) {
-        val = stateProps.selectedNode.data().label
+        val = this.props.selectedNode.data().label
       }
-      stateProps.selectedNode.data('label', val)
+      this.props.selectedNode.data('label', val)
     }
 
-    this.props.store.dispatch(nodeSelected(stateProps.selectedNode, val, stateProps.selectedNodeChildren))
+    this.props.store.dispatch(nodeSelected(this.props.selectedNode, val, this.props.selectedNodeChildren))
   }
 
   toggleTips () {
@@ -93,15 +83,14 @@ class GoalCanvas extends Component {
   }
 
   render () {
-    const stateProps = this.getState()
     return (
       <div>
         <div className='row col-md-12'>
-          <h3 className='col-md-4'>{stateProps.label}</h3>
+          <h3 className='col-md-4'>{this.props.label}</h3>
           <TextField
             className='col-md-4'
             floatingLabelText='graph!'
-            value={stateProps.selectedNodeLabel}
+            value={this.props.selectedNodeLabel}
             onChange={this.onNodeLabelChange}
           />
         </div>
@@ -115,11 +104,22 @@ class GoalCanvas extends Component {
           <Save style={iconStyles} onClick={this.postMap} /> <ActionList style={iconStyles} onClick={this.toggleTips} />
         </div>
         <div className='row col-md-12'>
-          {stateProps.showTips ? <GoalDInstructions /> : ''}
+          {this.props.showTips ? <GoalDInstructions /> : ''}
         </div>
       </div>
     )
   }
 }
 
-export default GoalCanvas
+const mapStateToProps = state => {
+  return {
+    map: state.GoalCanvasReducer.map,
+    label: state.GoalCanvasReducer.label,
+    selectedNode: state.GoalCanvasReducer.selectedNode,
+    selectedNodeChildren: state.GoalCanvasReducer.selectedNodeChildren,
+    selectedNodeLabel: state.GoalCanvasReducer.selectedNodeLabel,
+    showTips: state.GoalCanvasReducer.showTips
+  }
+}
+
+export default connect(mapStateToProps)(GoalCanvas)

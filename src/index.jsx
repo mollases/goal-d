@@ -7,6 +7,7 @@ import { createStore, combineReducers } from 'redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import AuthService from './services/auth-service.component.jsx'
+import Config from './services/config.service.jsx'
 
 import PageNotFound from './presentation/components/pageNotFound.component.jsx'
 import About from './presentation/components/about.component.jsx'
@@ -19,7 +20,7 @@ import User from './presentation/containers/user.component.jsx'
 import UserReducer from './reducers/user.reducer.jsx'
 import GoalCanvasReducer from './reducers/goal-canvas.reducer.jsx'
 
-const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com')
+const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com', Config.getAuthCallback())
 let reducers = combineReducers({ UserReducer, GoalCanvasReducer })
 let store = createStore(reducers)
 
