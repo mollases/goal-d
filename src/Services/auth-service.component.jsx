@@ -1,15 +1,13 @@
 /* global localStorage */
 import auth0 from 'auth0-js'
 
-import Config from './config.service.jsx'
-
 export default class AuthService {
-  constructor (clientID, domain) {
+  constructor (clientID, domain, redirectUri) {
     // Configure Auth0
     this.lock = new auth0.WebAuth({
       clientID,
       domain,
-      redirectUri: Config.getAuthCallback(),
+      redirectUri,
       responseType: 'token id_token',
       scope: 'openid'
       // configurationBaseUrl: 'https://cdn.auth0.com'

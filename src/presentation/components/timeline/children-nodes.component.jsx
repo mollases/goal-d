@@ -22,9 +22,9 @@ class ChildrenNodes extends Component {
 
   renderChildren () {
     if (this.props.childNodes && this.props.childNodes.length) {
-      return this.props.childNodes.map((el, all) => {
+      return this.props.childNodes.map((el) => {
         return (
-          <ListItem primaryText={el.data().label} key={el.data().id} />
+          <ListItem primaryText={el.data('label')} key={el.id()} />
         )
       })
     }

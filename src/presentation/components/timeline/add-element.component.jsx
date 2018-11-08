@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
-import Config from './../../services/config.service.jsx'
+import Config from './../../../services/config.service.jsx'
 
 import { Card, CardActions, CardHeader } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
@@ -16,8 +16,8 @@ class AddElement extends Component {
   }
 
   onClickHandler (evt) {
-    let body = { body: this.state.value, userId: this.props.auth.getActiveUser(), nodeId: this.props.nodeId, topicId: this.props.topicId }
-    Config.postUserTopicOnPost(this.props.auth.getActiveUser(), this.props.topicId, this.props.nodeId, body)
+    let body = { body: this.state.value, userId: this.props.userId, nodeId: this.props.nodeId, topicId: this.props.topicId }
+    Config.postUserTopicOnPost(this.props.userId, this.props.topicId, this.props.nodeId, body)
       .then(() => { this.props.onSubmitPressed() })
       .then(() => {
         this.setState({ value: '' })

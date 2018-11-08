@@ -6,8 +6,41 @@ import TextField from 'material-ui/TextField'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 
-import Icon from '@material-ui/core/Icon'
-import Button from '@material-ui/core/Button'
+const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue }) => (
+  <div>
+    <TextField
+      value={textValue}
+      onChange={onTextChange}
+      floatingLabelText='TODO: support Markdown'
+      multiLine
+      fullWidth
+    />
+    <FlatButton
+      label='close'
+      onClick={onClose}
+    />
+    <FlatButton
+      label='save'
+      onClick={onSave}
+    />
+    <NavLink to={'/user/map/' + go}>
+        go!
+    </NavLink>
+  </div>
+)
+
+const StaticTopic = ({ value, onEdit, go }) => (
+  <div>
+    <p>{value}</p>
+    <FlatButton
+      label='edit'
+      onClick={onEdit}
+    />
+    <NavLink to={'/user/map/' + go}>
+        go!
+    </NavLink>
+  </div>
+)
 
 class UserTopic extends Component {
   constructor (props) {
@@ -53,42 +86,24 @@ class UserTopic extends Component {
   renderCardText () {
     if (!this.state.edit) {
       return (
-        <div>
-          <p>{this.state.value}</p>
-          <FlatButton
-            label='edit'
-            onClick={() => { this.setState({ edit: true }) }}
-          />
-          <NavLink to={'/user/map/' + this.props.el.id}>
-              go!
-          </NavLink>
-        </div>
+        <StaticTopic
+          value={this.state.value}
+          onEdit={() => { this.setState({ edit: true }) }}
+          go={this.props.el.id}
+        />
       )
     } else {
       return (
-        <div>
-          <TextField
-            value={this.state.value}
-            onChange={this.handleChange}
-            floatingLabelText='TODO: support Markdown'
-            multiLine
-            fullWidth
-          />
-          <FlatButton
-            label='close'
-            onClick={() => { this.setState({ edit: false }) }}
-          />
-          <FlatButton
-            label='save'
-            onClick={(evt) => {
-              this.saveNote(evt)
-              this.setState({ edit: false })
-            }}
-          />
-          <NavLink to={'/user/map/' + this.props.el.id}>
-              go!
-          </NavLink>
-        </div>
+        <EditibleTopic
+          onSave={(evt) => {
+            this.saveNote(evt)
+            this.setState({ edit: false })
+          }}
+          go={this.props.el.id}
+          onClose={() => { this.setState({ edit: false }) }}
+          onTextChange={this.handleChange}
+          textValue={this.state.value}
+        />
       )
     }
   }
