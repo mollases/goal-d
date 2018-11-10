@@ -29,11 +29,17 @@ class GoalCanvas extends Component {
         this.cy.add(this.props.map)
         let layout = this.cy.layout({ name: 'preset' })
         layout.run()
-        this.cy.on('select', (e) => {
+        this.cy.on('select', e => {
           this.onNodeSelected(e.target)
         })
-        this.cy.on('unselect', (e) => {
+        this.cy.on('unselect', e => {
           this.onNodeSelected()
+        })
+        this.cy.ready(e => {
+          let s = this.cy.$(':selected')
+          if (s.length) {
+            this.onNodeSelected(s[0])
+          }
         })
       })
       .then(() => {

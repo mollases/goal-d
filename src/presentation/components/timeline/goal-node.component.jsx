@@ -1,24 +1,53 @@
 import React, { Component } from 'react'
-import { Card, CardActions, CardTitle, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
-import { green600, amber600, blueGrey600, red600 } from 'material-ui/styles/colors'
+import { connect } from 'react-redux'
+import autoBind from 'react-autobind'
 
-const styles = {
-  completed: {
-    color: green600
+import { Card, CardTitle, CardText } from 'material-ui/Card'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import { toggleEdit, storeData, newKey, newValue } from './../../../actions/goal-node.actions.jsx'
+
+import { withStyles } from '@material-ui/core/styles'
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit
   },
-  active: {
-    color: amber600
+  input: {
+    display: 'none'
   },
-  hold: {
-    color: blueGrey600
-  },
-  discontinued: {
-    color: red600
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
   }
-}
+})
+
+const FAVORED = ['id', 'label']
+
+const Input = ({ key, keyChange, value, valueChange, store }) => (
+  <div>
+    <TextField
+      id='standard-name'
+      label='Key'
+      value={key}
+      onChange={keyChange}
+    /> :
+    <TextField
+      id='standard-name'
+      label='Value'
+      value={value}
+      onChange={valueChange}
+    />
+    <Button onClick={store}>Store</Button>
+  </div>
+)
 
 class GoalNode extends Component {
+  constructor (props) {
+    super(props)
+    autoBind(this)
+  }
+
   render () {
     return (
       <Card>
@@ -28,11 +57,81 @@ class GoalNode extends Component {
           showExpandableButton
         />
         <CardText expandable>
-          {JSON.stringify(this.props.node.data())}
+          {this.renderKV()}
         </CardText>
       </Card>
     )
   }
+
+  onAddKeyClicked () {
+    this.props.store.dispatch(toggleEdit())
+  }
+
+  handleDataChange (key, value) {
+    console.log(key)
+    console.log(value)
+  }
+
+  storeData () {
+    this.props.node.data(this.props.newKey, this.props.newValue)
+    this.props.store.dispatch(storeData())
+  }
+
+  newKey (e) {
+    this.props.store.dispatch(newKey(e.target.value))
+  }
+
+  newValue (e) {
+    this.props.store.dispatch(newValue(e.target.value))
+  }
+
+  renderKV () {
+    const data = this.props.node.data()
+    const keys = Object.keys(data)
+    let v = keys.map((k, i) => {
+      if (FAVORED.indexOf(k) !== -1) {
+        return
+      }
+      return (
+        <div key={i}>
+          <Button className={this.props.button}>{k}</Button> :
+          <TextField
+            id='standard-name'
+            label='Name'
+            className={this.props.textField}
+            value={data[k]}
+            onChange={(e) => this.handleDataChange(k, e)}
+            margin='normal'
+          />
+        </div>
+      )
+    })
+
+    return (
+      <div>
+        {v}
+
+        {this.props.editMode
+          ? <Input
+            key={this.props.key}
+            value={this.props.value}
+            keyChange={this.newKey}
+            valueChange={this.newValue}
+            store={this.storeData}
+          />
+          : <Button className={this.props.button} onClick={this.onAddKeyClicked}>Key</Button>}
+      </div>
+    )
+  }
 }
 
-export default GoalNode
+const mapStateToProps = state => {
+  return {
+    node: state.GoalCanvasReducer.selectedNode,
+    editMode: state.GoalNodeReducer.editMode,
+    newKey: state.GoalNodeReducer.newKey,
+    newValue: state.GoalNodeReducer.newValue
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(GoalNode))

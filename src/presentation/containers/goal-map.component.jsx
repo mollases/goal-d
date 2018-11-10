@@ -10,7 +10,7 @@ import ChildrenNodes from './../components/timeline/children-nodes.component.jsx
 const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, topic }) => (
   <div className='row col-md-12'>
     <div className='col-md-8'>
-      <GoalNode node={selectedNode} />
+      <GoalNode store={store} node={selectedNode} />
       <br />
       <Timeline
         store={store}
