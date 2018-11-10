@@ -4,10 +4,11 @@ import autoBind from 'react-autobind'
 
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
+import Input from '@material-ui/core/Input'
+import { withStyles } from '@material-ui/core/styles'
+
 import { toggleEdit, storeData, newKey, newValue } from './../../../actions/goal-node.actions.jsx'
 
-import { withStyles } from '@material-ui/core/styles'
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit
@@ -24,20 +25,25 @@ const styles = theme => ({
 
 const FAVORED = ['id', 'label']
 
-const Input = ({ key, keyChange, value, valueChange, store }) => (
+const CustomInput = ({ key, keyChange, value, valueChange, store }) => (
   <div>
-    <TextField
-      id='standard-name'
-      label='Key'
+    <Input
+      placeholder='attribute'
       value={key}
       onChange={keyChange}
+      inputProps={{
+        'aria-label': 'Description'
+      }}
     /> :
-    <TextField
-      id='standard-name'
-      label='Value'
+    <Input
+      placeholder='Value'
       value={value}
       onChange={valueChange}
+      inputProps={{
+        'aria-label': 'Description'
+      }}
     />
+
     <Button onClick={store}>Store</Button>
   </div>
 )
@@ -94,14 +100,21 @@ class GoalNode extends Component {
       }
       return (
         <div key={i}>
-          <Button className={this.props.button}>{k}</Button> :
-          <TextField
-            id='standard-name'
-            label='Name'
-            className={this.props.textField}
+          <Input
+            placeholder='attribute'
+            value={k}
+            onChange={(e) => this.handleKeyChange(k, e)}
+            inputProps={{
+              'aria-label': 'Description'
+            }}
+          /> :
+          <Input
+            placeholder='Value'
             value={data[k]}
             onChange={(e) => this.handleDataChange(k, e)}
-            margin='normal'
+            inputProps={{
+              'aria-label': 'Description'
+            }}
           />
         </div>
       )
@@ -112,7 +125,7 @@ class GoalNode extends Component {
         {v}
 
         {this.props.editMode
-          ? <Input
+          ? <CustomInput
             key={this.props.key}
             value={this.props.value}
             keyChange={this.newKey}
