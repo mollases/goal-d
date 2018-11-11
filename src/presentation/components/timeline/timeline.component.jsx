@@ -1,43 +1,35 @@
 import React, { Component } from 'react'
-import _ from 'lodash'
+import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
 import AddElement from './add-element.component.jsx'
 import Element from './element.component.jsx'
 
-import Config from './../../../services/config.service.jsx'
+import { newNoteChange, postNodeNote, getNodeNotes } from './../../../actions/timeline.actions.jsx'
 
 class Timeline extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      contents: []
-    }
     autoBind(this)
   }
 
   callRefresh (nodeId, childNodes) {
     let _children = childNodes || this.props.childNodes
-    let _childNodes = _children.map((v) => v.id())
-    var children = _childNodes.join(',')
+    let nodeChildrenIds = _children.map((v) => v.id())
+    getNodeNotes(this.props.userId, this.props.topicId, nodeId, nodeChildrenIds, this.props.store.dispatch)
+  }
 
-    Config.getUserTopicPostList(this.props.userId, this.props.topicId, nodeId, _childNodes)
-      .then((response) => response.json())
-      .then(response2 => {
-        let sorted = _.sortBy(_.flatten(response2).map(JSON.parse), 'timestamp').reverse()
-        _.forEach(sorted, (i) => {
-          i.label = _.filter(children, { id: i.nodeId })[0] || ''
-          if (i.label !== '') {
-            i.label = i.label.label
-          }
-        })
-        console.log(children)
-        this.setState({ contents: sorted })
-      })
+  submitNewNote (nodeId) {
+    let body = { body: this.props.newNoteContents, userId: this.props.userId, nodeId: this.props.nodeId, topicId: this.props.topicId }
+    postNodeNote(this.props.userId, this.props.topicId, this.props.nodeId, body, this.props.store.dispatch)
   }
 
   componentDidMount () {
     this.callRefresh(this.props.nodeId)
+  }
+
+  onNewNoteChange (e) {
+    this.props.store.dispatch(newNoteChange(e.target.value))
   }
 
   componentWillReceiveProps (nextProps) {
@@ -52,10 +44,9 @@ class Timeline extends Component {
     return (
       <div>
         <AddElement
-          onSubmitPressed={this.callRefresh.bind(this.props.nodeId)}
-          userId={this.props.userId}
-          nodeId={this.props.nodeId}
-          topicId={this.props.topicId} />
+          value={this.props.newNoteContents}
+          onChange={this.onNewNoteChange}
+          onPost={this.submitNewNote} />
         <br />
         {this.renderElements()}
       </div>
@@ -63,9 +54,9 @@ class Timeline extends Component {
   }
 
   renderElements () {
-    return this.state.contents.map((el, index) => {
+    return this.props.contents.map((el, i) => {
       return (
-        <div key={index}>
+        <div key={i}>
           <Element content={el} />
           <br />
         </div>
@@ -74,4 +65,11 @@ class Timeline extends Component {
   }
 }
 
-export default Timeline
+const mapStateToProps = state => {
+  return {
+    newNoteContents: state.TimelineReducer.newNoteContents,
+    contents: state.TimelineReducer.contents
+  }
+}
+
+export default connect(mapStateToProps)(Timeline)

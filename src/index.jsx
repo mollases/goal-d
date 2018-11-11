@@ -20,9 +20,10 @@ import User from './presentation/containers/user.component.jsx'
 import UserReducer from './reducers/user.reducer.jsx'
 import GoalCanvasReducer from './reducers/goal-canvas.reducer.jsx'
 import GoalNodeReducer from './reducers/goal-node.reducer.jsx'
+import TimelineReducer from './reducers/timeline.reducer.jsx'
 
 const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com', Config.getAuthCallback())
-let reducers = combineReducers({ UserReducer, GoalCanvasReducer, GoalNodeReducer })
+let reducers = combineReducers({ UserReducer, GoalCanvasReducer, GoalNodeReducer, TimelineReducer })
 let store = createStore(reducers)
 
 ReactDOM.render((
