@@ -7,23 +7,29 @@ import Timeline from './../components/timeline/timeline.component.jsx'
 import GoalNode from './../components/timeline/goal-node.component.jsx'
 import ChildrenNodes from './../components/timeline/children-nodes.component.jsx'
 
-const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, topic }) => (
-  <div className='row col-md-12'>
-    <div className='col-md-8'>
-      <GoalNode store={store} node={selectedNode} />
-      <br />
-      <Timeline
-        store={store}
-        nodeId={selectedNode.id()}
-        childNodes={selectedNodeChildren}
-        userId={userId}
-        topicId={topic} />
+const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, topic }) => {
+  return (
+    <div className='row col-md-12'>
+      <div className='col-md-8'>
+        <GoalNode
+          store={store}
+          node={selectedNode}
+          label={selectedNode.data('label')}
+        />
+        <br />
+        <Timeline
+          store={store}
+          nodeId={selectedNode.id()}
+          childNodes={selectedNodeChildren}
+          userId={userId}
+          topicId={topic} />
+      </div>
+      <div className='col-md-4'>
+        <ChildrenNodes node={selectedNode} childNodes={selectedNodeChildren} />
+      </div>
     </div>
-    <div className='col-md-4'>
-      <ChildrenNodes node={selectedNode} childNodes={selectedNodeChildren} />
-    </div>
-  </div>
-)
+  )
+}
 
 class GoalMap extends Component {
   constructor (props) {

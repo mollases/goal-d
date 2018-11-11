@@ -1,9 +1,11 @@
 import { GOAL_NODE_ACTIONS } from './../actions/goal-node.actions.jsx'
+import _ from 'lodash'
 
 const initialState = {
   editMode: false,
   newKey: '',
-  newValue: ''
+  newValue: '',
+  nodeData: []
 }
 
 const GoalNodeReducer = (state = initialState, action) => {
@@ -19,6 +21,7 @@ const GoalNodeReducer = (state = initialState, action) => {
         newKey: '',
         newValue: ''
       })
+      storedData.nodeData.push({ key: state.newKey, val: state.newValue })
       return storedData
     case GOAL_NODE_ACTIONS.NEW_KEY:
       const newKey = Object.assign({}, state, {
@@ -30,6 +33,26 @@ const GoalNodeReducer = (state = initialState, action) => {
         newValue: action.value
       })
       return newValue
+    case GOAL_NODE_ACTIONS.UPDATE_KEY_VALUE:
+      const replacedValue = Object.assign({}, state, {
+        nodeData: state.nodeData.map((k) => {
+          if (k.key === action.key) {
+            k.val = action.value
+          }
+          return k
+        })
+      })
+      return replacedValue
+    case GOAL_NODE_ACTIONS.UPDATE_KEY:
+      const replacedKey = Object.assign({}, state, {
+        nodeData: state.nodeData.map((k) => {
+          if (k.key === action.oldKey) {
+            k.key = action.newKkey
+          }
+          return k
+        })
+      })
+      return replacedKey
     default:
       return state
   }

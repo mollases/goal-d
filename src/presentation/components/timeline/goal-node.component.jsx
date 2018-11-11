@@ -5,23 +5,8 @@ import autoBind from 'react-autobind'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
-import { withStyles } from '@material-ui/core/styles'
 
-import { toggleEdit, storeData, newKey, newValue } from './../../../actions/goal-node.actions.jsx'
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit
-  },
-  input: {
-    display: 'none'
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  }
-})
+import { toggleEdit, storeData, newKey, newValue, updateKeyValue, updateKey } from './../../../actions/goal-node.actions.jsx'
 
 const FAVORED = ['id', 'label']
 
@@ -58,7 +43,7 @@ class GoalNode extends Component {
     return (
       <Card>
         <CardTitle
-          title={this.props.node.data('label')}
+          title={this.props.label}
           actAsExpander
           showExpandableButton
         />
@@ -73,12 +58,20 @@ class GoalNode extends Component {
     this.props.store.dispatch(toggleEdit())
   }
 
-  handleDataChange (key, value) {
+  handleDataChange (key, v) {
     console.log(key)
-    console.log(value)
+    console.log(v.target.value)
+    this.props.store.dispatch(updateKeyValue(key, v.target.value))
+  }
+
+  handleKeyChange (key, v) {
+    console.log(key)
+    console.log(v.target.value)
+    this.props.store.dispatch(updateKey(key, v.target.value))
   }
 
   storeData () {
+    this.props.node.data(this.props.nodeData)
     this.props.node.data(this.props.newKey, this.props.newValue)
     this.props.store.dispatch(storeData())
   }
@@ -92,26 +85,25 @@ class GoalNode extends Component {
   }
 
   renderKV () {
-    const data = this.props.node.data()
-    const keys = Object.keys(data)
-    let v = keys.map((k, i) => {
-      if (FAVORED.indexOf(k) !== -1) {
+    const data = this.props.nodeData
+    let v = data.map((k, i) => {
+      if (FAVORED.indexOf(k.key) !== -1) {
         return
       }
       return (
         <div key={i}>
           <Input
             placeholder='attribute'
-            value={k}
-            onChange={(e) => this.handleKeyChange(k, e)}
+            value={k.key}
+            onChange={(e) => this.handleKeyChange(k.key, e)}
             inputProps={{
               'aria-label': 'Description'
             }}
           /> :
           <Input
             placeholder='Value'
-            value={data[k]}
-            onChange={(e) => this.handleDataChange(k, e)}
+            value={k.val}
+            onChange={(e) => this.handleDataChange(k.key, e)}
             inputProps={{
               'aria-label': 'Description'
             }}
@@ -143,8 +135,16 @@ const mapStateToProps = state => {
     node: state.GoalCanvasReducer.selectedNode,
     editMode: state.GoalNodeReducer.editMode,
     newKey: state.GoalNodeReducer.newKey,
-    newValue: state.GoalNodeReducer.newValue
+    newValue: state.GoalNodeReducer.newValue,
+    nodeData: state.GoalNodeReducer.nodeData
   }
 }
 
-export default connect(mapStateToProps)(withStyles(styles)(GoalNode))
+const merger = (defaultState, dispatcher, passed) => {
+  let data = passed.node.data()
+  let keys = Object.keys(data)
+  let nodeData = keys.map((k) => { return { key: k, val: data[k] } })
+  return Object.assign({}, passed, defaultState, { nodeData })
+}
+
+export default connect(mapStateToProps, null, merger)(GoalNode)
