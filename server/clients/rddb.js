@@ -19,7 +19,7 @@ const callRemoteDDB = async (url, body) => {
   try {
     resp = await rp(options)
   } catch (e) {
-    console.error('error with request', options, e)
+    console.error('error with request', e.error)
     throw e
   }
   return resp

@@ -2,7 +2,6 @@
 
 var AWS = require('aws-sdk')
 AWS.config.update({ region: 'us-west-2' })
-var dynamo = new AWS.DynamoDB()
 
 const userDetails = 'goald-user-details'
 const userDetailsTopic = 'goald-user-details-topics'
@@ -105,27 +104,47 @@ class DynamoDynamoDB {
       })
   }
 
-  getUserTopicPosts (user, topic, postList, callback) {
-    dynamo.scan(user, callback)
+  async getUserTopicPosts (user, topic, nodes) {
+    console.log('user', user)
+    console.log('topic', topic)
+    console.log('nodes', nodes)
+    let data = []
+
+    for (let i = 0; i < nodes.length; i++) {
+      let payload = {
+        TableName: userDetailsTopicPosts,
+        Key: {
+          'user-topic-node': `${user}-${topic}-${nodes[i]}`
+        }
+      }
+
+      console.log('getUserTopicPosts payload', payload)
+      data.push(this.docClient.query(payload).promise()
+        .then(result => {
+          console.log(result)
+          return result.Item
+        })
+        .catch(e => e))
+    }
+    return Promise.all(data)
   }
 
-  postUserTopicPost (user, topic, body, post) {
+  postUserTopicPost (user, topic, node, body) {
     let payload = {
       TableName: userDetailsTopicPosts,
       Item: {
-        'user-id': {
-          S: user
-        },
-        topic: {
-          S: topic
-        },
-        Notes: {
-          B: Buffer.from(body)
-        }
+        'user-topic-node': `${user}-${topic}-${node}`,
+        note: `${body.noteId}`,
+        ...body
       }
     }
-    console.log('postUserTopicPost payload', payload)
-    return dynamo.putItem(payload).promise()
+
+    console.log('postUserTopicPost payload', JSON.stringify(payload))
+    return this.docClient.put(payload).promise()
+      .catch(err => {
+        console.log('err', err)
+        throw err
+      })
   }
 }
 module.exports = DynamoDynamoDB

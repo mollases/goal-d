@@ -6,6 +6,7 @@ import AddElement from './add-element.component.jsx'
 import Element from './element.component.jsx'
 
 import { newNoteChange, postNodeNote, getNodeNotes } from './../../../actions/timeline.actions.jsx'
+import uuid from 'uuid'
 
 class Timeline extends Component {
   constructor (props) {
@@ -16,11 +17,12 @@ class Timeline extends Component {
   callRefresh (nodeId, childNodes) {
     let _children = childNodes || this.props.childNodes
     let nodeChildrenIds = _children.map((v) => v.id())
-    getNodeNotes(this.props.userId, this.props.topicId, nodeId, nodeChildrenIds, this.props.store.dispatch)
+    nodeChildrenIds.push(nodeId)
+    getNodeNotes(this.props.userId, this.props.topicId, nodeId, nodeChildrenIds.join(','), this.props.store.dispatch)
   }
 
-  submitNewNote (nodeId) {
-    let body = { body: this.props.newNoteContents, userId: this.props.userId, nodeId: this.props.nodeId, topicId: this.props.topicId }
+  submitNewNote () {
+    let body = { noteId: uuid(), body: this.props.newNoteContents, userId: this.props.userId, nodeId: this.props.nodeId, topicId: this.props.topicId }
     postNodeNote(this.props.userId, this.props.topicId, this.props.nodeId, body, this.props.store.dispatch)
   }
 
@@ -72,4 +74,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Timeline)
+const merger = (defaultState, dispatcher, passed) => {
+  return Object.assign({}, passed, defaultState)
+}
+export default connect(mapStateToProps, null, merger)(Timeline)

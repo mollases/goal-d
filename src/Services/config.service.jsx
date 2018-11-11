@@ -4,7 +4,7 @@ class Config {
     this.url = window.location.origin
     this.api = this.url
     if (this.url.indexOf('localhost') === -1) {
-      this.api = 'https://zpdg9c0o8j.execute-api.us-west-2.amazonaws.com/dev'
+      this.api = 'https://a6m0dse1xk.execute-api.us-west-2.amazonaws.com/dev'
     }
   }
 

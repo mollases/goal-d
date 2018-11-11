@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000
 const Endpoints = require('./server/endpoints.js')
 const RemoteDynamoDB = require('./server/clients/rddb.js')
 const bodyParser = require('body-parser')
-const hostname = 'https://zpdg9c0o8j.execute-api.us-west-2.amazonaws.com/'
+const hostname = 'https://a6m0dse1xk.execute-api.us-west-2.amazonaws.com/'
 const env = 'dev'
 
 class GoalDServer {

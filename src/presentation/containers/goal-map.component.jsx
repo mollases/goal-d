@@ -7,7 +7,7 @@ import Timeline from './../components/timeline/timeline.component.jsx'
 import GoalNode from './../components/timeline/goal-node.component.jsx'
 import ChildrenNodes from './../components/timeline/children-nodes.component.jsx'
 
-const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, topic }) => {
+const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, topicId }) => {
   return (
     <div className='row col-md-12'>
       <div className='col-md-8'>
@@ -22,7 +22,7 @@ const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, top
           nodeId={selectedNode.id()}
           childNodes={selectedNodeChildren}
           userId={userId}
-          topicId={topic} />
+          topicId={topicId} />
       </div>
       <div className='col-md-4'>
         <ChildrenNodes node={selectedNode} childNodes={selectedNodeChildren} />

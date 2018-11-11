@@ -57,13 +57,14 @@ class Endpoints {
   }
 
   async getUserTopicPosts (request, response) {
-    console.log('getUserTopicPosts', request.body)
+    console.log('getUserTopicPosts', request.params)
     let all = request.params.posts.split(',')
     let result
     try {
       result = await this.client.getUserTopicPosts(request.params.id, request.params.topic, all)
       console.log('response getUserTopicPosts', result)
     } catch (e) {
+      console.log('error getUserTopicPosts', e)
       result = e
     }
     response.json(result)
@@ -71,8 +72,7 @@ class Endpoints {
 
   async postUserTopicPost (request, response) {
     console.log('postUserTopicPost', request.body)
-    let content = request.body
-    content.timestamp = +new Date()
+    let content = typeof (request.body) === 'object' ? request.body : JSON.parse(request.body)
     let result
     try {
       result = await this.client.postUserTopicPost(request.params.id, request.params.topic, request.params.post, content)
