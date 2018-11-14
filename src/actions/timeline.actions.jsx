@@ -3,13 +3,13 @@ import _ from 'lodash'
 
 const POST_NODE_NOTE_SUCCESS = 'POST_NODE_NOTE_SUCCESS'
 const POST_NODE_NOTE_FAILURE = 'POST_NODE_NOTE_FAILURE'
-const GET_NOTE_NOTES_SUCCESS = 'GET_NOTE_NOTES_SUCCESS'
-const GET_NOTE_NOTES_FAILURE = 'GET_NOTE_NOTES_FAILURE'
+const GET_NODE_NOTES_SUCCESS = 'GET_NODE_NOTES_SUCCESS'
+const GET_NODE_NOTES_FAILURE = 'GET_NODE_NOTES_FAILURE'
 const NEW_NOTE_CHANGE = 'NEW_NOTE_CHANGE'
 
 const TIMELINE_ACTIONS = {
-  GET_NOTE_NOTES_SUCCESS,
-  GET_NOTE_NOTES_FAILURE,
+  GET_NODE_NOTES_SUCCESS,
+  GET_NODE_NOTES_FAILURE,
   POST_NODE_NOTE_SUCCESS,
   POST_NODE_NOTE_FAILURE,
   NEW_NOTE_CHANGE
@@ -22,18 +22,14 @@ const postNodeNote = (userId, topicId, nodeId, body, dispatch) => {
 }
 
 const getNodeNotes = (userId, topicId, nodeId, nodeChildrenIds, dispatch) => {
-  return Config.getUserTopicPostList(userId, topicId, nodeId, nodeChildrenIds)
+  return Config.getUserTopicPostList(userId, topicId, nodeId, nodeChildrenIds.join(','))
     .then(response => response.json())
     .then(jsn => {
-      let children = nodeChildrenIds.join(',')
-      let sorted = _.sortBy(_.flatten(jsn).map(JSON.parse), 'timestamp').reverse()
-      _.forEach(sorted, (i) => {
-        i.label = _.filter(children, { id: i.nodeId })[0] || ''
-        if (i.label !== '') {
-          i.label = i.label.label
-        }
-      })
-      return sorted
+      let cleaned = jsn.filter(_.identity)
+      let notes = cleaned.map(e => e.notes)
+      let flat = _.flatten(notes)
+      let sorted = _.sortBy(flat, 'timestamp')
+      return sorted.reverse()
     })
     .then(sorted => dispatch(getNodeNotesSuccess(sorted)))
     .catch(() => dispatch(getNodeNotesFailure()))
@@ -60,14 +56,14 @@ const postNodeNoteFailure = () => {
 
 const getNodeNotesSuccess = (contents) => {
   return {
-    type: GET_NOTE_NOTES_SUCCESS,
+    type: GET_NODE_NOTES_SUCCESS,
     contents
   }
 }
 
 const getNodeNotesFailure = () => {
   return {
-    type: GET_NOTE_NOTES_FAILURE
+    type: GET_NODE_NOTES_FAILURE
   }
 }
 

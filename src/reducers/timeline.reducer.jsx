@@ -7,7 +7,7 @@ const initialState = {
 
 const TimelineReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TIMELINE_ACTIONS.GET_NOTE_NOTES_SUCCESS:
+    case TIMELINE_ACTIONS.GET_NODE_NOTES_SUCCESS:
       const postSuccess = Object.assign({}, state, {
         contents: action.contents
       })

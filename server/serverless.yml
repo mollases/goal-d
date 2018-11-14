@@ -175,14 +175,14 @@ resources:
       Properties:
         TableName: goald-user-details-topics-posts
         AttributeDefinitions:
-          - AttributeName: user-topic-node
+          - AttributeName: user
             AttributeType: S
-          - AttributeName: note
+          - AttributeName: topic-node
             AttributeType: S
         KeySchema:
-          - AttributeName: user-topic-node
+          - AttributeName: user
             KeyType: HASH
-          - AttributeName: note
+          - AttributeName: topic-node
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 5
@@ -202,6 +202,7 @@ resources:
               Action:
                 - dynamodb:GetItem
                 - dynamodb:PutItem
+                - dynamodb:UpdateItem
               Resource:
                 - arn:aws:dynamodb:*:*:table/goald-user-details
                 - arn:aws:dynamodb:*:*:table/goald-user-details-topics

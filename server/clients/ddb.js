@@ -114,12 +114,13 @@ class DynamoDynamoDB {
       let payload = {
         TableName: userDetailsTopicPosts,
         Key: {
-          'user-topic-node': `${user}-${topic}-${nodes[i]}`
+          user,
+          'topic-node': `${topic}-${nodes[i]}`
         }
       }
 
       console.log('getUserTopicPosts payload', payload)
-      data.push(this.docClient.query(payload).promise()
+      data.push(this.docClient.get(payload).promise()
         .then(result => {
           console.log(result)
           return result.Item
@@ -132,15 +133,25 @@ class DynamoDynamoDB {
   postUserTopicPost (user, topic, node, body) {
     let payload = {
       TableName: userDetailsTopicPosts,
-      Item: {
-        'user-topic-node': `${user}-${topic}-${node}`,
-        note: `${body.noteId}`,
-        ...body
+      Key: {
+        user,
+        'topic-node': `${topic}-${node}`
+      },
+      UpdateExpression: 'SET #notes = list_append(if_not_exists(#notes, :emptyNotes), :notes)',
+      ExpressionAttributeNames: {
+        '#notes': 'notes'
+      },
+      ExpressionAttributeValues: {
+        ':notes': [{
+          ...body,
+          timestamp: Date.now()
+        }],
+        ':emptyNotes': []
       }
     }
 
     console.log('postUserTopicPost payload', JSON.stringify(payload))
-    return this.docClient.put(payload).promise()
+    return this.docClient.update(payload).promise()
       .catch(err => {
         console.log('err', err)
         throw err

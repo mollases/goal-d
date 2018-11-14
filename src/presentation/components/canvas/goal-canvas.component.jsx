@@ -65,6 +65,14 @@ class GoalCanvas extends Component {
   onNodeSelected (node) {
     if (node) {
       var children = this.cy.edges('[source = "' + node.id() + '"]').targets()
+      if (children.size() === 0) {
+        children = []
+      } else {
+        children = children.map((v) => ({
+          id: v.id(),
+          label: v.data('label')
+        }))
+      }
       this.props.store.dispatch(nodeSelected(node, node.data('label'), children))
     } else {
       this.props.store.dispatch(nodeSelected({}, '', []))

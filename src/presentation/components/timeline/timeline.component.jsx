@@ -14,33 +14,33 @@ class Timeline extends Component {
     autoBind(this)
   }
 
-  callRefresh (nodeId, childNodes) {
-    let _children = childNodes || this.props.childNodes
-    let nodeChildrenIds = _children.map((v) => v.id())
-    nodeChildrenIds.push(nodeId)
-    getNodeNotes(this.props.userId, this.props.topicId, nodeId, nodeChildrenIds.join(','), this.props.store.dispatch)
+  callRefresh () {
+    let nodeChildrenIds = this.props.childNodes.map(e => e.id)
+    nodeChildrenIds.push(this.props.nodeId)
+    getNodeNotes(this.props.userId, this.props.topicId, this.props.nodeId, nodeChildrenIds, this.props.store.dispatch)
   }
 
   submitNewNote () {
     let body = { noteId: uuid(), body: this.props.newNoteContents, userId: this.props.userId, nodeId: this.props.nodeId, topicId: this.props.topicId }
     postNodeNote(this.props.userId, this.props.topicId, this.props.nodeId, body, this.props.store.dispatch)
+      .then(this.callRefresh)
   }
 
   componentDidMount () {
-    this.callRefresh(this.props.nodeId)
+    this.callRefresh()
   }
 
   onNewNoteChange (e) {
     this.props.store.dispatch(newNoteChange(e.target.value))
   }
 
-  componentWillReceiveProps (nextProps) {
-    let now = this.props.nodeId
-    let future = nextProps.nodeId
-    if (now !== future) {
-      this.callRefresh(future, nextProps.childNodes)
-    }
-  }
+  // componentWillReceiveProps (nextProps) {
+  //   let now = this.props.nodeId
+  //   let future = nextProps.nodeId
+  //   if (now !== future) {
+  //     this.callRefresh(future, nextProps.childNodes)
+  //   }
+  // }
 
   render () {
     return (
