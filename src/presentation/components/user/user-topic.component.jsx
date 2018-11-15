@@ -3,8 +3,25 @@ import autoBind from 'react-autobind'
 import { NavLink } from 'react-router-dom'
 
 import TextField from 'material-ui/TextField'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
+// import { Card, CardTitle, CardText } from 'material-ui/Card'
+import Button from '@material-ui/core/Button'
+
+
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardMedia from '@material-ui/core/CardMedia'
+import CardContent from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
+import Collapse from '@material-ui/core/Collapse'
+import Avatar from '@material-ui/core/Avatar'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import red from '@material-ui/core/colors/red'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import ShareIcon from '@material-ui/icons/Share'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+
 
 const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue }) => (
   <div>
@@ -15,14 +32,8 @@ const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue }) => (
       multiLine
       fullWidth
     />
-    <FlatButton
-      label='close'
-      onClick={onClose}
-    />
-    <FlatButton
-      label='save'
-      onClick={onSave}
-    />
+    <Button onClick={onClose}>close</Button>
+    <Button onClick={onSave}>save</Button>
     <NavLink to={'/user/map/' + go}>
         go!
     </NavLink>
@@ -32,10 +43,7 @@ const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue }) => (
 const StaticTopic = ({ value, onEdit, go }) => (
   <div>
     <p>{value}</p>
-    <FlatButton
-      label='edit'
-      onClick={onEdit}
-    />
+    <Button onClick={onEdit}>edit</Button>
     <NavLink to={'/user/map/' + go}>
         go!
     </NavLink>

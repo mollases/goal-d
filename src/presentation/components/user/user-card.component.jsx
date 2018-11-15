@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardActions, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
+import Button from '@material-ui/core/Button'
 
 const UserCard = () => (
   <Card>
@@ -12,8 +12,8 @@ const UserCard = () => (
       Some psuedo text for now
     </CardText>
     <CardActions>
-      <FlatButton label='Edit' />
-      <FlatButton label='Save' />
+      <Button>Save</Button>
+      <Button>Edit</Button>
     </CardActions>
   </Card>
 )

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Card, CardActions, CardHeader } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
+import Button from '@material-ui/core/Button'
 import TextField from 'material-ui/TextField'
 
 const AddElement = ({ value, onChange, onPost }) => (
@@ -16,7 +16,7 @@ const AddElement = ({ value, onChange, onPost }) => (
       fullWidth
     />
     <CardActions>
-      <FlatButton label='Post' onClick={onPost} />
+      <Button onClick={onPost} >Post</Button>
     </CardActions>
   </Card>
 )

@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
 import TextField from 'material-ui/TextField'
-import { orange500, blue500 } from 'material-ui/styles/colors'
-import FlatButton from 'material-ui/FlatButton'
+import { orange } from '@material-ui/core/colors/orange'
+import { blue } from '@material-ui/core/colors/blue'
+import Button from '@material-ui/core/Button'
 import { List } from 'material-ui/List'
 
 import _ from 'lodash'
@@ -15,16 +16,16 @@ import { getTopics, postTopic, updateSearchParam } from './../../actions/user.ac
 
 const styles = {
   errorStyle: {
-    color: orange500
+    color: orange
   },
   underlineStyle: {
-    borderColor: orange500
+    borderColor: orange
   },
   floatingLabelStyle: {
-    color: orange500
+    color: orange
   },
   floatingLabelFocusStyle: {
-    color: blue500
+    color: blue
   }
 }
 
@@ -87,7 +88,7 @@ class User extends Component {
               value={this.props.searchData}
               onChange={this.handleChange}
             />
-            <FlatButton label='New' onClick={this.saveNewMap} />
+            <Button onClick={this.saveNewMap} >New</Button>
           </div>
           <div className='row'>
             <List>

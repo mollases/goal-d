@@ -1,12 +1,12 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
-import FlatButton from 'material-ui/FlatButton'
+import Button from '@material-ui/core/Button'
 import { NavLink } from 'react-router-dom'
 import Login from './login.component.jsx'
 
 const UserLink = () => (
   <NavLink to={'/user'} activeClassName='active'>
-    <FlatButton label='user' />
+    <Button> User</Button>
   </NavLink>
 )
 
@@ -19,7 +19,7 @@ const Main = ({ auth }) => (
         {auth.isAuthenticated() ? <UserLink /> : null }
         <Login auth={auth} />
         <NavLink to='/about'>
-          <FlatButton label='about' />
+          <Button>About</Button>
         </NavLink>
       </span>}
   />
