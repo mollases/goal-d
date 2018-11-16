@@ -34,14 +34,6 @@ class Timeline extends Component {
     this.props.store.dispatch(newNoteChange(e.target.value))
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   let now = this.props.nodeId
-  //   let future = nextProps.nodeId
-  //   if (now !== future) {
-  //     this.callRefresh(future, nextProps.childNodes)
-  //   }
-  // }
-
   render () {
     return (
       <div>
@@ -59,7 +51,11 @@ class Timeline extends Component {
     return this.props.contents.map((el, i) => {
       return (
         <div key={i}>
-          <Element content={el} />
+          <Element
+            label='Note'
+            timestamp={el.timestamp}
+            body={el.body}
+          />
           <br />
         </div>
       )

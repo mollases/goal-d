@@ -25,7 +25,7 @@ const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, top
           topicId={topicId} />
       </div>
       <div className='col-md-4'>
-        <ChildrenNodes node={selectedNode} childNodes={selectedNodeChildren} />
+        <ChildrenNodes label={selectedNode.data('label')} childNodes={selectedNodeChildren} />
       </div>
     </div>
   )

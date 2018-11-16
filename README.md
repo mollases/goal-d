@@ -38,6 +38,8 @@ user-details-models {models}
 * graph! -> name the node
 * make the first name be graph to be the title
 * what - why - how / where - who
+* download file, share, 
+* user + regular person, user explaining, 
 
 ## wishlist
 * save as png

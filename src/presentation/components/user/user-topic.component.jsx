@@ -3,39 +3,40 @@ import autoBind from 'react-autobind'
 import { NavLink } from 'react-router-dom'
 
 import TextField from 'material-ui/TextField'
-// import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Button from '@material-ui/core/Button'
-
-
 import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
-import CardActions from '@material-ui/core/CardActions'
-import Collapse from '@material-ui/core/Collapse'
-import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import red from '@material-ui/core/colors/red'
-import FavoriteIcon from '@material-ui/icons/Favorite'
-import ShareIcon from '@material-ui/icons/Share'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 
+const classes = theme => ({
+  card: {
+    display: 'flex'
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  content: {
+    flex: '1 0 auto'
+  }
+})
 
 const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue }) => (
   <div>
     <TextField
       value={textValue}
       onChange={onTextChange}
-      floatingLabelText='TODO: support Markdown'
-      multiLine
+      label='TODO: support Markdown'
+      placeholder='Placeholder'
       fullWidth
+      multiline
+      className={classes.textField}
+      margin='normal'
     />
     <Button onClick={onClose}>close</Button>
     <Button onClick={onSave}>save</Button>
     <NavLink to={'/user/map/' + go}>
-        go!
+      <Button>go!</Button>
     </NavLink>
   </div>
 )
@@ -45,7 +46,7 @@ const StaticTopic = ({ value, onEdit, go }) => (
     <p>{value}</p>
     <Button onClick={onEdit}>edit</Button>
     <NavLink to={'/user/map/' + go}>
-        go!
+      <Button>go!</Button>
     </NavLink>
   </div>
 )
@@ -75,18 +76,20 @@ class UserTopic extends Component {
 
   render () {
     return (
-      <Card>
-        <CardTitle
-          title={this.props.el.label}
-          subtitle={<span onClick={this.deleteTopic}>{this.state.time}</span>}
-          actAsExpander
-          showExpandableButton
-        />
-        <CardText expandable>
-          {
-            this.renderCardText()
-          }
-        </CardText>
+      <Card className={classes.card}>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Typography component='h4' variant='h4'>
+              {this.props.el.label}
+            </Typography>
+            <Typography variant='subtitle1' color='textSecondary'>
+              {this.state.time}
+            </Typography>
+            <Typography variant='h5'>
+              {this.renderCardText()}
+            </Typography>
+          </CardContent>
+        </div>
       </Card>
     )
   }
