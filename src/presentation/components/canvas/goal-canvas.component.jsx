@@ -3,22 +3,24 @@ import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 import classnames from 'classnames'
 
+import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import Paper from '@material-ui/core/Paper'
 import Save from '@material-ui/icons/Save'
 import ActionList from '@material-ui/icons/Help'
 
+import Theme from './../../../theme.jsx'
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
 import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopicMap } from './../../../actions/goal-canvas.actions.jsx'
 
-const iconStyles = {
-  marginRight: 24
-}
-
-const classes = theme => ({
+const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
+  },
+  cy: {
+    background: Theme.cy.background
   }
 })
 
@@ -33,7 +35,11 @@ class GoalCanvas extends Component {
     getTopicMap(this.props.topicId, this.props.userId, this.props.store.dispatch)
       .then(() => {
         let reselect = false
-        this.cy = GoalDCytoscape()
+        this.cy = GoalDCytoscape({
+          unselected: Theme.cy.primary,
+          selected: Theme.cy.secondary,
+          handleColor: Theme.cy.context
+        })
         this.cy.add(this.props.map)
         let layout = this.cy.layout({ name: 'preset' })
         layout.run()
@@ -112,11 +118,11 @@ class GoalCanvas extends Component {
 
   render () {
     return (
-      <div>
+      <div className='row'>
         <div className='row col-md-12'>
           <h3 className='col-md-4'>{this.props.label}</h3>
           <TextField
-            className={classnames('col-md-4', classes.textField)}
+            className={classnames('col-md-4', this.props.classes.textField)}
             value={this.props.selectedNodeLabel}
             onChange={this.onNodeLabelChange}
             margin='normal'
@@ -124,15 +130,15 @@ class GoalCanvas extends Component {
             variant='outlined'
           />
           <div className='row col-md-4'>
-            <Save style={iconStyles} onClick={this.postMap} /> <ActionList style={iconStyles} onClick={this.toggleTips} />
+            <Save onClick={this.postMap} /> <ActionList onClick={this.toggleTips} />
           </div>
         </div>
         <div className='row col-md-12'>
           {this.props.showTips ? <GoalDInstructions /> : ''}
         </div>
         <div className='row col-md-12'>
-          <div
-            className='col-md-4'
+          <Paper
+            className={this.props.classes.cy}
             id='cy'
           />
         </div>
@@ -152,4 +158,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(GoalCanvas)
+export default withStyles(styles)(connect(mapStateToProps)(GoalCanvas))

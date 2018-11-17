@@ -11,7 +11,7 @@ coseBilkent(cytoscape)
 edgehandles(cytoscape)
 cxtmenu(cytoscape)
 
-export default () => {
+export default ({ selected, unselected, handleColor }) => {
   const cy = cytoscape({
     container: document.getElementById('cy'),
     userPanningEnabled: false,
@@ -19,7 +19,7 @@ export default () => {
     style: cytoscape.stylesheet()
       .selector('node')
       .css({
-        'background-color': '#B3767E',
+        'background-color': unselected,
         'width': 'mapData(baz, 0, 10, 10, 40)',
         'height': 'mapData(baz, 0, 10, 10, 40)',
         'content': 'data(label)'
@@ -34,7 +34,7 @@ export default () => {
       })
       .selector(':selected')
       .css({
-        'background-color': 'black',
+        'background-color': selected,
         'line-color': 'black',
         'target-arrow-color': 'black',
         'source-arrow-color': 'black',
@@ -51,7 +51,7 @@ export default () => {
       })
   })
 
-  cy.edgehandles(GoalDEdge.bind(this)())
+  cy.edgehandles(GoalDEdge.bind(this)({ handleColor }))
   cy.cxtmenu(GoalDContextMenu)
 
   var tappedBefore

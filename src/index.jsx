@@ -6,8 +6,8 @@ import { createStore, combineReducers } from 'redux'
 
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import { createMuiTheme } from '@material-ui/core/styles'
-import purple from '@material-ui/core/colors/purple'
-import green from '@material-ui/core/colors/green'
+
+import Theme from './theme.jsx'
 
 import AuthService from './services/auth-service.component.jsx'
 import Config from './services/config.service.jsx'
@@ -29,18 +29,7 @@ const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.co
 let reducers = combineReducers({ UserReducer, GoalCanvasReducer, GoalNodeReducer, TimelineReducer })
 let store = createStore(reducers)
 
-const theme = createMuiTheme({
-  palette: {
-    primary: purple,
-    secondary: green
-  },
-  status: {
-    danger: 'orange'
-  },
-  typography: {
-    useNextVariants: true
-  }
-})
+const theme = createMuiTheme(Theme)
 
 ReactDOM.render((
   <MuiThemeProvider theme={theme}>
