@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
+import classnames from 'classnames'
 
-import TextField from 'material-ui/TextField'
-import Save from 'material-ui/svg-icons/content/save'
-import ActionList from 'material-ui/svg-icons/action/list'
-// import Toggle from 'material-ui/Toggle'
+import TextField from '@material-ui/core/TextField'
+import Save from '@material-ui/icons/Save'
+import ActionList from '@material-ui/icons/Help'
 
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 import GoalDInstructions from './goal-canvas-instructions.component.jsx'
@@ -14,6 +14,13 @@ import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopic
 const iconStyles = {
   marginRight: 24
 }
+
+const classes = theme => ({
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  }
+})
 
 class GoalCanvas extends Component {
   constructor (props) {
@@ -25,15 +32,22 @@ class GoalCanvas extends Component {
   componentDidMount () {
     getTopicMap(this.props.topicId, this.props.userId, this.props.store.dispatch)
       .then(() => {
+        let reselect = false
         this.cy = GoalDCytoscape()
         this.cy.add(this.props.map)
         let layout = this.cy.layout({ name: 'preset' })
         layout.run()
         this.cy.on('select', e => {
+          reselect = true
           this.onNodeSelected(e.target)
         })
         this.cy.on('unselect', e => {
-          this.onNodeSelected()
+          reselect = false
+          setTimeout(() => {
+            if (!reselect) {
+              this.onNodeSelected()
+            }
+          }, 200)
         })
         this.cy.ready(e => {
           let s = this.cy.$(':selected')
@@ -102,23 +116,25 @@ class GoalCanvas extends Component {
         <div className='row col-md-12'>
           <h3 className='col-md-4'>{this.props.label}</h3>
           <TextField
-            className='col-md-4'
-            floatingLabelText='graph!'
+            className={classnames('col-md-4', classes.textField)}
             value={this.props.selectedNodeLabel}
             onChange={this.onNodeLabelChange}
+            margin='normal'
+            label='add a label'
+            variant='outlined'
           />
+          <div className='row col-md-4'>
+            <Save style={iconStyles} onClick={this.postMap} /> <ActionList style={iconStyles} onClick={this.toggleTips} />
+          </div>
+        </div>
+        <div className='row col-md-12'>
+          {this.props.showTips ? <GoalDInstructions /> : ''}
         </div>
         <div className='row col-md-12'>
           <div
             className='col-md-4'
             id='cy'
           />
-        </div>
-        <div className='row col-md-12'>
-          <Save style={iconStyles} onClick={this.postMap} /> <ActionList style={iconStyles} onClick={this.toggleTips} />
-        </div>
-        <div className='row col-md-12'>
-          {this.props.showTips ? <GoalDInstructions /> : ''}
         </div>
       </div>
     )

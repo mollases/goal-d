@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { List, ListItem } from 'material-ui/List'
+import List from '@material-ui/core/List'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 
 const instructions = [{
   header: 'Adding',
@@ -26,13 +29,14 @@ class GoaldInstructions extends Component {
     let rendered = instructions.map((el, index) => {
       let grouping = el.details.map((el2, index2) => {
         return (
-          <ListItem primaryText={el2} key={index2} />
+          <ListItem key={index2}>
+            <ListItemText primary={el2} />
+          </ListItem>
         )
       })
       return (
         <div className='col-md-4' key={index}>
-          <h4 className='text-center'>{el.header}</h4>
-          <List>
+          <List subheader={<ListSubheader>{el.header}</ListSubheader>}>
             {grouping}
           </List>
         </div>

@@ -30,6 +30,12 @@ class Timeline extends Component {
     this.callRefresh()
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.nodeId !== prevProps.nodeId) {
+      this.callRefresh()
+    }
+  }
+
   onNewNoteChange (e) {
     this.props.store.dispatch(newNoteChange(e.target.value))
   }

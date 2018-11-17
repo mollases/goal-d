@@ -2,19 +2,18 @@ import React, { Component } from 'react'
 import autoBind from 'react-autobind'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import Switch from '@material-ui/core/Switch'
 import Divider from '@material-ui/core/Divider'
 import Paper from '@material-ui/core/Paper'
+// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+// import Switch from '@material-ui/core/Switch'
 
 const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
-    // ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2
   }
@@ -40,15 +39,15 @@ class ChildrenNodes extends Component {
     if (this.props.childNodes && this.props.childNodes.length) {
       return this.props.childNodes.map((el, i) => {
         return (
-          <div>
-            <ListItem key={el.key}>
+          <div key={i}>
+            <ListItem>
               <ListItemText primary={el.label} />
-              <ListItemSecondaryAction>
+              {/* <ListItemSecondaryAction>
                 <Switch
-                  // onChange={this.handleToggle('wifi')}
-                  // checked={this.state.checked.indexOf('wifi') !== -1}
+                  onChange={this.handleToggle('wifi')}
+                  checked={this.state.checked.indexOf('wifi') !== -1}
                 />
-              </ListItemSecondaryAction>
+              </ListItemSecondaryAction> */}
             </ListItem>
             {
               i === this.props.childNodes.length - 1

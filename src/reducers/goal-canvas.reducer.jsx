@@ -27,6 +27,12 @@ const GoalCanvasReducer = (state = initialState, action) => {
         map: action.map
       })
       return withMap
+    case GOAL_CANVAS_ACTIONS.GET_TOPIC_MAP_FAILURE:
+      const withEmptyMap = Object.assign({}, state, {
+        label: '',
+        map: []
+      })
+      return withEmptyMap
     case GOAL_CANVAS_ACTIONS.NODE_SELECTED:
       const withSelectedNode = Object.assign({}, state, {
         selectedNode: action.selectedNode,

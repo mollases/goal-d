@@ -29,7 +29,7 @@ class Config {
   }
 
   getUserTopicPostList (user, topic, post, postList) {
-    return fetch(this.url + '/user-details/' + user + '/topic/' + topic + '/posts/' + postList)
+    return fetch(this.api + '/user-details/' + user + '/topic/' + topic + '/posts/' + postList)
   }
 
   postUserTopicOnPost (user, topic, post, body) {

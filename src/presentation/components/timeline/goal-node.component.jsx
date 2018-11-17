@@ -1,12 +1,50 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
+import classnames from 'classnames'
 
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardContent from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
+import Collapse from '@material-ui/core/Collapse'
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import red from '@material-ui/core/colors/red'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 
 import { toggleEdit, storeData, newKey, newValue, updateKeyValue, updateKey } from './../../../actions/goal-node.actions.jsx'
+
+const classes = theme => ({
+  card: {
+    maxWidth: 400
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%'
+  },
+  actions: {
+    display: 'flex'
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest
+    }),
+    marginLeft: 'auto',
+    [theme.breakpoints.up('sm')]: {
+      marginRight: -8
+    }
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)'
+  },
+  avatar: {
+    backgroundColor: red[500]
+  }
+})
 
 const FAVORED = ['id', 'label']
 
@@ -36,20 +74,42 @@ const CustomInput = ({ key, keyChange, value, valueChange, store }) => (
 class GoalNode extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      expanded: false
+    }
     autoBind(this)
+  }
+
+  handleExpandClick () {
+    this.setState({ expanded: !this.state.expanded })
   }
 
   render () {
     return (
-      <Card>
-        <CardTitle
+      <Card className={classes.card}>
+        <CardHeader
           title={this.props.label}
-          actAsExpander
-          showExpandableButton
+          subheader='September 14, 2016'
         />
-        <CardText expandable>
-          {this.renderKV()}
-        </CardText>
+        <CardActions className={classes.actions} disableActionSpacing>
+          <IconButton
+            className={classnames(classes.expand, {
+              [classes.expandOpen]: this.state.expanded
+            })}
+            onClick={this.handleExpandClick}
+            aria-expanded={this.state.expanded}
+            aria-label='Show more'
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={this.state.expanded} timeout='auto' unmountOnExit>
+          <CardContent>
+            <Typography>
+              {this.renderKV()}
+            </Typography>
+          </CardContent>
+        </Collapse>
       </Card>
     )
   }

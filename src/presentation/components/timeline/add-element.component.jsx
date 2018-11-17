@@ -39,8 +39,8 @@ const AddElement = ({ value, onChange, onPost }) => (
   <Card className={classes.card}>
     <div className={classes.details}>
       <CardContent className={classes.content}>
-        <Typography variant='h4'>
-          Add an Element
+        <Typography variant='h5'>
+          add a note
         </Typography>
         <Typography variant='h5'>
           <TextField
@@ -56,7 +56,7 @@ const AddElement = ({ value, onChange, onPost }) => (
         </Typography>
       </CardContent>
       <CardActions>
-        <Button color='primary'>
+        <Button color='primary' onClick={onPost}>
           Post
         </Button>
       </CardActions>
