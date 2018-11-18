@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
+import Grid from '@material-ui/core/Grid'
 
 import GoalCanvas from './../components/canvas/goal-canvas.component.jsx'
 import Timeline from './../components/timeline/timeline.component.jsx'
@@ -43,15 +44,15 @@ class GoalMap extends Component {
       renderTimeline = true
     }
     return (
-      <div>
-        <div className='row col-md-12'>
+      <Grid container spacing={24}>
+        <Grid md={12} xs item>
           <GoalCanvas
             store={this.props.store}
             userId={this.props.auth.getActiveUser()}
             topicId={this.props.match.params.topic} />
           <br />
-        </div>
-        <div className='row col-md-12'>
+        </Grid>
+        <Grid md={12} xs item>
           { !renderTimeline ? null
             : <TimelinewNodes
               selectedNode={this.props.selectedNode}
@@ -61,8 +62,8 @@ class GoalMap extends Component {
               topicId={this.props.match.params.topic}
             />
           }
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     )
   }
 }

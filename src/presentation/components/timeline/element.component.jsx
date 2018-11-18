@@ -3,6 +3,7 @@ import React from 'react'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
+import ReactMarkdown from 'react-markdown'
 
 const classes = theme => ({
   card: {
@@ -36,9 +37,9 @@ const Element = ({ label, timestamp, body }) => (
   <Card className={classes.card}>
     <div className={classes.details}>
       <CardContent className={classes.content}>
-        <Typography component='h5' variant='h5'>
+        <ReactMarkdown>
           {body}
-        </Typography>
+        </ReactMarkdown>
         <Typography variant='subtitle1' color='textSecondary'>
           {new Date(timestamp).toString()}
         </Typography>
