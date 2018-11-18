@@ -46,8 +46,8 @@ const AddElement = ({ value, onChange, onPost }) => (
           <TextField
             value={value}
             onChange={onChange}
-            label='TODO: support Markdown'
-            placeholder='Placeholder'
+            label='note'
+            placeholder='Take some notes'
             fullWidth
             multiline
             className={classes.textField}

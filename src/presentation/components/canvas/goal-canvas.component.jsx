@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import Save from '@material-ui/icons/Save'
-import ActionList from '@material-ui/icons/Help'
+import Help from '@material-ui/icons/Help'
 
 import Theme from './../../../theme.jsx'
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
@@ -21,6 +21,10 @@ const styles = theme => ({
   },
   cy: {
     background: Theme.cy.background
+  },
+  icon: {
+    marginLeft: 12,
+    marginRight: 20
   }
 })
 
@@ -118,9 +122,9 @@ class GoalCanvas extends Component {
 
   render () {
     return (
-      <div className='row'>
+      <div>
         <div className='row col-md-12'>
-          <h3 className='col-md-4'>{this.props.label}</h3>
+          <h3 className={classnames('col-md-4', this.props.classes.header)} >{this.props.label}</h3>
           <TextField
             className={classnames('col-md-4', this.props.classes.textField)}
             value={this.props.selectedNodeLabel}
@@ -129,8 +133,9 @@ class GoalCanvas extends Component {
             label='add a label'
             variant='outlined'
           />
-          <div className='row col-md-4'>
-            <Save onClick={this.postMap} /> <ActionList onClick={this.toggleTips} />
+          <div className='row col-md-4 col-xs-12'>
+            <Save onClick={this.postMap} className={this.props.classes.icon} />
+            <Help onClick={this.toggleTips} className={this.props.classes.icon} />
           </div>
         </div>
         <div className='row col-md-12'>

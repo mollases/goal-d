@@ -41,20 +41,7 @@ class Timeline extends Component {
   }
 
   render () {
-    return (
-      <div>
-        <AddElement
-          value={this.props.newNoteContents}
-          onChange={this.onNewNoteChange}
-          onPost={this.submitNewNote} />
-        <br />
-        {this.renderElements()}
-      </div>
-    )
-  }
-
-  renderElements () {
-    return this.props.contents.map((el, i) => {
+    let elements = this.props.contents.map((el, i) => {
       return (
         <div key={i}>
           <Element
@@ -66,6 +53,17 @@ class Timeline extends Component {
         </div>
       )
     })
+
+    return (
+      <div>
+        <AddElement
+          value={this.props.newNoteContents}
+          onChange={this.onNewNoteChange}
+          onPost={this.submitNewNote} />
+        <br />
+        {elements}
+      </div>
+    )
   }
 }
 
