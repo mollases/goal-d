@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
+import CardActions from '@material-ui/core/CardActions'
 
 const classes = theme => ({
   card: {
@@ -21,33 +22,59 @@ const classes = theme => ({
   }
 })
 
-const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue }) => (
-  <div>
-    <TextField
-      value={textValue}
-      onChange={onTextChange}
-      label='TODO: support Markdown'
-      placeholder='Placeholder'
-      fullWidth
-      multiline
-      margin='normal'
-    />
-    <Button onClick={onClose}>close</Button>
-    <Button onClick={onSave}>save</Button>
-    <NavLink to={'/user/map/' + go}>
-      <Button>go!</Button>
-    </NavLink>
-  </div>
+const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue, label, time, cardClass, detailsClass, contentClass }) => (
+  <Card className={cardClass}>
+    <div className={detailsClass}>
+      <CardContent className={contentClass}>
+        <Typography component='h5' variant='h5'>
+          {label}
+        </Typography>
+        <Typography variant='subtitle1' color='textSecondary'>
+          {time}
+        </Typography>
+        <TextField
+          value={textValue}
+          onChange={onTextChange}
+          label='TODO: support Markdown'
+          placeholder='Placeholder'
+          fullWidth
+          multiline
+          margin='normal'
+        />
+      </CardContent>
+      <CardActions>
+        <Button onClick={onClose}>close</Button>
+        <Button onClick={onSave}>save</Button>
+        <NavLink to={'/user/map/' + go}>
+          <Button>go!</Button>
+        </NavLink>
+      </CardActions>
+    </div>
+  </Card>
 )
 
-const StaticTopic = ({ value, onEdit, go }) => (
-  <div>
-    <p>{value}</p>
-    <Button onClick={onEdit}>edit</Button>
-    <NavLink to={'/user/map/' + go}>
-      <Button>go!</Button>
-    </NavLink>
-  </div>
+const StaticTopic = ({ value, onEdit, go, label, time, cardClass, detailsClass, contentClass }) => (
+  <Card className={cardClass}>
+    <div className={detailsClass}>
+      <CardContent className={contentClass}>
+        <Typography component='h5' variant='h5'>
+          {label}
+        </Typography>
+        <Typography variant='subtitle1' color='textSecondary'>
+          {time}
+        </Typography>
+        <Typography variant='body1'>
+          {value}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button onClick={onEdit}>edit</Button>
+        <NavLink to={'/user/map/' + go}>
+          <Button>go!</Button>
+        </NavLink>
+      </CardActions>
+    </div>
+  </Card>
 )
 
 class UserTopic extends Component {
@@ -74,29 +101,14 @@ class UserTopic extends Component {
   }
 
   render () {
-    return (
-      <Card className={classes.card}>
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <Typography component='h4' variant='h4'>
-              {this.props.el.label}
-            </Typography>
-            <Typography variant='subtitle1' color='textSecondary'>
-              {this.state.time}
-            </Typography>
-            <Typography variant='h5'>
-              {this.renderCardText()}
-            </Typography>
-          </CardContent>
-        </div>
-      </Card>
-    )
-  }
-
-  renderCardText () {
     if (!this.state.edit) {
       return (
         <StaticTopic
+          label={this.props.el.label}
+          time={this.state.time}
+          cardClass={classes.card}
+          detailsClass={classes.details}
+          contentClass={classes.content}
           value={this.state.value}
           onEdit={() => { this.setState({ edit: true }) }}
           go={this.props.el.id}
@@ -105,6 +117,11 @@ class UserTopic extends Component {
     } else {
       return (
         <EditibleTopic
+          label={this.props.el.label}
+          time={this.state.time}
+          cardClass={classes.card}
+          detailsClass={classes.details}
+          contentClass={classes.content}
           onSave={(evt) => {
             this.saveNote(evt)
             this.setState({ edit: false })

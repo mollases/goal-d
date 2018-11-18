@@ -12,7 +12,8 @@ const theme = {
     danger: 'orange'
   },
   typography: {
-    useNextVariants: true
+    useNextVariants: true,
+    fontSize: 18
   },
   cy: {
     primary,
