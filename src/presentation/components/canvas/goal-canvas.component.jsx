@@ -16,15 +16,20 @@ import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopic
 
 const styles = theme => ({
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    // marginLeft: theme.spacing.unit,
+    // marginRight: theme.spacing.unit
   },
   cy: {
     background: Theme.cy.background
   },
   icon: {
     marginLeft: 12,
-    marginRight: 20
+    marginRight: 20,
+    height: '3em',
+    verticalAlign: 'middle'
+  },
+  iconParent: {
+    textAlign: 'center'
   }
 })
 
@@ -94,7 +99,8 @@ class GoalCanvas extends Component {
       } else {
         children = children.map((v) => ({
           id: v.id(),
-          label: v.data('label')
+          label: v.data('label'),
+          show: true
         }))
       }
       this.props.store.dispatch(nodeSelected(node, node.data('label'), children))
@@ -124,16 +130,16 @@ class GoalCanvas extends Component {
     return (
       <div>
         <div className='row col-md-12'>
-          <h3 className={classnames('col-md-4', this.props.classes.header)} >{this.props.label}</h3>
+          <h3 className={classnames('col-md-4', 'col-xs-3', this.props.classes.header)} >{this.props.label}</h3>
           <TextField
-            className={classnames('col-md-4', this.props.classes.textField)}
+            className={classnames('col-md-4', 'col-xs-6', this.props.classes.textField)}
             value={this.props.selectedNodeLabel}
             onChange={this.onNodeLabelChange}
             margin='normal'
             label='add a label'
             variant='outlined'
           />
-          <div className='row col-md-4 col-xs-12'>
+          <div className={classnames('col-md-4', 'col-xs-3', this.props.classes.iconParent)}>
             <Save onClick={this.postMap} className={this.props.classes.icon} />
             <Help onClick={this.toggleTips} className={this.props.classes.icon} />
           </div>

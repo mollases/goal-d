@@ -37,6 +37,7 @@ const Element = ({ label, timestamp, body }) => (
   <Card className={classes.card}>
     <div className={classes.details}>
       <CardContent className={classes.content}>
+        <Typography variant='body1'>{label}</Typography>
         <ReactMarkdown>
           {body}
         </ReactMarkdown>
