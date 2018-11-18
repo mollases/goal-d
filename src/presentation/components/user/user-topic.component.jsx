@@ -1,46 +1,21 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
-import { NavLink } from 'react-router-dom'
 
-import TextField from 'material-ui/TextField'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
+import EditibleTopic from './editable-topic.component.jsx'
+import Topic from './topic.component.jsx'
 
-const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue }) => (
-  <div>
-    <TextField
-      value={textValue}
-      onChange={onTextChange}
-      floatingLabelText='TODO: support Markdown'
-      multiLine
-      fullWidth
-    />
-    <FlatButton
-      label='close'
-      onClick={onClose}
-    />
-    <FlatButton
-      label='save'
-      onClick={onSave}
-    />
-    <NavLink to={'/user/map/' + go}>
-        go!
-    </NavLink>
-  </div>
-)
-
-const StaticTopic = ({ value, onEdit, go }) => (
-  <div>
-    <p>{value}</p>
-    <FlatButton
-      label='edit'
-      onClick={onEdit}
-    />
-    <NavLink to={'/user/map/' + go}>
-        go!
-    </NavLink>
-  </div>
-)
+const classes = theme => ({
+  card: {
+    display: 'flex'
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  content: {
+    flex: '1 0 auto'
+  }
+})
 
 class UserTopic extends Component {
   constructor (props) {
@@ -66,27 +41,14 @@ class UserTopic extends Component {
   }
 
   render () {
-    return (
-      <Card>
-        <CardTitle
-          title={this.props.el.label}
-          subtitle={<span onClick={this.deleteTopic}>{this.state.time}</span>}
-          actAsExpander
-          showExpandableButton
-        />
-        <CardText expandable>
-          {
-            this.renderCardText()
-          }
-        </CardText>
-      </Card>
-    )
-  }
-
-  renderCardText () {
     if (!this.state.edit) {
       return (
-        <StaticTopic
+        <Topic
+          label={this.props.el.label}
+          time={this.state.time}
+          cardClass={classes.card}
+          detailsClass={classes.details}
+          contentClass={classes.content}
           value={this.state.value}
           onEdit={() => { this.setState({ edit: true }) }}
           go={this.props.el.id}
@@ -95,6 +57,11 @@ class UserTopic extends Component {
     } else {
       return (
         <EditibleTopic
+          label={this.props.el.label}
+          time={this.state.time}
+          cardClass={classes.card}
+          detailsClass={classes.details}
+          contentClass={classes.content}
           onSave={(evt) => {
             this.saveNote(evt)
             this.setState({ edit: false })

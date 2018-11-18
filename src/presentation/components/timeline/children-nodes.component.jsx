@@ -1,7 +1,23 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
-import { ListItem } from 'material-ui/List'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import Divider from '@material-ui/core/Divider'
+import Paper from '@material-ui/core/Paper'
+// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+// import Switch from '@material-ui/core/Switch'
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2
+  }
+})
 
 class ChildrenNodes extends Component {
   constructor (props) {
@@ -11,24 +27,42 @@ class ChildrenNodes extends Component {
 
   render () {
     return (
-      <Card>
-        <CardTitle title={this.props.node.label} />
-        <CardText>
+      <Paper className={styles.root} elevation={1}>
+        <List subheader={<ListSubheader>{this.props.label}</ListSubheader>}>
           {this.renderChildren()}
-        </CardText>
-      </Card>
+        </List>
+      </Paper>
     )
   }
 
   renderChildren () {
     if (this.props.childNodes && this.props.childNodes.length) {
-      return this.props.childNodes.map((el) => {
+      return this.props.childNodes.map((el, i) => {
         return (
-          <ListItem primaryText={el.label} key={el.id} />
+          <div key={i}>
+            <ListItem>
+              <ListItemText primary={el.label} />
+              {/* <ListItemSecondaryAction>
+                <Switch
+                  onChange={this.handleToggle('wifi')}
+                  checked={this.state.checked.indexOf('wifi') !== -1}
+                />
+              </ListItemSecondaryAction> */}
+            </ListItem>
+            {
+              i === this.props.childNodes.length - 1
+                ? null
+                : <Divider />
+            }
+          </div>
         )
       })
     }
-    return (<ListItem primaryText='Select a node with children to see its children here' />)
+    return (
+      <ListItem>
+        <ListItemText primary='Select a node with children to see its children here' />
+      </ListItem>
+    )
   }
 }
 

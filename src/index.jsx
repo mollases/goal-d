@@ -4,7 +4,10 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import { createMuiTheme } from '@material-ui/core/styles'
+
+import Theme from './theme.jsx'
 
 import AuthService from './services/auth-service.component.jsx'
 import Config from './services/config.service.jsx'
@@ -26,8 +29,10 @@ const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.co
 let reducers = combineReducers({ UserReducer, GoalCanvasReducer, GoalNodeReducer, TimelineReducer })
 let store = createStore(reducers)
 
+const theme = createMuiTheme(Theme)
+
 ReactDOM.render((
-  <MuiThemeProvider>
+  <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <BrowserRouter>
         <div>

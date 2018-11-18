@@ -2,31 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
-import TextField from 'material-ui/TextField'
-import { orange500, blue500 } from 'material-ui/styles/colors'
-import FlatButton from 'material-ui/FlatButton'
-import { List } from 'material-ui/List'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import List from '@material-ui/core/List'
 
 import _ from 'lodash'
 
 import UserTopic from './../components/user/user-topic.component.jsx'
 import { getTopics, postTopic, updateSearchParam } from './../../actions/user.actions.jsx'
 // import UserCard from './../components/user/user-card.component.jsx'
-
-const styles = {
-  errorStyle: {
-    color: orange500
-  },
-  underlineStyle: {
-    borderColor: orange500
-  },
-  floatingLabelStyle: {
-    color: orange500
-  },
-  floatingLabelFocusStyle: {
-    color: blue500
-  }
-}
 
 class User extends Component {
   constructor (props) {
@@ -74,20 +58,19 @@ class User extends Component {
 
   render () {
     return (
-      <div className='row'>
+      <div className='row col-md-12'>
         {/* <div className='col-sm-6 col-md-4'>
           <UserCard />
         </div> */}
         <div className='col-sm-6 col-md-7 col-md-offset-1'>
           <div className='row'>
             <TextField
-              floatingLabelText='Search or add...'
-              floatingLabelStyle={styles.floatingLabelStyle}
-              floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+              label='Search or add...'
               value={this.props.searchData}
               onChange={this.handleChange}
+              variant='outlined'
             />
-            <FlatButton label='New' onClick={this.saveNewMap} />
+            <Button onClick={this.saveNewMap} >New</Button>
           </div>
           <div className='row'>
             <List>

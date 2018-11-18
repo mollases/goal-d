@@ -30,19 +30,30 @@ class Timeline extends Component {
     this.callRefresh()
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.nodeId !== prevProps.nodeId) {
+      this.callRefresh()
+    }
+  }
+
   onNewNoteChange (e) {
     this.props.store.dispatch(newNoteChange(e.target.value))
   }
 
-  // componentWillReceiveProps (nextProps) {
-  //   let now = this.props.nodeId
-  //   let future = nextProps.nodeId
-  //   if (now !== future) {
-  //     this.callRefresh(future, nextProps.childNodes)
-  //   }
-  // }
-
   render () {
+    let elements = this.props.contents.map((el, i) => {
+      return (
+        <div key={i}>
+          <Element
+            label='Note'
+            timestamp={el.timestamp}
+            body={el.body}
+          />
+          <br />
+        </div>
+      )
+    })
+
     return (
       <div>
         <AddElement
@@ -50,20 +61,9 @@ class Timeline extends Component {
           onChange={this.onNewNoteChange}
           onPost={this.submitNewNote} />
         <br />
-        {this.renderElements()}
+        {elements}
       </div>
     )
-  }
-
-  renderElements () {
-    return this.props.contents.map((el, i) => {
-      return (
-        <div key={i}>
-          <Element content={el} />
-          <br />
-        </div>
-      )
-    })
   }
 }
 
