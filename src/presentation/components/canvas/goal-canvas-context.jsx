@@ -1,38 +1,13 @@
 export default {
   menuRadius: 100, // the radius of the circular menu in pixels
   selector: 'node, edge', // elements matching this Cytoscape.js selector will trigger cxtmenus
-  commands: (ele) => {
+  commands: () => {
     var cmds = [{
       content: 'delete',
       select: (ele) => {
         ele.remove()
       }
     }]
-    // if (ele.isEdge()) {
-    //   cmds.push({
-    //     content: 'dashed',
-    //     select: (ele) => {
-    //       ele.style({ 'line-style': 'dashed' })
-    //     }
-    //   }, {
-    //     content: 'solid',
-    //     select: (ele) => {
-    //       ele.style({ 'line-style': 'solid' })
-    //     }
-    //   }, {
-    //     content: 'dotted',
-    //     select: (ele) => {
-    //       ele.style({ 'line-style': 'dotted' })
-    //     }
-    //   })
-    // } else if (ele.isParent()) {
-    //   cmds.push({
-    //     content: 'free children',
-    //     select: (ele) => {
-    //       ele.children().move({ parent: null })
-    //     }
-    //   })
-    // }
     return cmds
   }, // function( ele ){ return [ /*...*/ ] }, // example function for commands
   fillColor: 'rgba(0, 0, 0, 0.75)', // the background colour of the menu

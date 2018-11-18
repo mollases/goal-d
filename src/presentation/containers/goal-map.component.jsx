@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 import Grid from '@material-ui/core/Grid'
 
-import GoalCanvas from './../components/canvas/goal-canvas.component.jsx'
+import GoalCanvas from './../components/canvas/goal-canvas-interface.component.jsx'
 import Timeline from './../components/timeline/timeline.component.jsx'
 import GoalNode from './../components/timeline/goal-node.component.jsx'
 import ChildrenNodes from './../components/timeline/children-nodes.component.jsx'
@@ -70,8 +70,8 @@ class GoalMap extends Component {
 
 const mapStateToProps = state => {
   return {
-    selectedNode: state.GoalCanvasReducer.selectedNode,
-    selectedNodeChildren: state.GoalCanvasReducer.selectedNodeChildren
+    selectedNode: state.GoalCanvasInterfaceReducer.selectedNode,
+    selectedNodeChildren: state.GoalCanvasInterfaceReducer.selectedNodeChildren
   }
 }
 

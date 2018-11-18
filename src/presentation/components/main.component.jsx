@@ -12,6 +12,9 @@ const styles = {
   root: {
     flexGrow: 1
   },
+  text: {
+    color: 'white'
+  },
   grow: {
     flexGrow: 1
   },
@@ -21,9 +24,9 @@ const styles = {
   }
 }
 
-const UserLink = () => (
+const UserLink = ({ textClass }) => (
   <NavLink to={'/user'} activeClassName='active'>
-    <Button>User</Button>
+    <Button className={textClass}>User</Button>
   </NavLink>
 )
 
@@ -32,12 +35,14 @@ const Main = ({ auth, classes }) => (
     <AppBar position='relative'>
       <Toolbar>
         <Typography variant='h4' color='inherit' className={classes.grow}>
-          Goal-D
+          <NavLink to='/' className={classes.text} activeClassName={classes.text}>
+            Goal-D
+          </NavLink>
         </Typography>
-        { auth.isAuthenticated() ? <UserLink /> : null }
-        <Login auth={auth} />
+        { auth.isAuthenticated() ? <UserLink textClass={classes.text} /> : null }
+        <Login auth={auth} textClass={classes.text} />
         <NavLink to='/about'>
-          <Button>About</Button>
+          <Button className={classes.text}>About</Button>
         </NavLink>
       </Toolbar>
     </AppBar>

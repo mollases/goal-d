@@ -1,4 +1,4 @@
-import { GOAL_CANVAS_ACTIONS } from './../actions/goal-canvas.actions.jsx'
+import { GOAL_CANVAS_ACTIONS } from './../actions/goal-canvas-interface.actions.jsx'
 
 const initialState = {
   showTips: false,
@@ -9,7 +9,7 @@ const initialState = {
   map: []
 }
 
-const GoalCanvasReducer = (state = initialState, action) => {
+const GoalCanvasInterfaceReducer = (state = initialState, action) => {
   switch (action.type) {
     case GOAL_CANVAS_ACTIONS.TOGGLE_INSTRUCTIONS:
       const toggleTips = Object.assign({}, state, {
@@ -30,7 +30,8 @@ const GoalCanvasReducer = (state = initialState, action) => {
     case GOAL_CANVAS_ACTIONS.GET_TOPIC_MAP_FAILURE:
       const withEmptyMap = Object.assign({}, state, {
         label: '',
-        map: []
+        map: [],
+        showTips: true
       })
       return withEmptyMap
     case GOAL_CANVAS_ACTIONS.NODE_SELECTED:
@@ -45,4 +46,4 @@ const GoalCanvasReducer = (state = initialState, action) => {
   }
 }
 
-export default GoalCanvasReducer
+export default GoalCanvasInterfaceReducer

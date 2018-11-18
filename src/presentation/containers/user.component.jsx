@@ -70,7 +70,7 @@ class User extends Component {
               onChange={this.handleChange}
               variant='outlined'
             />
-            <Button onClick={this.saveNewMap} >New</Button>
+            <Button onClick={this.saveNewMap} >Add a topic</Button>
           </div>
           <div className='row'>
             <List>
@@ -103,7 +103,10 @@ class User extends Component {
       let show = search === '' || el.label.indexOf(search) !== -1
       if (show) {
         return (
-          <UserTopic userId={userId} el={el} key={el.id} saveNote={this.saveNote} deleteTopic={this.deleteTopic} />
+          <div key={el.id}>
+            <UserTopic userId={userId} el={el} saveNote={this.saveNote} deleteTopic={this.deleteTopic} />
+            <br />
+          </div>
         )
       }
     })

@@ -191,7 +191,7 @@ class GoalNode extends Component {
 
 const mapStateToProps = state => {
   return {
-    node: state.GoalCanvasReducer.selectedNode,
+    node: state.GoalCanvasInterfaceReducer.selectedNode,
     editMode: state.GoalNodeReducer.editMode,
     newKey: state.GoalNodeReducer.newKey,
     newValue: state.GoalNodeReducer.newValue,

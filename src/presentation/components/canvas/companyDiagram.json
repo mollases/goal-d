@@ -1,0 +1,210 @@
+[
+  {
+    "data": {
+      "label": "how do I start a company",
+      "id": "e02129d7-4d31-461d-b0d1-16b10e792fe9"
+    },
+    "position": {
+      "x": 512.5,
+      "y": 250
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "find an idea",
+      "id": "4df9e447-c117-4f12-b338-e97655882b52"
+    },
+    "position": {
+      "x": 403.5,
+      "y": 65
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "find customers",
+      "id": "20831a62-a088-4351-83c1-98ec861489da"
+    },
+    "position": {
+      "x": 551.5262221585059,
+      "y": 104.82195779952822
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "tax lawyers?",
+      "id": "bc199633-15c8-4b4e-abb2-ca9f1695d658"
+    },
+    "position": {
+      "x": 617.3957239114285,
+      "y": 142.84756741258195
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "find price point",
+      "id": "45399c6a-336a-40b1-91b1-185c158dd495"
+    },
+    "position": {
+      "x": 541.0577617328518,
+      "y": 8.093862815884462
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "e02129d7-4d31-461d-b0d1-16b10e792fe9",
+      "target": "4df9e447-c117-4f12-b338-e97655882b52",
+      "id": "fddd518f-838b-4639-ab57-20c6c7335ed7"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "e02129d7-4d31-461d-b0d1-16b10e792fe9",
+      "target": "20831a62-a088-4351-83c1-98ec861489da",
+      "id": "74e4c4db-77e5-48c4-94cb-2d148e2b6b55"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "e02129d7-4d31-461d-b0d1-16b10e792fe9",
+      "target": "bc199633-15c8-4b4e-abb2-ca9f1695d658",
+      "id": "3cabe1a2-bb5c-497e-a7dc-aa68d07a2acb"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "20831a62-a088-4351-83c1-98ec861489da",
+      "target": "45399c6a-336a-40b1-91b1-185c158dd495",
+      "id": "10c79999-9e04-459f-82f6-e53c1bd36fab"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "4df9e447-c117-4f12-b338-e97655882b52",
+      "id": "d7aa6840-f39a-44f8-829e-a52c80a76398",
+      "label": "sell stuff?",
+      "target": "45399c6a-336a-40b1-91b1-185c158dd495"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "bc199633-15c8-4b4e-abb2-ca9f1695d658",
+      "target": "e02129d7-4d31-461d-b0d1-16b10e792fe9",
+      "id": "10e51102-9be4-4fdf-bbb6-320239d5f74f"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "incorporate business",
+      "id": "35466ba2-6d26-4b9c-83e7-fc02c20b200a"
+    },
+    "position": {
+      "x": 722.9033807295807,
+      "y": 201.92133352448226
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": "edgehandles-presumptive-target edgehandles-hover edgehandles-target"
+  },
+  {
+    "data": {
+      "source": "e02129d7-4d31-461d-b0d1-16b10e792fe9",
+      "target": "35466ba2-6d26-4b9c-83e7-fc02c20b200a",
+      "id": "bb81443a-2c1d-4b62-9e7b-7c122fe18669"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  }
+]

@@ -4,19 +4,6 @@ import autoBind from 'react-autobind'
 import EditibleTopic from './editable-topic.component.jsx'
 import Topic from './topic.component.jsx'
 
-const classes = theme => ({
-  card: {
-    display: 'flex'
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  content: {
-    flex: '1 0 auto'
-  }
-})
-
 class UserTopic extends Component {
   constructor (props) {
     super(props)
@@ -46,9 +33,6 @@ class UserTopic extends Component {
         <Topic
           label={this.props.el.label}
           time={this.state.time}
-          cardClass={classes.card}
-          detailsClass={classes.details}
-          contentClass={classes.content}
           value={this.state.value}
           onEdit={() => { this.setState({ edit: true }) }}
           go={this.props.el.id}
@@ -59,9 +43,6 @@ class UserTopic extends Component {
         <EditibleTopic
           label={this.props.el.label}
           time={this.state.time}
-          cardClass={classes.card}
-          detailsClass={classes.details}
-          contentClass={classes.content}
           onSave={(evt) => {
             this.saveNote(evt)
             this.setState({ edit: false })

@@ -40,6 +40,13 @@ user-details-models {models}
 * what - why - how / where - who
 * download file, share, 
 * user + regular person, user explaining, 
+* ui is confusing
+* on new topic, start with single node of {labe]} in center
+* on topic, save (with user feedback)
+* on topic, help with some kind of open symbol
+* on topic, add a tutorial symbol, with tutorial
+* on user page, delete topics, delete notes
+
 
 ## wishlist
 * save as png
