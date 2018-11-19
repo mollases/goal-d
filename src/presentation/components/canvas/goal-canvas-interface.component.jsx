@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 import classnames from 'classnames'
+import uuid from 'uuid'
 
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
@@ -26,6 +27,9 @@ const styles = theme => ({
   },
   iconParent: {
     textAlign: 'center'
+  },
+  margin: {
+    margin: theme.spacing.unit * 2
   }
 })
 
@@ -76,6 +80,15 @@ class GoalCanvasInterface extends Component {
           return
         }
         getTopicLabel(this.props.topicId, this.props.userId, this.props.store.dispatch)
+          .then(() => {
+            if (!this.cy.elements().size()) {
+              let { width, height } = this.cy.size()
+              width /= 2
+              height /= 2
+              let pos = { x: width, y: height }
+              this.cy.add({ data: { label: this.props.label, id: uuid() }, position: pos })
+            }
+          })
       })
   }
 

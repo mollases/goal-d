@@ -8,7 +8,7 @@ const instructions = [{
   header: 'Adding',
   details: [
     'double click above to make an entry',
-    'hover over an entry to find the red dot, click and drag from the red dot to another entry to connect them'
+    'hover over an entry to find the teal dot, click and drag from the teal dot to another entry to connect them'
   ]
 }, {
   header: 'Removing',
