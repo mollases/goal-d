@@ -7,60 +7,29 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import CardActions from '@material-ui/core/CardActions'
 
-const classes = theme => ({
-  card: {
-    display: 'flex'
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  content: {
-    flex: '1 0 auto'
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  dense: {
-    marginTop: 19
-  },
-  menu: {
-    width: 200
-  }
-})
-
 const AddElement = ({ value, onChange, onPost }) => (
-  <Card className={classes.card}>
-    <div className={classes.details}>
-      <CardContent className={classes.content}>
-        <Typography variant='h5'>
-          add a note
-        </Typography>
-        <Typography variant='h5'>
-          <TextField
-            value={value}
-            onChange={onChange}
-            label='Markdown supported'
-            placeholder='Take some notes'
-            fullWidth
-            multiline
-            className={classes.textField}
-            margin='normal'
-          />
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button color='primary' onClick={onPost}>
-          Post
-        </Button>
-      </CardActions>
-    </div>
+  <Card>
+    <CardContent>
+      <Typography variant='h5'>
+        add a note
+      </Typography>
+      <Typography variant='h5'>
+        <TextField
+          value={value}
+          onChange={onChange}
+          label='Markdown supported'
+          placeholder='Take some notes'
+          fullWidth
+          multiline
+          margin='normal'
+        />
+      </Typography>
+    </CardContent>
+    <CardActions>
+      <Button color='primary' onClick={onPost}>
+        Post
+      </Button>
+    </CardActions>
   </Card>
 )
 

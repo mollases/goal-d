@@ -41,11 +41,25 @@ class Timeline extends Component {
   }
 
   render () {
-    let elements = this.props.contents.map((el, i) => {
+    let elem = this.props.contents.map((el) => {
+      if (el.nodeId === this.props.nodeId) {
+        // el.label = this.props.label
+        return el
+      }
+      for (let i = 0; i < this.props.childNodes.length; i++) {
+        if (el.nodeId === this.props.childNodes[i].id) {
+          el.label = this.props.childNodes[i].label
+          return el
+        }
+      }
+      return el
+    })
+
+    let elements = elem.map((el, i) => {
       return (
         <div key={i}>
           <Element
-            label='Note'
+            label={el.label}
             timestamp={el.timestamp}
             body={el.body}
           />

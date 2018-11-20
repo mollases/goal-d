@@ -118,14 +118,10 @@ class GoalNode extends Component {
   }
 
   handleDataChange (key, v) {
-    console.log(key)
-    console.log(v.target.value)
     this.props.store.dispatch(updateKeyValue(key, v.target.value))
   }
 
   handleKeyChange (key, v) {
-    console.log(key)
-    console.log(v.target.value)
     this.props.store.dispatch(updateKey(key, v.target.value))
   }
 

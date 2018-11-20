@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
-import classnames from 'classnames'
 import uuid from 'uuid'
 
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
 import Save from '@material-ui/icons/Save'
 import Help from '@material-ui/icons/Help'
 
@@ -139,33 +139,39 @@ class GoalCanvasInterface extends Component {
 
   render () {
     return (
-      <div>
-        <div className='row col-md-12'>
-          <h3 className={classnames('col-md-4', 'col-xs-3', this.props.classes.header)} >{this.props.label}</h3>
-          <TextField
-            className={classnames('col-md-4', 'col-xs-6', this.props.classes.textField)}
-            value={this.props.selectedNodeLabel}
-            onChange={this.onNodeLabelChange}
-            id='nodeLabeler'
-            margin='normal'
-            label='add a label'
-            variant='outlined'
-          />
-          <div className={classnames('col-md-4', 'col-xs-3', this.props.classes.iconParent)}>
-            <Save onClick={this.postMap} className={this.props.classes.icon} />
-            <Help onClick={this.toggleTips} className={this.props.classes.icon} />
-          </div>
-        </div>
-        <div className='row col-md-12'>
+      <Grid container>
+        <Grid container>
+          <Grid item xs={12} md={4}>
+            <h3 className={this.props.classes.header} >{this.props.label}</h3>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <TextField
+              className={this.props.classes.textField}
+              value={this.props.selectedNodeLabel}
+              onChange={this.onNodeLabelChange}
+              id='nodeLabeler' // needed for autofocus
+              margin='normal'
+              label='add a label'
+              variant='outlined'
+            />
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <div className={this.props.classes.iconParent}>
+              <Save onClick={this.postMap} className={this.props.classes.icon} />
+              <Help onClick={this.toggleTips} className={this.props.classes.icon} />
+            </div>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
           {this.props.showTips ? <GoalDInstructions /> : ''}
-        </div>
-        <div className='row col-md-12'>
+        </Grid>
+        <Grid item xs={12}>
           <Paper
             className={this.props.classes.cy}
             id='cy'
           />
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     )
   }
 }

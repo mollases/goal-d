@@ -45,14 +45,14 @@ class GoalMap extends Component {
     }
     return (
       <Grid container spacing={24}>
-        <Grid md={12} xs item>
+        <Grid md={12} xs={12} item>
           <GoalCanvas
             store={this.props.store}
             userId={this.props.auth.getActiveUser()}
             topicId={this.props.match.params.topic} />
           <br />
         </Grid>
-        <Grid md={12} xs item>
+        <Grid md={12} xs={12} item>
           { !renderTimeline ? null
             : <TimelinewNodes
               selectedNode={this.props.selectedNode}

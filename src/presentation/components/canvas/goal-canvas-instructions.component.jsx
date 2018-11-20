@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import List from '@material-ui/core/List'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import ListItem from '@material-ui/core/ListItem'
@@ -24,30 +24,28 @@ const instructions = [{
   ]
 }]
 
-class GoaldInstructions extends Component {
-  render () {
-    let rendered = instructions.map((el, index) => {
-      let grouping = el.details.map((el2, index2) => {
-        return (
-          <ListItem key={index2}>
-            <ListItemText primary={el2} />
-          </ListItem>
-        )
-      })
+const GoaldInstructions = () => {
+  let rendered = instructions.map((el, index) => {
+    let grouping = el.details.map((el2, index2) => {
       return (
-        <div className='col-md-4' key={index}>
-          <List subheader={<ListSubheader>{el.header}</ListSubheader>}>
-            {grouping}
-          </List>
-        </div>
+        <ListItem key={index2}>
+          <ListItemText primary={el2} />
+        </ListItem>
       )
     })
     return (
-      <div className='row'>
-        {rendered}
+      <div className='col-md-4' key={index}>
+        <List subheader={<ListSubheader>{el.header}</ListSubheader>}>
+          {grouping}
+        </List>
       </div>
     )
-  }
+  })
+  return (
+    <div className='row'>
+      {rendered}
+    </div>
+  )
 }
 
 export default GoaldInstructions

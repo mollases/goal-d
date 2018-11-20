@@ -10,7 +10,7 @@ export default ({ handleColor }) => {
     handleOutlineColor: '#000000', // the colour of the handle outline
     handleOutlineWidth: 0, // the width of the handle outline in pixels
     handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
-    handlePosition: 'middle top', // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
+    handlePosition: 'left top', // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
     hoverDelay: 150, // time spend over a target node before it is considered a target selection
     cxt: false, // whether cxt events trigger edgehandles (useful on touch)
     enabled: true, // whether to start the plugin in the enabled state

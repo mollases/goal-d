@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import autoBind from 'react-autobind'
+import React from 'react'
+import { withStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -19,51 +19,43 @@ const styles = theme => ({
   }
 })
 
-class ChildrenNodes extends Component {
-  constructor (props) {
-    super(props)
-    autoBind(this)
-  }
+const EmptyList = () => (
+  <ListItem>
+    <ListItemText primary='Select a node with children to see its children here' />
+  </ListItem>
+)
 
-  render () {
-    return (
-      <Paper className={styles.root} elevation={1}>
-        <List subheader={<ListSubheader>{this.props.label}</ListSubheader>}>
-          {this.renderChildren()}
-        </List>
-      </Paper>
-    )
-  }
-
-  renderChildren () {
-    if (this.props.childNodes && this.props.childNodes.length) {
-      return this.props.childNodes.map((el, i) => {
-        return (
-          <div key={i}>
-            <ListItem>
-              <ListItemText primary={el.label} />
-              {/* <ListItemSecondaryAction>
-                <Switch
-                  onChange={this.handleToggle('wifi')}
-                  checked={this.state.checked.indexOf('wifi') !== -1}
-                />
-              </ListItemSecondaryAction> */}
-            </ListItem>
-            {
-              i === this.props.childNodes.length - 1
-                ? null
-                : <Divider />
-            }
-          </div>
-        )
-      })
-    }
-    return (
+const PopulatedList = (nodes) => (
+  nodes.nodes.map((el, i) => (
+    <div key={i}>
       <ListItem>
-        <ListItemText primary='Select a node with children to see its children here' />
+        <ListItemText primary={el.label} />
+        {/* <ListItemSecondaryAction>
+          <Switch
+            onChange={}
+            checked={}
+          />
+        </ListItemSecondaryAction> */}
       </ListItem>
-    )
-  }
-}
+      {
+        i === nodes.nodes.length - 1
+          ? null
+          : <Divider />
+      }
+    </div>
+  ))
+)
 
-export default ChildrenNodes
+const ChildrenNodes = ({ label, childNodes, classes }) => (
+  <Paper className={classes.root} elevation={1}>
+    <List subheader={<ListSubheader>{label}</ListSubheader>}>
+      {
+        childNodes && childNodes.length
+          ? <PopulatedList nodes={childNodes} />
+          : <EmptyList />
+      }
+    </List>
+  </Paper>
+)
+
+export default withStyles(styles)(ChildrenNodes)
