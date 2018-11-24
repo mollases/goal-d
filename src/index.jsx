@@ -41,6 +41,7 @@ ReactDOM.render((
             <Switch>
               <Route path='/' exact component={Welcome} auth={auth} />
               <Route path='/about' component={About} auth={auth} />
+              <Route path='/try' exact component={GoalMap} />
 
               <Route path='/user/map/:topic' exact render={(props) => (
                 !auth.isAuthenticated() ? <Redirect to='/' /> : <GoalMap auth={auth} store={store} {...props} />

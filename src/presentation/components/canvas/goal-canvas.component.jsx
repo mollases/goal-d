@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
+import Responsive from 'react-responsive-decorator'
 
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -35,11 +36,24 @@ class GoalCanvas extends Component {
   }
 
   componentDidMount () {
+    this.props.media({ minWidth: 768 }, () => {
+      // desktop
+      this.initializeCY()
+    })
+    this.props.media({ maxWidth: 768 }, () => {
+      // mobile
+      this.initializeCY(30)
+    })
+  }
+
+  initializeCY (fontSize) {
     this.cy = GoalDCytoscape({
       unselected: Theme.cy.primary,
       selected: Theme.cy.secondary,
       handleColor: Theme.cy.context,
-      element: this.props.id
+      element: this.props.id,
+      userZoomingEnabled: true,
+      fontSize
     })
     this.cy.add(this.props.map)
     let layout = this.cy.layout({ name: 'preset' })
@@ -65,4 +79,4 @@ class GoalCanvas extends Component {
   }
 }
 
-export default withStyles(styles)(GoalCanvas)
+export default Responsive(withStyles(styles)(GoalCanvas))

@@ -11,10 +11,10 @@ coseBilkent(cytoscape)
 edgehandles(cytoscape)
 cxtmenu(cytoscape)
 
-export default ({ selected, unselected, handleColor, element = 'cy' }) => {
+export default ({ selected, unselected, handleColor, element = 'cy', fontSize, userZoomingEnabled = false }) => {
   const cy = cytoscape({
     container: document.getElementById(element),
-    userZoomingEnabled: false,
+    userZoomingEnabled,
     layout: { name: 'preset' },
     style: cytoscape.stylesheet()
       .selector('node')
@@ -22,7 +22,8 @@ export default ({ selected, unselected, handleColor, element = 'cy' }) => {
         'background-color': unselected,
         'width': 'mapData(baz, 0, 10, 10, 40)',
         'height': 'mapData(baz, 0, 10, 10, 40)',
-        'content': 'data(label)'
+        'content': 'data(label)',
+        'font-size': fontSize
       })
       .selector('edge')
       .css({

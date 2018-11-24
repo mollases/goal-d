@@ -45,6 +45,7 @@ user-details-models {models}
 * on topic, help with some kind of open symbol
 * on topic, add a tutorial symbol, with tutorial
 * on user page, delete topics, delete notes
+* on user page, new topic should navigate to map
 
 
 ## wishlist

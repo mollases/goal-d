@@ -24,11 +24,11 @@ const styles = {
   }
 }
 
-const UserLink = ({ textClass }) => (
-  <NavLink to={'/user'} activeClassName='active'>
-    <Button className={textClass}>User</Button>
+const ToolbarLink = withStyles(styles)(({ classes, label }) => (
+  <NavLink to={'/' + label} activeClassName='active'>
+    <Button className={classes.text}>{label}</Button>
   </NavLink>
-)
+))
 
 const Main = ({ auth, classes }) => (
   <div className={classes.root}>
@@ -39,11 +39,9 @@ const Main = ({ auth, classes }) => (
             Goal-D
           </NavLink>
         </Typography>
-        { auth.isAuthenticated() ? <UserLink textClass={classes.text} /> : null }
+        { auth.isAuthenticated() ? <ToolbarLink label='user' /> : <ToolbarLink label='demo' />}
         <Login auth={auth} textClass={classes.text} />
-        <NavLink to='/about'>
-          <Button className={classes.text}>About</Button>
-        </NavLink>
+        <ToolbarLink label='about' />
       </Toolbar>
     </AppBar>
   </div>

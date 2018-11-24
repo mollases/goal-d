@@ -76,6 +76,8 @@ class GoalCanvasInterface extends Component {
         })
       })
       .then(() => {
+        this.cy.zoom(1)
+        this.cy.center(this.cy.elements())
         if (this.props.label && this.props.label !== '') {
           return
         }
@@ -88,6 +90,7 @@ class GoalCanvasInterface extends Component {
               let pos = { x: width, y: height }
               this.cy.add({ data: { label: this.props.label, id: uuid() }, position: pos })
             }
+            this.cy.center(this.cy.elements())
           })
       })
   }

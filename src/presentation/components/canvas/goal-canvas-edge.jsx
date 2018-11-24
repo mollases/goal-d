@@ -2,7 +2,7 @@ export default ({ handleColor }) => {
   return { preview: true, // whether to show added edges preview before releasing selection
     stackOrder: 4, // Controls stack order of edgehandles canvas element by setting it's z-index
     handleSize: 6, // the size of the edge handle put on nodes
-    handleHitThreshold: 6, // a threshold for hit detection that makes it easier to grab the handle
+    handleHitThreshold: 1, // a threshold for hit detection that makes it easier to grab the handle
     handleIcon: false, // an image to put on the handle
     handleColor, // the colour of the handle and the line drawn from it
     handleLineType: 'draw', // can be 'ghost' for real edge, 'straight' for a straight line, or 'draw' for a draw-as-you-go line

@@ -47,6 +47,55 @@ const classes = theme => ({
 
 const FAVORED = ['id', 'label']
 
+const CardClosed = ({ label, expandClick, classes }) => (
+  <Card className={classes.card}>
+    <CardHeader
+      title={label}
+      action={
+        <IconButton
+          className={classnames(classes.expand, {
+            [classes.expandOpen]: false
+          })}
+          onClick={expandClick}
+          aria-expanded={false}
+          aria-label='Show more'
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      }
+    />
+  </Card>
+)
+
+const CardOpened = ({ label, expandClick, renderExtra, classes }) => (
+  <Card className={classes.card}>
+    <CardHeader
+      title={label}
+      subheader='September 14, 2016'
+      action={
+        <IconButton
+          className={classnames(classes.expand, {
+            [classes.expandOpen]: true
+          })}
+          onClick={expandClick}
+          aria-expanded
+          aria-label='Show more'
+        >
+          <ExpandMoreIcon />
+        </IconButton>
+      }
+    />
+    {/* <CardActions className={classes.actions} disableActionSpacing /> */}
+    <Collapse in timeout='auto' unmountOnExit>
+      <CardContent>
+        {/* <Typography> */}
+        {renderExtra()}
+        {/* </Typography> */}
+      </CardContent>
+    </Collapse>
+  </Card>
+)
+
 const CustomInput = ({ key, keyChange, value, valueChange, store }) => (
   <div>
     <Input
@@ -84,33 +133,18 @@ class GoalNode extends Component {
   }
 
   render () {
-    return (
-      <Card className={classes.card}>
-        <CardHeader
-          title={this.props.label}
-          subheader='September 14, 2016'
-        />
-        <CardActions className={classes.actions} disableActionSpacing>
-          <IconButton
-            className={classnames(classes.expand, {
-              [classes.expandOpen]: this.state.expanded
-            })}
-            onClick={this.handleExpandClick}
-            aria-expanded={this.state.expanded}
-            aria-label='Show more'
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-        <Collapse in={this.state.expanded} timeout='auto' unmountOnExit>
-          <CardContent>
-            {/* <Typography> */}
-            {this.renderKV()}
-            {/* </Typography> */}
-          </CardContent>
-        </Collapse>
-      </Card>
-    )
+    return this.state.expanded
+      ? <CardOpened
+        label={this.props.label}
+        expandClick={this.handleExpandClick}
+        renderExtra={this.renderKV}
+        classes={classes}
+      />
+      : <CardClosed
+        label={this.props.label}
+        expandClick={this.handleExpandClick}
+        classes={classes}
+      />
   }
 
   onAddKeyClicked () {
@@ -179,7 +213,7 @@ class GoalNode extends Component {
             valueChange={this.newValue}
             store={this.storeData}
           />
-          : <Button className={this.props.button} onClick={this.onAddKeyClicked}>Key</Button>}
+          : <Button className={this.props.button} onClick={this.onAddKeyClicked}>Add Attributes</Button>}
       </div>
     )
   }
