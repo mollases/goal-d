@@ -1,4 +1,4 @@
-import { TIMELINE_ACTIONS } from './../actions/timeline.actions.jsx'
+import { TIMELINE_ACTIONS } from '../actions/timeline.jsx'
 
 const initialState = {
   contents: [],

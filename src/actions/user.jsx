@@ -1,4 +1,4 @@
-import Config from './../services/config.service.jsx'
+import Config from '../services/config.jsx'
 
 const POST_TOPICS_SUCCESS = 'POST_TOPICS_SUCCESS'
 const POST_TOPICS_FAILURE = 'POST_TOPICS_FAILURE'

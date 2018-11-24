@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 import Grid from '@material-ui/core/Grid'
 
-import GoalCanvas from './../components/canvas/goal-canvas-interface.component.jsx'
-import Timeline from './../components/timeline/timeline.component.jsx'
-import GoalNode from './../components/timeline/goal-node.component.jsx'
-import ChildrenNodes from './../components/timeline/children-nodes.component.jsx'
+import GoalCanvas from './../components/canvas/goal-canvas-interface.jsx'
+import Timeline from './../components/timeline/timeline.jsx'
+import GoalNode from './../components/timeline/goal-node.jsx'
+import ChildrenNodes from './../components/timeline/children-nodes.jsx'
 
 const TimelinewNodes = ({ selectedNode, selectedNodeChildren, store, userId, topicId }) => {
   return (

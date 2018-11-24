@@ -8,8 +8,8 @@ import List from '@material-ui/core/List'
 
 import _ from 'lodash'
 
-import UserTopic from './../components/user/user-topic.component.jsx'
-import { getTopics, postTopic, updateSearchParam } from './../../actions/user.actions.jsx'
+import UserTopic from './../components/user/user-topic.jsx'
+import { getTopics, postTopic, updateSearchParam } from '../../actions/user.jsx'
 // import UserCard from './../components/user/user-card.component.jsx'
 
 class User extends Component {

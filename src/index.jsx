@@ -9,21 +9,21 @@ import { createMuiTheme } from '@material-ui/core/styles'
 
 import Theme from './theme.jsx'
 
-import AuthService from './services/auth-service.component.jsx'
-import Config from './services/config.service.jsx'
+import AuthService from './services/auth-service.jsx'
+import Config from './services/config.jsx'
 
-import PageNotFound from './presentation/components/pageNotFound.component.jsx'
-import About from './presentation/components/about.component.jsx'
-import Callback from './presentation/components/callback.component.jsx'
-import Welcome from './presentation/components/welcome.component.jsx'
-import Main from './presentation/components/main.component.jsx'
-import GoalMap from './presentation/containers/goal-map.component.jsx'
-import User from './presentation/containers/user.component.jsx'
+import PageNotFound from './presentation/components/pageNotFound.jsx'
+import About from './presentation/components/about.jsx'
+import Callback from './presentation/components/callback.jsx'
+import Welcome from './presentation/components/welcome.jsx'
+import Main from './presentation/components/main.jsx'
+import GoalMap from './presentation/containers/goal-map.jsx'
+import User from './presentation/containers/user.jsx'
 
-import UserReducer from './reducers/user.reducer.jsx'
-import GoalCanvasInterfaceReducer from './reducers/goal-canvas-interface.reducer.jsx'
-import GoalNodeReducer from './reducers/goal-node.reducer.jsx'
-import TimelineReducer from './reducers/timeline.reducer.jsx'
+import UserReducer from './reducers/user.jsx'
+import GoalCanvasInterfaceReducer from './reducers/goal-canvas-interface.jsx'
+import GoalNodeReducer from './reducers/goal-node.jsx'
+import TimelineReducer from './reducers/timeline.jsx'
 
 const auth = new AuthService('eROFMLyWppPgvb10eR0O79rRmFF318bK', 'molla.auth0.com', Config.getAuthCallback())
 let reducers = combineReducers({ UserReducer, GoalCanvasInterfaceReducer, GoalNodeReducer, TimelineReducer })

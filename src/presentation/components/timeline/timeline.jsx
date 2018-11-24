@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
-import AddElement from './add-element.component.jsx'
-import Element from './element.component.jsx'
+import AddElement from './add-element.jsx'
+import Element from './element.jsx'
 
-import { newNoteChange, postNodeNote, getNodeNotes } from './../../../actions/timeline.actions.jsx'
+import { newNoteChange, postNodeNote, getNodeNotes } from '../../../actions/timeline.jsx'
 import uuid from 'uuid'
 
 class Timeline extends Component {

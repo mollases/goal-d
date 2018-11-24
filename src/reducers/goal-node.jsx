@@ -1,4 +1,4 @@
-import { GOAL_NODE_ACTIONS } from './../actions/goal-node.actions.jsx'
+import { GOAL_NODE_ACTIONS } from '../actions/goal-node.jsx'
 import _ from 'lodash'
 
 const initialState = {

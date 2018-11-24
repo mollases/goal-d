@@ -10,10 +10,10 @@ import Grid from '@material-ui/core/Grid'
 import Save from '@material-ui/icons/Save'
 import Help from '@material-ui/icons/Help'
 
-import Theme from './../../../theme.jsx'
+import Theme from '../../../theme.jsx'
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
-import GoalDInstructions from './goal-canvas-instructions.component.jsx'
-import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopicMap } from '../../../actions/goal-canvas-interface.actions.jsx'
+import GoalDInstructions from './goal-canvas-instructions.jsx'
+import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopicMap } from '../../../actions/goal-canvas-interface.jsx'
 
 const styles = theme => ({
   cy: {

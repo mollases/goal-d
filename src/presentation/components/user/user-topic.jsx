@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import autoBind from 'react-autobind'
 
-import EditibleTopic from './editable-topic.component.jsx'
-import Topic from './topic.component.jsx'
+import EditibleTopic from './editable-topic.jsx'
+import Topic from './topic.jsx'
 
 class UserTopic extends Component {
   constructor (props) {

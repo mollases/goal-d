@@ -1,4 +1,4 @@
-import Config from './../services/config.service.jsx'
+import Config from '../services/config.jsx'
 import _ from 'lodash'
 
 const POST_NODE_NOTE_SUCCESS = 'POST_NODE_NOTE_SUCCESS'

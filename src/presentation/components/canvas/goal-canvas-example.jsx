@@ -5,7 +5,7 @@ import Responsive from 'react-responsive-decorator'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
-import Theme from './../../../theme.jsx'
+import Theme from '../../../theme.jsx'
 import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
 
 import Card from '@material-ui/core/Card'
@@ -28,7 +28,7 @@ const styles = theme => ({
   }
 })
 
-class GoalCanvas extends Component {
+class GoalCanvasExample extends Component {
   constructor (props) {
     super(props)
     this.cy = {}
@@ -79,4 +79,4 @@ class GoalCanvas extends Component {
   }
 }
 
-export default Responsive(withStyles(styles)(GoalCanvas))
+export default Responsive(withStyles(styles)(GoalCanvasExample))
