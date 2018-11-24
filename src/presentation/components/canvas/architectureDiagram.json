@@ -1,0 +1,354 @@
+[
+  {
+    "data": {
+      "label": "goal-d",
+      "id": "9d622e65-da23-4ca7-9778-4faad9f14fd5"
+    },
+    "position": {
+      "x": 692,
+      "y": 199
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "react",
+      "id": "51f482ee-1d6b-40e1-a925-6b3c39f6be7c"
+    },
+    "position": {
+      "x": 180.5,
+      "y": 155
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": true,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "express",
+      "id": "829f633c-fbf8-4ac0-8231-368e98682ad1"
+    },
+    "position": {
+      "x": 228.5,
+      "y": 249
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": true,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "webpack",
+      "id": "8ce45bc4-3fb1-4cfa-9c99-78c2bcd62e9b"
+    },
+    "position": {
+      "x": 307.5,
+      "y": 126
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "serverless",
+      "id": "04fab7c8-8651-43d4-8219-9e3778b89817"
+    },
+    "position": {
+      "x": 308.5,
+      "y": 206
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "nodejs",
+      "id": "08abaf0b-0007-4604-81d0-aae240ab3707"
+    },
+    "position": {
+      "x": 184.5,
+      "y": 207
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": true,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "lambda",
+      "id": "02e8f8b6-a955-450a-88f9-56cd0ee47c72"
+    },
+    "position": {
+      "x": 481.5,
+      "y": 263
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "cloudfront",
+      "id": "93e05e6c-4594-4fc1-8cb6-172b13f7e231"
+    },
+    "position": {
+      "x": 565.5,
+      "y": 146
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "s3",
+      "id": "7d488540-688e-4ada-8663-c4a6ed8b8066"
+    },
+    "position": {
+      "x": 445.5,
+      "y": 141
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "dynamodb",
+      "id": "6ea3824b-f26d-4f9a-bd93-f5bb08b9770a"
+    },
+    "position": {
+      "x": 502.5,
+      "y": 192
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "label": "api gateway",
+      "id": "9811c852-c4e6-411e-917d-d97beb772b4b"
+    },
+    "position": {
+      "x": 585.5,
+      "y": 246
+    },
+    "group": "nodes",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "93e05e6c-4594-4fc1-8cb6-172b13f7e231",
+      "target": "7d488540-688e-4ada-8663-c4a6ed8b8066",
+      "id": "ad0c216b-d684-4d28-b773-8e580cbcc22b"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "9d622e65-da23-4ca7-9778-4faad9f14fd5",
+      "target": "93e05e6c-4594-4fc1-8cb6-172b13f7e231",
+      "id": "d151967c-0548-4ae9-9954-654ef80f10d4"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "9d622e65-da23-4ca7-9778-4faad9f14fd5",
+      "target": "9811c852-c4e6-411e-917d-d97beb772b4b",
+      "id": "1b04c53f-4db6-4450-adf0-ddea3b0f8d8a"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "9811c852-c4e6-411e-917d-d97beb772b4b",
+      "target": "02e8f8b6-a955-450a-88f9-56cd0ee47c72",
+      "id": "b3c39903-0db3-494e-8e5e-d5f3a2c501d6"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "02e8f8b6-a955-450a-88f9-56cd0ee47c72",
+      "target": "6ea3824b-f26d-4f9a-bd93-f5bb08b9770a",
+      "id": "d755a5b0-338d-4da1-935b-41d6332d44e6"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "829f633c-fbf8-4ac0-8231-368e98682ad1",
+      "target": "02e8f8b6-a955-450a-88f9-56cd0ee47c72",
+      "id": "2202eb88-06b0-4608-bd74-99cee11b3fed"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "08abaf0b-0007-4604-81d0-aae240ab3707",
+      "target": "829f633c-fbf8-4ac0-8231-368e98682ad1",
+      "id": "284c7d0c-655a-435c-8e56-2dca4beb9b4b"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "04fab7c8-8651-43d4-8219-9e3778b89817",
+      "target": "02e8f8b6-a955-450a-88f9-56cd0ee47c72",
+      "id": "fad91f73-1c0e-4883-bcce-90e43996712a"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "8ce45bc4-3fb1-4cfa-9c99-78c2bcd62e9b",
+      "target": "7d488540-688e-4ada-8663-c4a6ed8b8066",
+      "id": "0a585414-7a19-49d8-bf4a-70cc198296c8"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "51f482ee-1d6b-40e1-a925-6b3c39f6be7c",
+      "target": "8ce45bc4-3fb1-4cfa-9c99-78c2bcd62e9b",
+      "id": "fd2fc9a9-d3ae-4b7f-b16f-2d6194a435ec"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  },
+  {
+    "data": {
+      "source": "04fab7c8-8651-43d4-8219-9e3778b89817",
+      "target": "6ea3824b-f26d-4f9a-bd93-f5bb08b9770a",
+      "id": "f695b06f-4a4b-4a97-b6ed-69a57496387a"
+    },
+    "position": {},
+    "group": "edges",
+    "removed": false,
+    "selected": false,
+    "selectable": true,
+    "locked": false,
+    "grabbable": true,
+    "classes": ""
+  }
+]
