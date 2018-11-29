@@ -100,7 +100,9 @@ class GoalCanvasInterface extends Component {
       label: this.props.label,
       map: this.cy.elements().jsons()
     }
-    postTopicMap(this.props.topicId, this.props.userId, body, this.props.store.dispatch)
+    if (!this.props.demo) {
+      postTopicMap(this.props.topicId, this.props.userId, body, this.props.store.dispatch)
+    }
   }
 
   componentWillUnmount () {
@@ -160,7 +162,7 @@ class GoalCanvasInterface extends Component {
           </Grid>
           <Grid item xs={6} md={4}>
             <div className={this.props.classes.iconParent}>
-              <Save onClick={this.postMap} className={this.props.classes.icon} />
+              {this.props.demo ? null : <Save onClick={this.postMap} className={this.props.classes.icon} />}
               <Help onClick={this.toggleTips} className={this.props.classes.icon} />
             </div>
           </Grid>

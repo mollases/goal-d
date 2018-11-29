@@ -23,7 +23,7 @@ class User extends Component {
   }
 
   refreshMaps () {
-    return getTopics(this.props.auth.getActiveUser(), this.props.store.dispatch)
+    return getTopics(this.props.user, this.props.store.dispatch)
   }
 
   componentWillMount () {
@@ -43,7 +43,7 @@ class User extends Component {
       note: '',
       time: Date.now()
     })
-    postTopic(topics, this.props.auth.getActiveUser(), this.props.store.dispatch)
+    postTopic(topics, this.props.user, this.props.store.dispatch)
   }
 
   saveNote (id, note) {
@@ -51,7 +51,7 @@ class User extends Component {
     let topics = this.props.topics
     let topic = _.find(topics, { id })
     topic.note = content
-    postTopic(topics, this.props.auth.getActiveUser(), this.props.store.dispatch)
+    postTopic(topics, this.props.user, this.props.store.dispatch)
   }
 
   deleteTopic (id) {}
@@ -87,7 +87,7 @@ class User extends Component {
       return
     }
 
-    let userId = this.props.auth.getActiveUser()
+    let userId = this.props.user
     let topics = this.props.topics
     let search = this.props.searchData
     topics.sort((a, b) => {

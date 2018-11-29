@@ -1,99 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
-import classnames from 'classnames'
 
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-import Collapse from '@material-ui/core/Collapse'
-import IconButton from '@material-ui/core/IconButton'
-import red from '@material-ui/core/colors/red'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 
+import GoalNodeOpen from './goal-node-open.jsx'
+import GoalNodeClosed from './goal-node-closed.jsx'
 import { toggleEdit, storeData, newKey, newValue, updateKeyValue, updateKey } from '../../../actions/goal-node.jsx'
 
-const classes = theme => ({
-  card: {
-    maxWidth: 400
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%'
-  },
-  actions: {
-    display: 'flex'
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest
-    }),
-    marginLeft: 'auto',
-    [theme.breakpoints.up('sm')]: {
-      marginRight: -8
-    }
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)'
-  },
-  avatar: {
-    backgroundColor: red[500]
-  }
-})
-
 const FAVORED = ['id', 'label']
-
-const CardClosed = ({ label, expandClick, classes }) => (
-  <Card className={classes.card}>
-    <CardHeader
-      title={label}
-      action={
-        <IconButton
-          className={classnames(classes.expand, {
-            [classes.expandOpen]: false
-          })}
-          onClick={expandClick}
-          aria-expanded={false}
-          aria-label='Show more'
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      }
-    />
-  </Card>
-)
-
-const CardOpened = ({ label, expandClick, renderExtra, classes }) => (
-  <Card className={classes.card}>
-    <CardHeader
-      title={label}
-      subheader='September 14, 2016'
-      action={
-        <IconButton
-          className={classnames(classes.expand, {
-            [classes.expandOpen]: true
-          })}
-          onClick={expandClick}
-          aria-expanded
-          aria-label='Show more'
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      }
-    />
-    {/* <CardActions className={classes.actions} disableActionSpacing /> */}
-    <Collapse in timeout='auto' unmountOnExit>
-      <CardContent>
-        {/* <Typography> */}
-        {renderExtra()}
-        {/* </Typography> */}
-      </CardContent>
-    </Collapse>
-  </Card>
-)
 
 const CustomInput = ({ key, keyChange, value, valueChange, store }) => (
   <div>
@@ -133,16 +49,14 @@ class GoalNode extends Component {
 
   render () {
     return this.state.expanded
-      ? <CardOpened
+      ? <GoalNodeOpen
         label={this.props.label}
         expandClick={this.handleExpandClick}
         renderExtra={this.renderKV}
-        classes={classes}
       />
-      : <CardClosed
+      : <GoalNodeClosed
         label={this.props.label}
         expandClick={this.handleExpandClick}
-        classes={classes}
       />
   }
 

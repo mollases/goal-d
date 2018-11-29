@@ -1,22 +1,15 @@
 import React, { Component } from 'react'
-import autoBind from 'react-autobind'
-import Responsive from 'react-responsive-decorator'
 
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
-import Theme from '../../../theme.jsx'
-import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
+import GoalCanvas from './goal-canvas.jsx'
 
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
-  cy: {
-    background: Theme.cy.background,
-    height: '30%'
-  },
   card: {
   },
   details: {
@@ -29,37 +22,6 @@ const styles = theme => ({
 })
 
 class GoalCanvasExample extends Component {
-  constructor (props) {
-    super(props)
-    this.cy = {}
-    autoBind(this)
-  }
-
-  componentDidMount () {
-    this.props.media({ minWidth: 768 }, () => {
-      // desktop
-      this.initializeCY()
-    })
-    this.props.media({ maxWidth: 768 }, () => {
-      // mobile
-      this.initializeCY(30)
-    })
-  }
-
-  initializeCY (fontSize) {
-    this.cy = GoalDCytoscape({
-      unselected: Theme.cy.primary,
-      selected: Theme.cy.secondary,
-      handleColor: Theme.cy.context,
-      element: this.props.id,
-      userZoomingEnabled: true,
-      fontSize
-    })
-    this.cy.add(this.props.map)
-    let layout = this.cy.layout({ name: 'preset' })
-    layout.run()
-  }
-
   render () {
     return (
       <Card className={this.props.classes.card}>
@@ -68,9 +30,12 @@ class GoalCanvasExample extends Component {
             <Typography variant='h5'>
               {this.props.label}
             </Typography>
-            <Paper
-              className={this.props.classes.cy}
+            <GoalCanvas
               id={this.props.id}
+              userZoomingEnabled
+              map={this.props.map}
+            />
+            <Paper
             />
           </CardContent>
         </div>
@@ -79,4 +44,4 @@ class GoalCanvasExample extends Component {
   }
 }
 
-export default Responsive(withStyles(styles)(GoalCanvasExample))
+export default withStyles(styles)(GoalCanvasExample)

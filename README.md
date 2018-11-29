@@ -46,7 +46,10 @@ user-details-models {models}
 * on topic, add a tutorial symbol, with tutorial
 * on user page, delete topics, delete notes
 * on user page, new topic should navigate to map
-
+* chainlet.io?
+* linkist.org
+* move user-topic to container layer
+* extract and move goal-node to container layer
 
 ## wishlist
 * save as png

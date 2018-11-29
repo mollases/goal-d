@@ -39,7 +39,8 @@ const Main = ({ auth, classes }) => (
             Goal-D
           </NavLink>
         </Typography>
-        { auth.isAuthenticated() ? <ToolbarLink label='user' /> : <ToolbarLink label='demo' />}
+        <ToolbarLink label='demo' />
+        { auth.isAuthenticated() ? <ToolbarLink label='user' /> : null}
         <Login auth={auth} textClass={classes.text} />
         <ToolbarLink label='about' />
       </Toolbar>

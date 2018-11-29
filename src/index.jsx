@@ -17,7 +17,8 @@ import About from './presentation/components/about.jsx'
 import Callback from './presentation/components/callback.jsx'
 import Welcome from './presentation/components/welcome.jsx'
 import Main from './presentation/components/main.jsx'
-import GoalMap from './presentation/containers/goal-map.jsx'
+import GoalMap from './presentation/components/goal-map.jsx'
+import GoalMapDemo from './presentation/components/goal-map-demo.jsx'
 import User from './presentation/containers/user.jsx'
 
 import UserReducer from './reducers/user.jsx'
@@ -41,14 +42,16 @@ ReactDOM.render((
             <Switch>
               <Route path='/' exact component={Welcome} auth={auth} />
               <Route path='/about' component={About} auth={auth} />
-              <Route path='/try' exact component={GoalMap} />
+              <Route path='/demo' exact render={(props) => (
+                <GoalMapDemo store={store} {...props} />
+              )} />
 
               <Route path='/user/map/:topic' exact render={(props) => (
-                !auth.isAuthenticated() ? <Redirect to='/' /> : <GoalMap auth={auth} store={store} {...props} />
+                !auth.isAuthenticated() ? <Redirect to='/' /> : <GoalMap user={auth.getActiveUser()} store={store} {...props} />
               )} />
 
               <Route path='/user' render={(props) => (
-                !auth.isAuthenticated() ? <Redirect to='/' /> : <User auth={auth} store={store} {...props} />
+                !auth.isAuthenticated() ? <Redirect to='/' /> : <User user={auth.getActiveUser()} store={store} {...props} />
               )} />
 
               <Route path='/callback' component={(props) => {
