@@ -1,4 +1,4 @@
-import { USER_ACTIONS } from '../actions/user.jsx'
+import { USER_ACTIONS } from '../actions/user.js'
 
 const initialState = {
   searchData: '',

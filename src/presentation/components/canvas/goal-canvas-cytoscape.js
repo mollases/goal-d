@@ -4,8 +4,8 @@ import edgehandles from 'cytoscape-edgehandles'
 import cxtmenu from 'cytoscape-cxtmenu'
 import uuid from 'uuid'
 
-import GoalDContextMenu from './goal-canvas-context.jsx'
-import GoalDEdge from './goal-canvas-edge.jsx'
+import GoalDContextMenu from './goal-canvas-context.js'
+import GoalDEdge from './goal-canvas-edge.js'
 
 coseBilkent(cytoscape)
 edgehandles(cytoscape)

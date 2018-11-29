@@ -1,4 +1,4 @@
-import Config from '../services/config.jsx'
+import Config from '../services/config.js'
 
 const TOGGLE_INSTRUCTIONS = 'TOGGLE_INSTRUCTIONS'
 const NODE_SELECTED = 'NODE_SELECTED'

@@ -1,5 +1,4 @@
-import { GOAL_NODE_ACTIONS } from '../actions/goal-node.jsx'
-import _ from 'lodash'
+import { GOAL_NODE_ACTIONS } from '../actions/goal-node.js'
 
 const initialState = {
   editMode: false,

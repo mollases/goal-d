@@ -5,8 +5,8 @@ import Responsive from 'react-responsive-decorator'
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 
-import Theme from '../../../theme.jsx'
-import GoalDCytoscape from './goal-canvas-cytoscape.jsx'
+import Theme from '../../../theme.js'
+import GoalDCytoscape from './goal-canvas-cytoscape.js'
 
 const styles = theme => ({
   cy: {

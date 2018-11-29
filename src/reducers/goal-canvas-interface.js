@@ -1,4 +1,4 @@
-import { GOAL_CANVAS_ACTIONS } from '../actions/goal-canvas-interface.jsx'
+import { GOAL_CANVAS_ACTIONS } from '../actions/goal-canvas-interface.js'
 
 const initialState = {
   showTips: false,
