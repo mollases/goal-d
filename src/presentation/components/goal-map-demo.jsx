@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 
 import GoalCanvas from './canvas/goal-canvas-interface.jsx'
-import GoalNode from './goal-node/goal-node.jsx'
+import GoalNode from './../containers/goal-node.jsx'
 import ChildrenNodes from './timeline/children-nodes.jsx'
 
 const GoalMapDemo = ({ user, store, selectedNode, selectedNodeChildren, renderTimeline }) => (
@@ -12,6 +12,7 @@ const GoalMapDemo = ({ user, store, selectedNode, selectedNodeChildren, renderTi
     <Grid md={12} xs={12} item>
       <GoalCanvas
         demo
+        label='Demo'
         store={store}
         userId={user} />
       <br />

@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 
-import Timeline from './timeline/timeline.jsx'
-import GoalNode from './goal-node/goal-node.jsx'
+import Timeline from './../containers/timeline.jsx'
+import GoalNode from './../containers/goal-node.jsx'
 import ChildrenNodes from './timeline/children-nodes.jsx'
 import GoalCanvas from './canvas/goal-canvas-interface.jsx'
 

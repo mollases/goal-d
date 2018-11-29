@@ -5,9 +5,9 @@ import autoBind from 'react-autobind'
 import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 
-import GoalNodeOpen from './goal-node-open.jsx'
-import GoalNodeClosed from './goal-node-closed.jsx'
-import { toggleEdit, storeData, newKey, newValue, updateKeyValue, updateKey } from '../../../actions/goal-node.jsx'
+import GoalNodeOpen from '../components/goal-node/goal-node-open.jsx'
+import GoalNodeClosed from '../components/goal-node/goal-node-closed.jsx'
+import { toggleEdit, storeData, newKey, newValue, updateKeyValue, updateKey } from '../../actions/goal-node.jsx'
 
 const FAVORED = ['id', 'label']
 
