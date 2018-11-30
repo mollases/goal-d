@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import Button from '@material-ui/core/Button'
 import autoBind from 'react-autobind'
+
+import Button from '@material-ui/core/Button'
 
 class Login extends Component {
   constructor (props) {

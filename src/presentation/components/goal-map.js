@@ -4,13 +4,13 @@ import Grid from '@material-ui/core/Grid'
 
 import Timeline from '../containers/timeline.js'
 import GoalNode from '../containers/goal-node.js'
-import ChildrenNodes from './timeline/children-nodes.js'
-import GoalCanvas from './canvas/goal-canvas-interface.js'
+import { ChildrenNodes } from './timeline'
+import { GoalCanvasInterface } from './canvas'
 
 const GoalMap = ({ store, user, match, renderTimeline, selectedNode, selectedNodeChildren }) => (
   <Grid container spacing={24}>
     <Grid md={12} xs={12} item>
-      <GoalCanvas
+      <GoalCanvasInterface
         store={store}
         userId={user}
         topicId={match.params.topic} />

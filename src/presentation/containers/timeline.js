@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import autoBind from 'react-autobind'
 
-import AddElement from '../components/timeline/add-element.js'
-import Element from '../components/timeline/element.js'
+import { AddElement, Element } from '../components/timeline'
 
 import { newNoteChange, postNodeNote, getNodeNotes } from '../../actions/timeline.js'
 import uuid from 'uuid'

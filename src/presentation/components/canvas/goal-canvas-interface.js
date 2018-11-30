@@ -11,8 +11,8 @@ import Save from '@material-ui/icons/Save'
 import Help from '@material-ui/icons/Help'
 
 import Theme from '../../../theme.js'
-import GoalDCytoscape from './goal-canvas-cytoscape.js'
-import GoalDInstructions from './goal-canvas-instructions.js'
+import GoalDCytoscape from './cytoscape.js'
+import GoalDInstructions from './instructions.js'
 import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopicMap } from '../../../actions/goal-canvas-interface.js'
 
 const styles = theme => ({

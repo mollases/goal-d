@@ -2,7 +2,7 @@ import React from 'react'
 
 import Grid from '@material-ui/core/Grid'
 
-import GoalCanvasExample from './canvas/goal-canvas-example.js'
+import { GoalCanvasExample } from './canvas'
 import companyDiagram from './canvas/companyDiagram.json'
 import gameOfThrones from './canvas/gameOfThrones.json'
 import architectureDiagram from './canvas/architectureDiagram.json'

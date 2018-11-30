@@ -8,7 +8,7 @@ import List from '@material-ui/core/List'
 
 import _ from 'lodash'
 
-import UserTopic from '../components/user/user-topic.js'
+import { UserTopic } from '../components/user'
 import { getTopics, postTopic, updateSearchParam } from '../../actions/user.js'
 // import UserCard from './../components/user/user-card.component.js'
 
