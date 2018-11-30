@@ -31,7 +31,6 @@ class GoalCanvasExample extends Component {
             </Typography>
             <GoalCanvas
               id={this.props.id}
-              userZoomingEnabled
               map={this.props.map}
             />
             <Paper

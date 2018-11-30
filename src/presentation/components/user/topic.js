@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
+import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -10,11 +11,17 @@ import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowRightRounded from '@material-ui/icons/KeyboardArrowRightRounded'
 import ReactMarkdown from 'react-markdown'
 
-const Topic = ({ value, onEdit, go, label, time }) => (
+const styles = theme => ({
+  content: {
+    paddingTop: 0,
+    paddingBottom: 0
+  }
+})
+
+const Topic = ({ value, onEdit, go, label, time, classes }) => (
   <Card>
     <CardHeader
       title={label}
-      subheader={time}
       action={
         <NavLink to={'/user/map/' + go}>
           <IconButton>
@@ -23,7 +30,7 @@ const Topic = ({ value, onEdit, go, label, time }) => (
         </NavLink>
       }
     />
-    <CardContent>
+    <CardContent className={classes.content}>
       <ReactMarkdown>
         {value}
       </ReactMarkdown>
@@ -34,4 +41,4 @@ const Topic = ({ value, onEdit, go, label, time }) => (
   </Card>
 )
 
-export default Topic
+export default withStyles(styles)(Topic)

@@ -9,8 +9,7 @@ class UserTopic extends Component {
     super(props)
     this.state = {
       edit: false,
-      value: this.props.el.note || '',
-      time: new Date(this.props.el.time).toLocaleDateString()
+      value: this.props.el.note || ''
     }
     autoBind(this)
   }
@@ -31,7 +30,6 @@ class UserTopic extends Component {
     return this.state.edit
       ? <EditibleTopic
         label={this.props.el.label}
-        time={this.state.time}
         onSave={(evt) => {
           this.saveNote(evt)
           this.setState({ edit: false })
@@ -43,7 +41,6 @@ class UserTopic extends Component {
       />
       : <Topic
         label={this.props.el.label}
-        time={this.state.time}
         value={this.state.value}
         onEdit={() => { this.setState({ edit: true }) }}
         go={this.props.el.id}

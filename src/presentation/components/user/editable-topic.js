@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
+import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -10,11 +11,17 @@ import CardActions from '@material-ui/core/CardActions'
 import IconButton from '@material-ui/core/IconButton'
 import KeyboardArrowRightRounded from '@material-ui/icons/KeyboardArrowRightRounded'
 
-const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue, label, time }) => (
+const styles = theme => ({
+  content: {
+    paddingTop: 0,
+    paddingBottom: 0
+  }
+})
+
+const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue, label, time, classes }) => (
   <Card>
     <CardHeader
       title={label}
-      subheader={time}
       action={
         <IconButton>
           <NavLink to={'/user/map/' + go}>
@@ -23,7 +30,7 @@ const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue, label, ti
         </IconButton>
       }
     />
-    <CardContent>
+    <CardContent className={classes.content}>
       <TextField
         value={textValue}
         onChange={onTextChange}
@@ -41,4 +48,4 @@ const EditibleTopic = ({ onSave, go, onClose, onTextChange, textValue, label, ti
   </Card>
 )
 
-export default EditibleTopic
+export default withStyles(styles)(EditibleTopic)

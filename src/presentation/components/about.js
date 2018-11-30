@@ -4,6 +4,9 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 
+import { GoalCanvasExample } from './canvas'
+import architectureDiagram from './canvas/architectureDiagram.json'
+
 const About = () => (
   <div>
     <h3>About</h3>
@@ -23,6 +26,7 @@ const About = () => (
       <ListItem><ListItemText>lambdas for compute cycles</ListItemText></ListItem>
       <ListItem><ListItemText>dynamodb for storage</ListItemText></ListItem>
     </List>
+    <GoalCanvasExample map={architectureDiagram} id='architectureDiagram' label='Goal-d architecture diagram' />
   </div>
 )
 

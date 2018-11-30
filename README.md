@@ -1,6 +1,9 @@
 ## Goal-d
 fueled by http://js.cytoscape.org/
 
+https://docs.aws.amazon.com/cli/latest/userguide/cli-install-macos.html#awscli-install-osx-path
+
+
 # proposed routes
 ```
 /user/
@@ -31,14 +34,12 @@ user-details-models {models}
     - where to save these?
         - is there a way to update just that element? (refactor may be needed)
 * click to edit text, move control plane to right or below cyto window
-* use append_list?
 * lock down s3 access, move index to source from lambda?
 * enter on title pressed
 * optimize for phone
 * graph! -> name the node
-* make the first name be graph to be the title
 * what - why - how / where - who
-* download file, share, 
+* download file, share
 * user + regular person, user explaining, 
 * ui is confusing
 * on topic, save (with user feedback)

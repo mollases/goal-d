@@ -39,7 +39,6 @@ class GoalCanvas extends Component {
       selected: Theme.cy.secondary,
       handleColor: Theme.cy.context,
       element: this.props.id,
-      userZoomingEnabled: !!this.props.userZoomingEnabled,
       fontSize
     })
     this.cy.add(this.props.map)
