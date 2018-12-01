@@ -7,6 +7,7 @@ const GET_TOPIC_LABEL_FAILURE = 'GET_TOPIC_LABEL_FAILURE'
 const GET_TOPIC_MAP_SUCCESS = 'GET_TOPIC_MAP_SUCCESS'
 const GET_TOPIC_MAP_FAILURE = 'GET_TOPIC_MAP_FAILURE'
 const POST_TOPIC_MAP_SUCCESS = 'POST_TOPIC_MAP_SUCCESS'
+const POST_TOPIC_MAP_SUCCESS_CLOSE_DIALOG = 'POST_TOPIC_MAP_SUCCESS_CLOSE_DIALOG'
 const POST_TOPIC_MAP_FAILURE = 'POST_TOPIC_MAP_FAILURE'
 
 const GOAL_CANVAS_ACTIONS = {
@@ -17,7 +18,8 @@ const GOAL_CANVAS_ACTIONS = {
   GET_TOPIC_MAP_SUCCESS,
   GET_TOPIC_MAP_FAILURE,
   POST_TOPIC_MAP_SUCCESS,
-  POST_TOPIC_MAP_FAILURE
+  POST_TOPIC_MAP_FAILURE,
+  POST_TOPIC_MAP_SUCCESS_CLOSE_DIALOG
 }
 
 const toggleInstructions = () => {
@@ -98,10 +100,15 @@ const postTopicMapSuccess = (label, map) => {
   }
 }
 
+const closeSaveDialog = () => {
+  return {
+    type: POST_TOPIC_MAP_SUCCESS_CLOSE_DIALOG
+  }
+}
 const postTopicMapFailure = () => {
   return {
     type: POST_TOPIC_MAP_FAILURE
   }
 }
 
-export { toggleInstructions, nodeSelected, getTopicLabel, getTopicMap, postTopicMap, GOAL_CANVAS_ACTIONS }
+export { toggleInstructions, nodeSelected, getTopicLabel, getTopicMap, postTopicMap, closeSaveDialog, GOAL_CANVAS_ACTIONS }

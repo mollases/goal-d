@@ -8,12 +8,13 @@ import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Save from '@material-ui/icons/Save'
+import Snackbar from '@material-ui/core/Snackbar'
 import Help from '@material-ui/icons/Help'
 
 import Theme from '../../../theme.js'
 import GoalDCytoscape from './cytoscape.js'
 import GoalDInstructions from './instructions.js'
-import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopicMap } from '../../../actions/goal-canvas-interface.js'
+import { toggleInstructions, nodeSelected, getTopicLabel, postTopicMap, getTopicMap, closeSaveDialog } from '../../../actions/goal-canvas-interface.js'
 
 const styles = theme => ({
   cy: {
@@ -128,6 +129,10 @@ class GoalCanvasInterface extends Component {
     }
   }
 
+  handleClose () {
+    this.props.store.dispatch(closeSaveDialog())
+  };
+
   onNodeLabelChange (event) {
     var val = ''
     if (event !== undefined) {
@@ -149,6 +154,15 @@ class GoalCanvasInterface extends Component {
           <Grid item xs={12} md={4}>
             <h3 className={this.props.classes.header} >{this.props.label}</h3>
           </Grid>
+          <Grid item xs={12}>
+            {this.props.showTips ? <GoalDInstructions /> : ''}
+          </Grid>
+          <Grid item xs={12}>
+            <Paper
+              className={this.props.classes.cy}
+              id='cy'
+            />
+          </Grid>
           <Grid item xs={6} md={4}>
             <TextField
               className={this.props.classes.textField}
@@ -167,15 +181,19 @@ class GoalCanvasInterface extends Component {
             </div>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {this.props.showTips ? <GoalDInstructions /> : ''}
-        </Grid>
-        <Grid item xs={12}>
-          <Paper
-            className={this.props.classes.cy}
-            id='cy'
-          />
-        </Grid>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.props.showSnackBar}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id'
+          }}
+          message={<span id='message-id'>saved!</span>}
+        />
       </Grid>
     )
   }
@@ -188,7 +206,8 @@ const mapStateToProps = state => {
     selectedNode: state.GoalCanvasInterfaceReducer.selectedNode,
     selectedNodeChildren: state.GoalCanvasInterfaceReducer.selectedNodeChildren,
     selectedNodeLabel: state.GoalCanvasInterfaceReducer.selectedNodeLabel,
-    showTips: state.GoalCanvasInterfaceReducer.showTips
+    showTips: state.GoalCanvasInterfaceReducer.showTips,
+    showSnackBar: state.GoalCanvasInterfaceReducer.showSnackBar
   }
 }
 

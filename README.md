@@ -51,6 +51,8 @@ user-details-models {models}
 * linkist.org
 * move user-topic to container layer
 * extract and move goal-node to container layer
+* add https://github.com/iVis-at-Bilkent/cytoscape.js-autopan-on-drag
+* add https://github.com/cytoscape/cytoscape.js-panzoom
 
 ## wishlist
 * save as png
