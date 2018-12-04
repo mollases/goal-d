@@ -20,15 +20,15 @@ const GoalMapDemo = ({ user, store, selectedNode, selectedNodeChildren, renderTi
     <Grid md={12} xs={12} item>
       {renderTimeline &&
       <div className='row col-md-12'>
+        <div className='col-md-4'>
+          <ChildrenNodes label={selectedNode.data('label')} childNodes={selectedNodeChildren} />
+        </div>
         <div className='col-md-8'>
           <GoalNode
             store={store}
             node={selectedNode}
             label={(selectedNode && selectedNode.data('label')) || null}
           />
-        </div>
-        <div className='col-md-4'>
-          <ChildrenNodes label={selectedNode.data('label')} childNodes={selectedNodeChildren} />
         </div>
       </div>
       }

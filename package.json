@@ -6,7 +6,6 @@
   "scripts": {
     "watch": "webpack -d --watch",
     "build": "webpack --optimize-minimize",
-    "startd": "nodemon",
     "start": "node index.js"
   },
   "author": "Admas Molla",
@@ -31,7 +30,6 @@
     "json-loader": "^0.5.7",
     "lodash": "^4.17.11",
     "material-ui": "^0.20.2",
-    "nodemon": "^1.18.4",
     "prop-types": "^15.5.10",
     "react": "^16.6.0",
     "react-autobind": "^1.0.6",

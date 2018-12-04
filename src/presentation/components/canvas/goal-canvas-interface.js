@@ -42,7 +42,11 @@ class GoalCanvasInterface extends Component {
   }
 
   componentDidMount () {
-    getTopicMap(this.props.topicId, this.props.userId, this.props.store.dispatch)
+    let promise = Promise.resolve()
+    if (!this.props.demo) {
+      promise = getTopicMap(this.props.topicId, this.props.userId, this.props.store.dispatch)
+    }
+    promise
       .then(() => {
         let reselect = false
         this.cy = GoalDCytoscape({
@@ -82,7 +86,11 @@ class GoalCanvasInterface extends Component {
         if (this.props.label && this.props.label !== '') {
           return
         }
-        getTopicLabel(this.props.topicId, this.props.userId, this.props.store.dispatch)
+        let promise = Promise.resolve()
+        if (!this.props.demo) {
+          promise = getTopicLabel(this.props.topicId, this.props.userId, this.props.store.dispatch)
+        }
+        promise
           .then(() => {
             if (!this.cy.elements().size()) {
               let { width, height } = this.cy.size()

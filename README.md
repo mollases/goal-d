@@ -53,6 +53,9 @@ user-details-models {models}
 * extract and move goal-node to container layer
 * add https://github.com/iVis-at-Bilkent/cytoscape.js-autopan-on-drag
 * add https://github.com/cytoscape/cytoscape.js-panzoom
+* custom colors
+* autosave
+* better description
 
 ## wishlist
 * save as png

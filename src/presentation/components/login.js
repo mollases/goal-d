@@ -20,7 +20,7 @@ class Login extends Component {
 
   render () {
     return (
-      <Button onClick={this.onClickHandler} className={this.props.textClass}>{this.props.auth.isAuthenticated() ? 'logout' : 'login'}</Button>
+      <Button onClick={this.onClickHandler} className={this.props.textClass}>{this.props.auth.isAuthenticated() ? 'logout' : 'login / signup'}</Button>
     )
   }
 }

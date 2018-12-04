@@ -8,14 +8,14 @@ import ListItemText from '@material-ui/core/ListItemText'
 const instructions = [{
   header: 'Adding',
   details: [
-    'double click above to make an entry',
+    'double click the gray box to make an entry',
     'hover over an entry to find the teal dot, click and drag from the teal dot to another entry to connect them'
   ]
 }, {
   header: 'Removing',
   details: [
-    'right click a line to delete it',
-    'right click an entry to delete it'
+    'click and hold a line to delete it',
+    'click and hold entry to delete it'
   ]
 }, {
   header: 'Editing',

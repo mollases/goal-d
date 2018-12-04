@@ -19,6 +19,9 @@ const GoalMap = ({ store, user, match, renderTimeline, selectedNode, selectedNod
     <Grid md={12} xs={12} item>
       { renderTimeline &&
       <div className='row col-md-12'>
+        <div className='col-md-4'>
+          <ChildrenNodes label={selectedNode.data('label')} childNodes={selectedNodeChildren} />
+        </div>
         <div className='col-md-8'>
           <GoalNode
             store={store}
@@ -32,9 +35,6 @@ const GoalMap = ({ store, user, match, renderTimeline, selectedNode, selectedNod
             childNodes={selectedNodeChildren}
             userId={user}
             topicId={match.params.topic} />
-        </div>
-        <div className='col-md-4'>
-          <ChildrenNodes label={selectedNode.data('label')} childNodes={selectedNodeChildren} />
         </div>
       </div>
       }
