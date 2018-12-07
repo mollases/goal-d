@@ -150,7 +150,7 @@ class GoalCanvasInterface extends Component {
       this.props.selectedNode.data('label', val)
     }
 
-    this.props.store.dispatch(nodeSelected(this.props.selectedNode, val, this.props.selectedNodeChildren))
+    this.onNodeSelected(this.props.selectedNode)
   }
 
   toggleTips () {

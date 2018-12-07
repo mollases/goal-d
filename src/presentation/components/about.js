@@ -11,7 +11,7 @@ const About = () => (
   <div>
     <h3>About</h3>
     <p>
-      Goal-D was inspired by all of the different ways data can be represented for better understanding.
+      mapm8 was inspired by all of the different ways data can be represented for better understanding.
     </p>
     <br />
     <h4>The technology behind the project includes:</h4>
@@ -26,7 +26,7 @@ const About = () => (
       <ListItem><ListItemText>lambdas for compute cycles</ListItemText></ListItem>
       <ListItem><ListItemText>dynamodb for storage</ListItemText></ListItem>
     </List>
-    <GoalCanvasExample map={architectureDiagram} id='architectureDiagram' label='Goal-d architecture diagram' />
+    <GoalCanvasExample map={architectureDiagram} id='architectureDiagram' label='mapm8 architecture diagram' />
   </div>
 )
 

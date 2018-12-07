@@ -1,4 +1,4 @@
-## Goal-d
+## mapm8
 fueled by http://js.cytoscape.org/
 
 https://docs.aws.amazon.com/cli/latest/userguide/cli-install-macos.html#awscli-install-osx-path

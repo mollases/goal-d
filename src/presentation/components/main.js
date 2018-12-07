@@ -36,7 +36,7 @@ const Main = ({ auth, classes }) => (
       <Toolbar>
         <Typography variant='h4' color='inherit' className={classes.grow}>
           <NavLink to='/' className={classes.text} activeClassName={classes.text}>
-            Goal-D
+            mapm8
           </NavLink>
         </Typography>
         { auth.isAuthenticated() ? <ToolbarLink label='user' /> : null}

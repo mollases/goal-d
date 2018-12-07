@@ -10,10 +10,10 @@ import { toggleEdit, storeData, newKey, newValue, updateKeyValue, updateKey } fr
 
 const FAVORED = ['id', 'label']
 
-const CustomInput = ({ key, keyChange, value, valueChange, store }) => (
+const CustomInput = ({ key, keyChange, value, valueChange, store, cancel }) => (
   <div>
     <Input
-      placeholder='attribute'
+      placeholder='Attribute'
       value={key}
       onChange={keyChange}
       inputProps={{
@@ -30,6 +30,7 @@ const CustomInput = ({ key, keyChange, value, valueChange, store }) => (
     />
 
     <Button onClick={store}>Store</Button>
+    <Button onClick={cancel}>Cancel</Button>
   </div>
 )
 
@@ -94,7 +95,7 @@ class GoalNode extends Component {
       return (
         <div key={i}>
           <Input
-            placeholder='attribute'
+            placeholder='Attribute'
             value={k.key}
             onChange={(e) => this.handleKeyChange(k.key, e)}
             inputProps={{
@@ -124,6 +125,7 @@ class GoalNode extends Component {
             keyChange={this.newKey}
             valueChange={this.newValue}
             store={this.storeData}
+            cancel={this.cancel}
           />
           : <Button className={this.props.button} onClick={this.onAddKeyClicked}>Add Attributes</Button>}
       </div>

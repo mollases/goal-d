@@ -44,7 +44,7 @@ const GoalMap = ({ store, user, match, renderTimeline, selectedNode, selectedNod
 
 const mapStateToProps = state => {
   const { selectedNode, selectedNodeChildren } = state.GoalCanvasInterfaceReducer
-  const renderTimeline = !!(selectedNode && selectedNode.data)
+  const renderTimeline = !!(selectedNode && selectedNode.data && selectedNode.data('label'))
   return {
     selectedNode,
     selectedNodeChildren,
