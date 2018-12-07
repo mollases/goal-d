@@ -28,12 +28,14 @@ const toggleInstructions = () => {
   }
 }
 
-const nodeSelected = (selectedNode, selectedNodeLabel, selectedNodeChildren) => {
+const nodeSelected = (selectedNode, selectedNodeLabel, selectedNodeChildren, height = 0, width = 0) => {
   return {
     type: NODE_SELECTED,
     selectedNode,
     selectedNodeLabel,
-    selectedNodeChildren
+    selectedNodeChildren,
+    height,
+    width
   }
 }
 

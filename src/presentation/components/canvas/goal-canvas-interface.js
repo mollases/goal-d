@@ -131,7 +131,9 @@ class GoalCanvasInterface extends Component {
           show: true
         }))
       }
-      this.props.store.dispatch(nodeSelected(node, node.data('label'), children))
+      let height = node.position().y
+      let width = node.position().x
+      this.props.store.dispatch(nodeSelected(node, node.data('label'), children, height, width))
     } else {
       this.props.store.dispatch(nodeSelected({}, '', []))
     }
@@ -180,6 +182,7 @@ class GoalCanvasInterface extends Component {
               margin='normal'
               label='add a label'
               variant='outlined'
+              style={this.props.style}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -208,14 +211,21 @@ class GoalCanvasInterface extends Component {
 }
 
 const mapStateToProps = state => {
+  let { map, label, selectedNode, selectedNodeChildren, selectedNodeLabel, showTips, showSnackBar, height, width } = state.GoalCanvasInterfaceReducer
   return {
-    map: state.GoalCanvasInterfaceReducer.map,
-    label: state.GoalCanvasInterfaceReducer.label,
-    selectedNode: state.GoalCanvasInterfaceReducer.selectedNode,
-    selectedNodeChildren: state.GoalCanvasInterfaceReducer.selectedNodeChildren,
-    selectedNodeLabel: state.GoalCanvasInterfaceReducer.selectedNodeLabel,
-    showTips: state.GoalCanvasInterfaceReducer.showTips,
-    showSnackBar: state.GoalCanvasInterfaceReducer.showSnackBar
+    map,
+    label,
+    selectedNode,
+    selectedNodeChildren,
+    selectedNodeLabel,
+    showTips,
+    showSnackBar,
+    style: {
+      top: height,
+      left: width,
+      position: 'absolute'
+      // display: (height || width) ? 'block' : 'none'
+    }
   }
 }
 

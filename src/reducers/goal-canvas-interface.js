@@ -7,7 +7,9 @@ const initialState = {
   label: '',
   selectedNodeLabel: '',
   map: [],
-  showSnackBar: false
+  showSnackBar: false,
+  height: 0,
+  width: 0
 }
 
 const GoalCanvasInterfaceReducer = (state = initialState, action) => {
@@ -35,7 +37,9 @@ const GoalCanvasInterfaceReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         selectedNode: action.selectedNode,
         selectedNodeLabel: action.selectedNodeLabel,
-        selectedNodeChildren: action.selectedNodeChildren
+        selectedNodeChildren: action.selectedNodeChildren,
+        height: action.height || 0,
+        width: action.width || 0
       })
     case GOAL_CANVAS_ACTIONS.POST_TOPIC_MAP_SUCCESS:
       return Object.assign({}, state, {

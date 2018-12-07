@@ -48,7 +48,6 @@ class GoalCanvas extends Component {
     this.cy.on('add', this.props.onAdd)
     this.cy.on('unselect', this.props.onUnselect)
     this.cy.ready(e => { if (this.props.onReady) { this.props.onReady(e, this.cy) } })
-    this.cy.zoom(1)
     this.cy.center(this.cy.elements())
   }
 
