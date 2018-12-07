@@ -182,7 +182,7 @@ class GoalCanvasInterface extends Component {
               margin='normal'
               label='add a label'
               variant='outlined'
-              style={this.props.style}
+              // style={this.props.style}
             />
           </Grid>
           <Grid item xs={6} md={4}>
@@ -220,6 +220,8 @@ const mapStateToProps = state => {
     selectedNodeLabel,
     showTips,
     showSnackBar,
+
+    // TODO: idk what to do about this.... it looks gross when enabled
     style: {
       top: height,
       left: width,
